@@ -8,14 +8,13 @@ function Game(canvasId) {
 
   this.round1 = [];
   this.initRound1()
-  
 
   this.hits = 0;
 
   this.drawIntervalCount = 0;
 
   this.arena = new Arena(this.ctx);
-  this.castle = new Castle(this.ctx); 
+  this.castle = new Castle(this.ctx);
   this.player = new Player(this.ctx, 350, 250)
   this.enemy = new Enemy(this.ctx, 200, 200)
 
@@ -105,8 +104,16 @@ Game.prototype.draw = function () {
     this.round1[i].update(this.player.x, this.player.y)
   }
 
+
   this.player.draw();
   this.player.update(this.mouseX, this.mouseY);
+
+  // if(this.round1.length === 0 ){
+  //   this.initRound1()
+  //   this.player.fires = [];
+  //
+  // }
+
   // this.castle.draw()
 
 }
