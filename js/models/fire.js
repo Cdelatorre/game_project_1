@@ -12,7 +12,6 @@ function Fire(ctx, angle, x, y, dx, dy) {
   this.dy = dy * SHOOTS_PLAYER_SPEED;
   this.angle = angle;
 
- 
 }
 
 Fire.prototype.draw = function() {
@@ -41,7 +40,7 @@ Fire.prototype.collideWith = function(enemy) {
 
 
 
-Fire.prototype.update = function() {
+Fire.prototype.update = function() { ///             MOUSE D
 
   this.x += this.dx;
   this.y += this.dy;

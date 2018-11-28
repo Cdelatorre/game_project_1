@@ -16,6 +16,8 @@ function Game(canvasId) {
 
   this.currentLevel = 0;
 
+  this.noHitTime = false;
+
   this.hits = 0;
 
   this.drawIntervalCount = 0;
@@ -26,7 +28,7 @@ function Game(canvasId) {
 
   document.addEventListener('keydown', this.onKeyEvent.bind(this));
   document.addEventListener('keyup', this.onKeyEvent.bind(this));
-  document.addEventListener('mousemove', this.mouseMove.bind(this))
+  document.addEventListener('mousemove', this.mouseMove.bind(this))       // MOUSE B
   document.addEventListener('mousedown', this.mouseDown.bind(this));
   // document.addEventListener('mouseup', this.mouseDown.bind(this));
 }
@@ -74,7 +76,6 @@ Game.prototype.round2IsOver = function(){
 /* ------ Round 3  ------*/
 
 Game.prototype.initRound3 = function () {
-  console.log('entra');
   var n = 3;
   for (var i = 0; i < n; i++) {
     var e = new Enemy2(this.ctx, this.rand(0, CANVAS_WIDTH), this.rand(0, CANVAS_HEIGHT));
@@ -147,7 +148,7 @@ Game.prototype.playerHit = function () {                     // revisar en clase
 }
 
 
-Game.prototype.getMousePos = function (evt) {
+Game.prototype.getMousePos = function (evt) {                 // MOUSE A
   var rect = this.canvas.getBoundingClientRect();
   return {
     x: evt.clientX - rect.left,
@@ -159,7 +160,7 @@ Game.prototype.mouseDown = function (evt) {
   this.player.fire();
 }
 
-Game.prototype.mouseMove = function (evt) {
+Game.prototype.mouseMove = function (evt) {               // MOUSE C
   var mousePos = this.getMousePos(evt);
   this.mouseX = mousePos.x;
   this.mouseY = mousePos.y;
@@ -172,30 +173,35 @@ Game.prototype.onKeyEvent = function (event) {
 Game.prototype.draw = function () {
   // this.arena.draw()
   this.deleteEnemies();
-  // console.log(this.round)
+
 
   if (this.enemyHit()) {
     //aqui dentro lo que le pase al enemy;
   }
-  console.log(this.playerHit())
-  if (this.playerHit()){  
-    this.player.hits += 0.5;                                  // revisar en clase
+
+  if (this.playerHit() && this.noHitTime === false){  
+
+    this.player.hits += 10;                                  // revisar en clase
+    $('#hit').css("width", this.player.hits + '%');
+    this.noHitTime = true;
+
+    setTimeout(function(){
+      this.noHitTime = false;
+    }.bind(this), 5000)
 
   }
 
-  // if (this.playerHitContact()) {                            // revisar en clase
-  
-  //     this.player.hits += 0.5;
-  //     setTimeout(function(){
-  //       this.playerHitContact() === false
-  //     }.bind(this), 500)
-  //     $('#hit').css("width", this.player.hits + '%')
+  if (this.playerHitContact() && this.noHitTime === false) {                            // revisar en clase
 
-  // }
+    this.player.hits += 5;                                  // revisar en clase
+    $('#hit').css("width", this.player.hits + '%');
+    this.noHitTime = true;
 
+    setTimeout(function(){
+      this.noHitTime = false;
+    }.bind(this), 5000)
 
- 
-
+  }
 
   for (var i = 0; i < this.round.length; i++) {
     this.round[i].draw();
@@ -233,7 +239,6 @@ Game.prototype.draw = function () {
   }
 
   if(this.round3IsOver()){
-    console.log('entra')
    this.initRound4();
    this.player.fires = []
   }
