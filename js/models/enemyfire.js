@@ -2,6 +2,8 @@ function EnemyFire(ctx, angle, x, y, dx, dy) {
   this.ctx = ctx;
   this.x = x;
   this.y = y;
+  this.width = 30;
+  this.height = 10;
   this.dx = dx * SHOOTS_PLAYER_SPEED  ;
   this.dy = dy * SHOOTS_PLAYER_SPEED;
   this.angle = angle
@@ -12,7 +14,7 @@ EnemyFire.prototype.draw = function() {
   this.ctx.translate(this.x,this.y);
   this.ctx.rotate(this.angle);
   this.ctx.fillStyle = 'blue';
-  this.ctx.fillRect(0, -5, 30, 10);
+  this.ctx.fillRect(0, -5, this.width, this.height);
   this.ctx.restore();
 }
 
@@ -28,16 +30,8 @@ EnemyFire.prototype.update = function() {
 }
 
 EnemyFire.prototype.collideWith = function(player) {
- 
-  if(this.x < player.x + player.width - 5 &&
-    this.x + this.width - 5 > player.x &&
-    this.y < player.y + player.height - 5 &&
-    this.height - 5 + this.y > player.y){
-      
-      this.hit++;
-      player.hit ++;
-
-      return true;
-      
-    }
+  return this.x < player.x + player.width &&
+  this.x + this.width > player.x &&
+  this.y < player.y + player.height &&
+  this.height + this.y > player.y;
 }

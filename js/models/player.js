@@ -1,7 +1,7 @@
 function Player(ctx, x, y) {
   this.ctx = ctx
   this.x = x;
-  this.y = y
+  this.y = y;
   this.angle;
   this.color = "blue"
 
@@ -10,6 +10,8 @@ function Player(ctx, x, y) {
 
   this.width = 50;
   this.height = 50;
+
+  this.hits = 0;
 
   this.vx = 0;
   this.vy = 0;

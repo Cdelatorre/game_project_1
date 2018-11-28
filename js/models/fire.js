@@ -36,7 +36,6 @@ Fire.prototype.collideWith = function(enemy) {
       enemy.hit ++;
 
       return true;
-      
     }
 }
 

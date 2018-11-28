@@ -1,13 +1,12 @@
 
-function Enemy2(ctx, x, y) {
+function Enemy1(ctx, x, y) {
   this.ctx = ctx
   this.x = CANVAS_WIDTH / 2;
   this.y = 70;
   this.v = 2;
   this.angle;
-  this.fires = [];
-  this.attackSpeed = Math.floor(Math.random() * (1500 - 500 + 1)) + 800;
   this.tick = 0;
+  this.fires = []
   
   this.width = 20;
   this.height = 20;
@@ -24,7 +23,7 @@ function Enemy2(ctx, x, y) {
 
   this.oldPositionX;
   this.oldPositionX;
-  this.color = 'black';
+  this.color = 'green';
 
   this.movements = {
     up: false,
@@ -34,11 +33,11 @@ function Enemy2(ctx, x, y) {
   }
 }
 
-Enemy2.prototype.rand = function(a, b){
+Enemy1.prototype.rand = function(a, b){
   return Math.floor(Math.random()*b + a);
 }
 
-Enemy2.prototype.draw = function() {
+Enemy1.prototype.draw = function() {
  
 
   this.ctx.save();
@@ -53,16 +52,10 @@ Enemy2.prototype.draw = function() {
   this.ctx.fill();
   
   this.ctx.restore();
-
-  this.fires.forEach(function(shoot) {
-    shoot.draw()
-    shoot.update();
-  });
-
-  
+ 
 }
 
-Enemy2.prototype.nextMove = function(){
+Enemy1.prototype.nextMove = function(){
   this.nextMoveX = this.rand(0, CANVAS_WIDTH);
   this.nextMoveY = this.rand(0, CANVAS_HEIGHT);
 
@@ -76,7 +69,7 @@ Enemy2.prototype.nextMove = function(){
 }
 
 
-Enemy2.prototype.update = function(tankX, tankY) {
+Enemy1.prototype.update = function(tankX, tankY) {
  
   this.x += (this.vx * this.v)
   this.y += (this.vy * this.v)
@@ -115,30 +108,6 @@ Enemy2.prototype.update = function(tankX, tankY) {
 }
 
 
-
-Enemy2.prototype.fire = function() {
-
-    this.dx = Math.cos(this.angle); //devuelve un numero que será util para resolver lo de la posicion del personaje cuando dispara
-    this.dy = Math.sin(this.angle); //devuelve un numero que será util para resolver lo de la posicion del personaje cuando dispara
-    
-    var f = new EnemyFire(this.ctx, this.angle, this.x, this.y, this.dx, this.dy);
-    this.fires.push(f);
-    this.fireOn = false;
-    this.reload();
-  
-
-}
-
-Enemy2.prototype.reload = function(){
-  setTimeout(function(){
-    this.fireOn = true;
-  }.bind(this), 350);
-
- if(this.fires.length > 6){
-  this.fires.shift();
- }
- 
-}
 
 
 
