@@ -11,7 +11,8 @@ function Enemy1(ctx, x, y) {
   this.width = 20;
   this.height = 20;
 
-  this.hit = 0;
+ 
+  this.hit = 3;
 
   this.alpha = 1;
 

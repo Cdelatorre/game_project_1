@@ -32,7 +32,7 @@ Fire.prototype.collideWith = function(enemy) {
     this.height - 5 + this.y > enemy.y){
       
       this.hit++;
-      enemy.hit ++;
+      enemy.hit --;
 
       return true;
     }

@@ -30,7 +30,6 @@ function Game(canvasId) {
   document.addEventListener('keyup', this.onKeyEvent.bind(this));
   document.addEventListener('mousemove', this.mouseMove.bind(this))       // MOUSE B
   document.addEventListener('mousedown', this.mouseDown.bind(this));
-  // document.addEventListener('mouseup', this.mouseDown.bind(this));
 }
 
 Game.prototype.rand = function (a, b) {
@@ -40,7 +39,7 @@ Game.prototype.rand = function (a, b) {
 /* ----- Round 1 -----*/
 
 Game.prototype.initRound1 = function () {
-  var n = 10;
+  var n = 1;
   for (var i = 0; i < n; i++) {
     var e = new Enemy2(this.ctx, this.rand(0, CANVAS_WIDTH), this.rand(0, CANVAS_HEIGHT));
     this.round.push(e);
@@ -114,7 +113,7 @@ Game.prototype.round4IsOver = function(){
 
 Game.prototype.deleteEnemies = function(){
   var newEnemyArray = this.round.filter(function(enemy) {
-    return enemy.hit < 1;
+    return enemy.hit > 0;
   });
   var newBulletArray = this.player.fires.filter(function(bullet){
     return bullet.hit < 1;
