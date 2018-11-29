@@ -39,7 +39,7 @@ Game.prototype.rand = function (a, b) {
 /* ----- Round 1 -----*/
 
 Game.prototype.initRound1 = function () {
-  var n = 1;
+  var n = 20;
   for (var i = 0; i < n; i++) {
     var e = new Enemy2(this.ctx, this.rand(0, CANVAS_WIDTH), this.rand(0, CANVAS_HEIGHT));
     this.round.push(e);

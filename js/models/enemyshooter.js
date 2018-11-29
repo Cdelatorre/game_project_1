@@ -12,7 +12,7 @@ function Enemy2(ctx, x, y) {
   this.width = 20;
   this.height = 20;
 
-  this.hit = 2;
+  this.hit = 1;
 
   this.alpha = 1;
 

@@ -1,15 +1,10 @@
 function Player(ctx, x, y) {
-  this.ctx = ctx
-  this.x = x;
-  this.y = y;
+  this.ctx = ctx;
   this.angle;
   this.color = "blue"
 
   this.fires = []; // new
   this.fireOn = true; // new
-
-  this.width = 50;
-  this.height = 50;
 
   this.hits = 0;
 
@@ -18,6 +13,23 @@ function Player(ctx, x, y) {
 
   this.dy;
   this.dx;
+
+  this.keyState = event.type === 'keydown' ? true : false;
+
+  this.img = new Image();
+  this.img.src = "./images/player.png";
+  this.img.frames = 21;
+  this.img.frameIndex = 9;
+  this.currentIndex = 9;
+
+  this.drawCount = 0;
+
+  this.ctx = ctx
+
+  this.width = 35;
+  this.height = 35;
+  this.x = x - 25;
+  this.y = y;
 
   this.movements = {
     up: false,
@@ -39,11 +51,11 @@ Player.prototype.onKeyEvent = function(event) {
   switch (event.keyCode) {
     case KEY_UP:
       this.movements.up = state;
-      this.color = "red";
+      this.currentIndex = 1
       break;
     case KEY_DOWN:
       this.movements.down = state;
-      this.color = "blue";
+      this.currentIndex = 9;
       break;
     case KEY_LEFT:
       this.movements.left = state;
@@ -53,6 +65,9 @@ Player.prototype.onKeyEvent = function(event) {
       this.movements.right = state;
       this.color = "orange"
       break;
+    default:
+     
+
 
   }
 }
@@ -61,10 +76,8 @@ Player.prototype.onKeyEvent = function(event) {
 Player.prototype.animate = function() {
   if (this.movements.up && this.y > 80) {
     this.vy = -SPEED_MOVE;
-    this.color = "red";
   } else if (this.movements.down && this.y < CANVAS_HEIGHT - 135) {
     this.vy = SPEED_MOVE;
-    this.color = "blue";
   } else {
     this.vy *= FRICTION;
   }
@@ -126,19 +139,44 @@ Player.prototype.collideWith = function(enemy) {
 
 
 Player.prototype.draw = function() {
+  this.drawCount++;
+
   this.animate();
   this.ctx.save();
-  this.ctx.translate(this.x, this.y);
-  this.ctx.fillStyle = this.color;
-  this.ctx.beginPath()
-  this.ctx.fillRect(-20, -10, this.width, this.height);
-  this.ctx.fill();
+
+  this.ctx.drawImage(
+    this.img,
+    this.img.frameIndex * Math.floor(this.img.width / this.img.frames),
+    0,
+    this.img.width / this.img.frames,
+    this.img.height,
+    this.x,
+    this.y,
+    this.width,
+    this.height
+  );
+
+  if (this.drawCount % 10 === 0) {
+    this.drawCount = 0;
+    this.sprite();
+  }
+
   this.ctx.restore()
 
   this.fires.forEach(function(shoot) {
     shoot.draw()
     shoot.update();
-
   });
 
 }
+
+Player.prototype.sprite = function() {
+  if (++this.img.frameIndex  > this.currentIndex) {
+    this.img.frameIndex = this.currentIndex - 1;
+  } 
+    
+}
+
+ 
+
+

@@ -2,9 +2,12 @@ function Fire(ctx, angle, x, y, dx, dy) {
   this.ctx = ctx;
   this.x = x;
   this.y = y;
+
+
   this.width = 30;
   this.height = 10;
-  this.color = 'red'
+  this.img = new Image();
+  this.img.src = "./images/sword.png";
 
   this.hit = 0;
 
@@ -14,13 +17,38 @@ function Fire(ctx, angle, x, y, dx, dy) {
 
 }
 
+
+
 Fire.prototype.draw = function() {
+
+
   this.ctx.save();
   this.ctx.translate(this.x,this.y);
   this.ctx.rotate(this.angle);
-  this.ctx.fillStyle = this.color;
+  this.ctx.fillStyle = 'transparent';
   this.ctx.fillRect(-10, -13, this.width, this.height);
+  this.ctx.drawImage(
+    this.img,
+    -10,
+    -15,
+    this.width+ 10 ,
+    this.height + 10
+    )
   this.ctx.restore();
+
+  // this.ctx.save();                                         ESTO PARA UNA FUTURA DOBLE ARMA
+  // this.ctx.translate(this.x,this.y);
+  // this.ctx.rotate(this.angle);
+  // this.ctx.fillStyle = 'transparent';
+  // this.ctx.fillRect(-10, -7, this.width, this.height);
+  // this.ctx.drawImage(
+  //   this.img,
+  //   -10,
+  //   5,
+  //   this.width+ 10 ,
+  //   this.height + 10
+  //   )
+  // this.ctx.restore();
 }
 
 
