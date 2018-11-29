@@ -59,11 +59,11 @@ Player.prototype.onKeyEvent = function(event) {
       break;
     case KEY_LEFT:
       this.movements.left = state;
-      this.color = "lightblue"
+      this.currentIndex = 13;
       break;
     case KEY_RIGHT:
       this.movements.right = state;
-      this.color = "orange"
+      this.currentIndex = 5;
       break;
     default:
      
@@ -93,13 +93,13 @@ Player.prototype.animate = function() {
   }
 
   if (this.movements.up && this.movements.left){
-   this.color = "yellow"
+    this.currentIndex = 15;
  } else if (this.movements.up && this.movements.right){
-    this.color = "purple"
+  this.currentIndex = 3;
  } else if (this.movements.down && this.movements.right){
-     this.color = "grey"
+  this.currentIndex = 7;
  } else if (this.movements.down && this.movements.left){
-      this.color = "black"
+  this.currentIndex = 11;
  }
 
   this.x += this.vx;
@@ -174,7 +174,6 @@ Player.prototype.sprite = function() {
   if (++this.img.frameIndex  > this.currentIndex) {
     this.img.frameIndex = this.currentIndex - 1;
   } 
-    
 }
 
  
