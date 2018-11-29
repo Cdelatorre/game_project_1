@@ -17,10 +17,12 @@ function Player(ctx, x, y) {
   this.keyState = event.type === 'keydown' ? true : false;
 
   this.img = new Image();
-  this.img.src = "./images/player.png";
-  this.img.frames = 21;
-  this.img.frameIndex = 9;
-  this.currentIndex = 9;
+  this.img.src = "./images/sheet_player.png";
+  this.img.frames = 2;
+  this.img.frameIndex = 1;
+  this.img.cols = 10;
+  this.currentIndex = 1;
+  this.cutY = 0;
 
   this.drawCount = 0;
 
@@ -39,11 +41,51 @@ function Player(ctx, x, y) {
   }
 }
 
+Player.prototype.animate = function() {
+  if (this.movements.up && this.y > 80) {
+    this.vy = -SPEED_MOVE;
+    this.cutY = 1;
+  } else if (this.movements.down && this.y < CANVAS_HEIGHT - 135) {
+    this.vy = SPEED_MOVE;
+    this.cutY = 0;
+  } else {
+    this.vy *= FRICTION;
+  }
+
+  if (this.movements.right && this.x < CANVAS_WIDTH - 60) {
+    this.vx = SPEED_MOVE;
+    this.cutY = 3;
+  } else if (this.movements.left && this.x > 55) {
+    this.vx = -SPEED_MOVE;
+    this.cutY = 2;
+  } else {
+    this.vx *= FRICTION;
+  }
+
+  if (this.movements.up && this.movements.left){
+    this.cutY = 6;
+  
+ } else if (this.movements.up && this.movements.right){
+    this.cutY = 7;
+ } else if (this.movements.down && this.movements.right){
+    this.cutY = 4;
+ } else if (this.movements.down && this.movements.left){
+    this.cutY = 5;
+ }
+
+
+  this.x += this.vx;
+  this.y += this.vy;
+
+}
+
+
 
 Player.prototype.update = function(mouseX, mouseY) {
   this.dx = mouseX - this.x;
   this.dy = mouseY - this.y;
   this.angle = Math.atan2(this.dy, this.dx); // new
+  // console.log(this.dx + ' ' + this.dy)
 }
 
 Player.prototype.onKeyEvent = function(event) {
@@ -51,61 +93,27 @@ Player.prototype.onKeyEvent = function(event) {
   switch (event.keyCode) {
     case KEY_UP:
       this.movements.up = state;
-      this.currentIndex = 1
+      this.cutY = 1;
       break;
     case KEY_DOWN:
       this.movements.down = state;
-      this.currentIndex = 9;
+      this.cutY = 0;
       break;
     case KEY_LEFT:
       this.movements.left = state;
-      this.currentIndex = 13;
+      this.cutY = 2;
       break;
     case KEY_RIGHT:
       this.movements.right = state;
-      this.currentIndex = 5;
+      this.cutY = 3;
       break;
     default:
-     
-
-
+     this.cutY;
+     break;
   }
 }
 
 
-Player.prototype.animate = function() {
-  if (this.movements.up && this.y > 80) {
-    this.vy = -SPEED_MOVE;
-  } else if (this.movements.down && this.y < CANVAS_HEIGHT - 135) {
-    this.vy = SPEED_MOVE;
-  } else {
-    this.vy *= FRICTION;
-  }
-
-  if (this.movements.right && this.x < CANVAS_WIDTH - 60) {
-    this.vx = SPEED_MOVE;
-    this.color = "orange"
-  } else if (this.movements.left && this.x > 55) {
-    this.vx = -SPEED_MOVE;
-    this.color = "lightblue"
-  } else {
-    this.vx *= FRICTION;
-  }
-
-  if (this.movements.up && this.movements.left){
-    this.currentIndex = 15;
- } else if (this.movements.up && this.movements.right){
-  this.currentIndex = 3;
- } else if (this.movements.down && this.movements.right){
-  this.currentIndex = 7;
- } else if (this.movements.down && this.movements.left){
-  this.currentIndex = 11;
- }
-
-  this.x += this.vx;
-  this.y += this.vy;
-
-}
 
 
 Player.prototype.fire = function() {
@@ -116,17 +124,18 @@ Player.prototype.fire = function() {
     this.fires.push(f);
     this.fireOn = false;
     this.reload();
-    console.log(this.fires)
+    return true;
   }
-  
 }
+
 
 Player.prototype.reload = function(){
   setTimeout(function(){
     this.fireOn = true;
-    // this.fires.shift();
   }.bind(this), 350);
+  console.log(this.fires)
 }
+
 
 
 Player.prototype.collideWith = function(enemy) {
@@ -147,9 +156,9 @@ Player.prototype.draw = function() {
   this.ctx.drawImage(
     this.img,
     this.img.frameIndex * Math.floor(this.img.width / this.img.frames),
-    0,
+    this.img.height * this.cutY / this.img.cols,
     this.img.width / this.img.frames,
-    this.img.height,
+    this.img.height / this.img.cols,
     this.x,
     this.y,
     this.width,
@@ -159,6 +168,9 @@ Player.prototype.draw = function() {
   if (this.drawCount % 10 === 0) {
     this.drawCount = 0;
     this.sprite();
+  }
+  if(this.dx < 0 && this.dy < 0){
+    this.keyY = 2;
   }
 
   this.ctx.restore()
@@ -173,9 +185,5 @@ Player.prototype.draw = function() {
 Player.prototype.sprite = function() {
   if (++this.img.frameIndex  > this.currentIndex) {
     this.img.frameIndex = this.currentIndex - 1;
-  } 
+  }
 }
-
- 
-
-

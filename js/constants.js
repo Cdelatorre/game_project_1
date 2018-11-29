@@ -7,7 +7,7 @@ var KEY_RIGHT = 68;
 var KEY_DOWN = 83;
 var KEY_LEFT = 65;
 
-var SPEED_MOVE = 3;
+var SPEED_MOVE = 2.5;
 var WALL_SPEED_MOVE = 1;
 var FRICTION = 0.1;
 

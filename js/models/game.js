@@ -141,7 +141,7 @@ Game.prototype.playerHitContact = function () {
 Game.prototype.playerHit = function () {                     // revisar en clase
   return this.round.some(function(enemy) {
     return enemy.fires.some(function(fire) {
-      return fire.collideWith(this.player);
+      return fire.collideWith(this.player);W
     }.bind(this));
   }.bind(this));
 }
@@ -171,8 +171,10 @@ Game.prototype.onKeyEvent = function (event) {
 
 Game.prototype.draw = function () {
   // this.arena.draw()
+  this.player.draw();
+  this.player.update(this.mouseX, this.mouseY);
+  
   this.deleteEnemies();
-
 
   if (this.enemyHit()) {
     //aqui dentro lo que le pase al enemy;
@@ -207,8 +209,7 @@ Game.prototype.draw = function () {
     this.round[i].update(this.player.x, this.player.y)
   }
 
-  this.player.draw();
-  this.player.update(this.mouseX, this.mouseY);
+
 
   // switch (this.currentLevel) {
   //   case 0:

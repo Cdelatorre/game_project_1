@@ -14,14 +14,9 @@ function Fire(ctx, angle, x, y, dx, dy) {
   this.dx = dx * SHOOTS_PLAYER_SPEED;
   this.dy = dy * SHOOTS_PLAYER_SPEED;
   this.angle = angle;
-
 }
 
-
-
 Fire.prototype.draw = function() {
-
-
   this.ctx.save();
   this.ctx.translate(this.x,this.y);
   this.ctx.rotate(this.angle);
@@ -74,7 +69,7 @@ Fire.prototype.update = function() { ///             MOUSE D
   this.y += this.dy;
 
   if (Math.sign(this.x) < 1 || Math.sign(this.y) < 1 || this.x > CANVAS_WIDTH || this.y > CANVAS_HEIGHT) {
-    return false
+
     //aqui tendrían que dejar de pintarse para no petar el programa
   }
 }
