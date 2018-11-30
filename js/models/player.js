@@ -17,7 +17,7 @@ function Player(ctx, x, y) {
   this.keyState = event.type === 'keydown' ? true : false;
 
   this.img = new Image();
-  this.img.src = "./images/sheet_player.png";
+  this.img.src = "./images/sheet_player_shield.png";
   this.img.frames = 2;
   this.img.frameIndex = 1;
   this.img.cols = 10;
@@ -45,17 +45,17 @@ Player.prototype.animate = function() {
   if (this.movements.up && this.y > 80) {
     this.vy = -SPEED_MOVE;
     this.cutY = 1;
-  } else if (this.movements.down && this.y < CANVAS_HEIGHT - 135) {
+  } else if (this.movements.down && this.y < CANVAS_HEIGHT - 137) {
     this.vy = SPEED_MOVE;
     this.cutY = 0;
   } else {
     this.vy *= FRICTION;
   }
 
-  if (this.movements.right && this.x < CANVAS_WIDTH - 60) {
+  if (this.movements.right && this.x < CANVAS_WIDTH - this.width * 2) {
     this.vx = SPEED_MOVE;
     this.cutY = 3;
-  } else if (this.movements.left && this.x > 55) {
+  } else if (this.movements.left && this.x > this.width) {
     this.vx = -SPEED_MOVE;
     this.cutY = 2;
   } else {
@@ -168,9 +168,6 @@ Player.prototype.draw = function() {
   if (this.drawCount % 10 === 0) {
     this.drawCount = 0;
     this.sprite();
-  }
-  if(this.dx < 0 && this.dy < 0){
-    this.keyY = 2;
   }
 
   this.ctx.restore()

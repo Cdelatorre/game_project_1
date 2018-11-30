@@ -3,6 +3,8 @@
   top: 0;
 }
 
+
+
 #player-life{
   background-color: white;
   position: absolute;
@@ -21,14 +23,26 @@
   width: 200px;
   height: 20px;
   padding: 5px;
-  background: #ddd;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
+  background: white;
   position: absolute;
-  top: 80%;
+  top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, 1080%);
+  -webkit-box-shadow: 0px 6px 32px 0px rgba(0,0,0,0.85);
+-moz-box-shadow: 0px 6px 32px 0px rgba(0,0,0,0.85);
+box-shadow: 0px 6px 32px 0px rgba(0,0,0,0.85);
+
+}
+#heart-life{
+  position: absolute;
+  top: 50%;
+  left: 39%;
+  transform: translate(-50%, 700%);
+  -webkit-user-select: none; /* webkit (safari, chrome) browsers */
+  -moz-user-select: none; /* mozilla browsers */
+  -khtml-user-select: none; /* webkit (konqueror) browsers */
+  -ms-user-select: none; /* IE10+ */
+
 }
 #bar {
   background: #c54;
@@ -64,6 +78,19 @@ canvas {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.canvas-shadow {
+  width: 700px;
+  height: 540px;
+;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-box-shadow: inset -3px -98px 58px -42px rgba(0,0,0,0.54);
+  -moz-box-shadow: inset -3px -98px 58px -42px rgba(0,0,0,0.54);
+  box-shadow: inset -3px -98px 58px -42px rgba(0,0,0,0.54);
 }
 
 canvas:focus {
@@ -103,3 +130,23 @@ body button {
   border-radius: 5px;
   margin-bottom: 20px;
 }
+
+
+.heart-hit {
+  animation: opacityOn 0.5s infinite forwards step-end;
+}
+
+@-webkit-keyframes opacityOn {
+  0% {
+      opacity: 0;
+  }
+  30%{
+    opacity: 1;
+  }
+  100% {
+      opacity: 0;
+  }
+}
+
+
+/* --------- CSS ANIMATIONS --------- */

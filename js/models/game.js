@@ -41,7 +41,7 @@ Game.prototype.rand = function (a, b) {
 Game.prototype.initRound1 = function () {
   var n = 20;
   for (var i = 0; i < n; i++) {
-    var e = new Enemy2(this.ctx, this.rand(0, CANVAS_WIDTH), this.rand(0, CANVAS_HEIGHT));
+    var e = new Enemy1(this.ctx, this.rand(0, CANVAS_WIDTH), this.rand(0, CANVAS_HEIGHT));
     this.round.push(e);
   } 
 }
@@ -58,7 +58,7 @@ Game.prototype.round1IsOver = function(){
 Game.prototype.initRound2 = function () {
   var n = 2;
   for (var i = 0; i < n; i++) {
-    var e = new Enemy1(this.ctx, this.rand(0, CANVAS_WIDTH), this.rand(0, CANVAS_HEIGHT));
+    var e = new Enemy2(this.ctx, this.rand(0, CANVAS_WIDTH), this.rand(0, CANVAS_HEIGHT));
     this.round.push(e);
   }
   this.round2State = 1;
@@ -170,7 +170,7 @@ Game.prototype.onKeyEvent = function (event) {
 }
 
 Game.prototype.draw = function () {
-  // this.arena.draw()
+  this.arena.draw()
   this.player.draw();
   this.player.update(this.mouseX, this.mouseY);
   
@@ -183,10 +183,12 @@ Game.prototype.draw = function () {
   if (this.playerHit() && this.noHitTime === false){  
 
     this.player.hits += 10;                                  // revisar en clase
+    this.player.keyY = 8
     $('#hit').css("width", this.player.hits + '%');
     this.noHitTime = true;
 
     setTimeout(function(){
+   
       this.noHitTime = false;
     }.bind(this), 5000)
 
@@ -194,13 +196,15 @@ Game.prototype.draw = function () {
 
   if (this.playerHitContact() && this.noHitTime === false) {                            // revisar en clase
 
-    this.player.hits += 5;                                  // revisar en clase
+    this.player.hits += 5;
     $('#hit').css("width", this.player.hits + '%');
+    $('#heart-life').addClass('heart-hit')
     this.noHitTime = true;
 
     setTimeout(function(){
+      $('#heart-life').removeClass('heart-hit')
       this.noHitTime = false;
-    }.bind(this), 5000)
+    }.bind(this), 4000)
 
   }
 
@@ -243,11 +247,15 @@ Game.prototype.draw = function () {
    this.player.fires = []
   }
 
+  if(this.player.hits === 100){
+    alert('you lose fuck you bicth')
+  }
+
   // if(this.round4IsOver()){
   //   alert('gameover')
   //  }
 
-  // this.castle.draw()
+  this.castle.draw()
 
 }
 
