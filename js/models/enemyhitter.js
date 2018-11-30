@@ -1,7 +1,7 @@
 
 function Enemy1(ctx, x, y) {
   this.ctx = ctx
-  this.x = (CANVAS_WIDTH - 30) / 2 ;
+  this.x = (CANVAS_WIDTH - 32) / 2 ;
   this.y = -70;
   this.v = 2;
   this.angle;

@@ -36,8 +36,9 @@ box-shadow: 0px 6px 32px 0px rgba(0,0,0,0.85);
 #heart-life{
   position: absolute;
   top: 50%;
-  left: 39%;
+  left: 50%;
   transform: translate(-50%, 700%);
+  margin-left: -125px;
   -webkit-user-select: none; /* webkit (safari, chrome) browsers */
   -moz-user-select: none; /* mozilla browsers */
   -khtml-user-select: none; /* webkit (konqueror) browsers */
@@ -83,7 +84,6 @@ canvas {
 .canvas-shadow {
   width: 700px;
   height: 540px;
-;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -133,7 +133,7 @@ body button {
 
 
 .heart-hit {
-  animation: opacityOn 0.5s infinite forwards step-end;
+  animation: opacityOn 0.35s infinite forwards step-end;
 }
 
 @-webkit-keyframes opacityOn {

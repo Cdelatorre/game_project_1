@@ -31,7 +31,7 @@ Fire.prototype.draw = function() {
     )
   this.ctx.restore();
 
-  // this.ctx.save();                                         ESTO PARA UNA FUTURA DOBLE ARMA
+  // this.ctx.save();    // ESTO PARA UN FUTURO DOBLE ARMA
   // this.ctx.translate(this.x,this.y);
   // this.ctx.rotate(this.angle);
   // this.ctx.fillStyle = 'transparent';

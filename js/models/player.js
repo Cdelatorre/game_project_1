@@ -73,7 +73,6 @@ Player.prototype.animate = function() {
     this.cutY = 5;
  }
 
-
   this.x += this.vx;
   this.y += this.vy;
 
@@ -85,7 +84,7 @@ Player.prototype.update = function(mouseX, mouseY) {
   this.dx = mouseX - this.x;
   this.dy = mouseY - this.y;
   this.angle = Math.atan2(this.dy, this.dx); // new
-  // console.log(this.dx + ' ' + this.dy)
+
 }
 
 Player.prototype.onKeyEvent = function(event) {
@@ -107,9 +106,6 @@ Player.prototype.onKeyEvent = function(event) {
       this.movements.right = state;
       this.cutY = 3;
       break;
-    default:
-     this.cutY;
-     break;
   }
 }
 
