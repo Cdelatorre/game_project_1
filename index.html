@@ -17,16 +17,23 @@
    
     <canvas id="main-canvas" style="border:1px solid red;" tabindex="1">
     </canvas>
-    <div class="canvas-shadow"></div>
-  </div>
-
-  <img id="heart-life" src='./images/heart_life.png' width="35px" height="30px">
-  <div id="health-bar" data-total="1000" data-value="1000">
-    <div id="bar">
-        <div id="hit"></div>
+    <div class="slides canvas-shadow"></div>
+    <div class="slides canvas-intro">
+      <button  id="start-button">Start Game</button>
+      <button id="instructions-button">How to play</button>
+    </div>
+    <div class="slides" id="instructions">
+      <button id="close-instructions">hola</button>
     </div>
   </div>
-  
+  <div id="data-div">
+    <img id="heart-life" src='./images/heart_life.png' width="35px" height="30px">
+    <div id="health-bar" data-total="1000" data-value="1000">
+      <div id="bar">
+        <div id="hit"></div>
+      </div>
+    </div>
+  </div>
 
   <script type="text/javascript" src="./js/constants.js"></script>
   <script type="text/javascript" src="./js/models/castle.js"></script>
@@ -35,7 +42,7 @@
   <script type="text/javascript" src="./js/models/enemyfire.js"></script>
   <script type="text/javascript" src="./js/models/enemyhitter.js"></script>
   <script type="text/javascript" src="./js/models/enemyshooter.js"></script>
-  <!-- <script type="text/javascript" src="./js/models/tank.js"></script> -->
+  <script type="text/javascript" src="./js/models/tank.js"></script>
   <script type="text/javascript" src="./js/models/player.js"></script>
   <script type="text/javascript" src="./js/models/game.js"></script>
 

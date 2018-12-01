@@ -31,21 +31,21 @@ Fire.prototype.draw = function() {
     )
   this.ctx.restore();
 
-  // this.ctx.save();    // ESTO PARA UN FUTURO DOBLE ARMA
-  // this.ctx.translate(this.x,this.y);
-  // this.ctx.rotate(this.angle);
-  // this.ctx.fillStyle = 'transparent';
-  // this.ctx.fillRect(-10, -7, this.width, this.height);
-  // this.ctx.drawImage(
-  //   this.img,
-  //   -10,
-  //   5,
-  //   this.width+ 10 ,
-  //   this.height + 10
-  //   )
-  // this.ctx.restore();
-}
-
+//   this.ctx.save();    // ESTO PARA UN FUTURO DOBLE ARMA
+//   this.ctx.translate(this.x,this.y);
+//   this.ctx.rotate(this.angle);
+//   this.ctx.fillStyle = 'transparent';
+//   this.ctx.fillRect(-10, -7, this.width, this.height);
+//   this.ctx.drawImage(
+//     this.img,
+//     -10,
+//     5,
+//     this.width+ 10 ,
+//     this.height + 10
+//     )
+//   this.ctx.restore();
+// // }
+  }
 
 Fire.prototype.collideWith = function(enemy) {
  

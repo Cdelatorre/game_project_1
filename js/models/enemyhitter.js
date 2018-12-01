@@ -2,8 +2,8 @@
 function Enemy1(ctx, x, y) {
   this.ctx = ctx
   this.x = (CANVAS_WIDTH - 32) / 2 ;
-  this.y = -70;
-  this.v = 2;
+  this.y = -500;
+  this.v = 3;
   this.angle;
   this.tick = 0;
   this.fires = []
@@ -11,7 +11,6 @@ function Enemy1(ctx, x, y) {
   this.width = 30;
   this.height = 30;
 
- 
   this.hit = 1;
 
   this.alpha = 1;

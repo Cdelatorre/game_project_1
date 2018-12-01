@@ -7,7 +7,9 @@ function Game(canvasId) {
   this.mouseY;
 
   this.round = [];
+ 
   this.initRound1();
+
 
   this.round1State = 0;
   this.round2State = 0;
@@ -39,6 +41,7 @@ Game.prototype.rand = function (a, b) {
 /* ----- Round 1 -----*/
 
 Game.prototype.initRound1 = function () {
+ 
   var n = 20;
   for (var i = 0; i < n; i++) {
     var e = new Enemy1(this.ctx, this.rand(0, CANVAS_WIDTH), this.rand(0, CANVAS_HEIGHT));
@@ -48,7 +51,7 @@ Game.prototype.initRound1 = function () {
 
 Game.prototype.round1IsOver = function(){
   if (this.round.length === 0 && this.round1State === 0 && this.round2State === 0){
-      this.round1State = 1;
+      this.round1State = 1 ;
       return true
   } 
 }
@@ -56,7 +59,7 @@ Game.prototype.round1IsOver = function(){
 /* ------ Round 2  ------*/
 
 Game.prototype.initRound2 = function () {
-  var n = 2;
+  var n = 20;
   for (var i = 0; i < n; i++) {
     var e = new Enemy2(this.ctx, this.rand(0, CANVAS_WIDTH), this.rand(0, CANVAS_HEIGHT));
     this.round.push(e);
@@ -103,7 +106,6 @@ Game.prototype.initRound4 = function () {
 
 Game.prototype.round4IsOver = function(){
   if (this.round.length === 0 && this.round3State === 2  && this.round4State === 1 ){
-    alert('game over')
     this.round4State = 2;
     return true;
     } 
@@ -247,9 +249,9 @@ Game.prototype.draw = function () {
    this.player.fires = []
   }
 
-  if(this.player.hits === 100){
-    alert('you lose fuck you bicth')
-  }
+  // if(this.player.hits === 100){
+  //   alert('you lose fuck you bicth')
+  // }
 
   // if(this.round4IsOver()){
   //   alert('gameover')
@@ -265,6 +267,7 @@ Game.prototype.clear = function () {
 }
 
 Game.prototype.start = function () {
+  this.player.fires = [];
   setInterval(function () {
     this.clear();
     this.draw();

@@ -81,17 +81,32 @@ canvas {
   transform: translate(-50%, -50%);
 }
 
-.canvas-shadow {
+.slides{
   width: 700px;
   height: 540px;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+}
+
+.canvas-shadow {
   -webkit-box-shadow: inset -3px -98px 58px -42px rgba(0,0,0,0.54);
   -moz-box-shadow: inset -3px -98px 58px -42px rgba(0,0,0,0.54);
   box-shadow: inset -3px -98px 58px -42px rgba(0,0,0,0.54);
 }
+
+.canvas-intro {
+  background-color: rgba(250,0,0,0.5);
+}
+
+#instructions{
+  background-color: rgba(0,0,0,0.5);
+}
+
 
 canvas:focus {
   outline: none;
@@ -112,24 +127,27 @@ body {
   font-family: "Verdana"
 }
 
-.logo-img {
-  width: 350px;
-}
-
-.arrows-img {
-  width: 150px;
-}
-
-body button {
-  font-size: 30px;
+button {
+  font-size: 15px;
   background-color: #870007;
   color: #fff;
-  padding: 20px 40px;
+  padding: 10px 30px;
   border: 0;
   box-shadow: 0;
   border-radius: 5px;
-  margin-bottom: 20px;
+  text-align: center;
+  margin: 0 auto;
+  margin-bottom: 5px;
 }
+
+#close-instructions{
+  position: absolute;
+  right: 10px;
+  top: 10px;
+
+}
+
+
 
 
 .heart-hit {

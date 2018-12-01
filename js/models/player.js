@@ -6,7 +6,8 @@ function Player(ctx, x, y) {
   this.fires = []; // new
   this.fireOn = true; // new
 
-  this.hits = 0;
+  this.hits = 0
+  this.currentHits = this.hits;
 
   this.vx = 0;
   this.vy = 0;
@@ -14,13 +15,12 @@ function Player(ctx, x, y) {
   this.dy;
   this.dx;
 
-  this.keyState = event.type === 'keydown' ? true : false;
 
   this.img = new Image();
   this.img.src = "./images/sheet_player_shield.png";
   this.img.frames = 2;
   this.img.frameIndex = 1;
-  this.img.cols = 10;
+  this.img.rows = 10;
   this.currentIndex = 1;
   this.cutY = 0;
 
@@ -73,18 +73,25 @@ Player.prototype.animate = function() {
     this.cutY = 5;
  }
 
+ if(this.currentHits < this.hits){
+  this.cutY = 8;
+   setTimeout(function(){
+    this.cutY = 0;
+    this.currentHits = this.hits;
+   }.bind(this), 400)
+ }
+
+ if(this.currentHits >= 100){
+   this.cutY = 9;
+ }
   this.x += this.vx;
   this.y += this.vy;
-
 }
-
-
 
 Player.prototype.update = function(mouseX, mouseY) {
   this.dx = mouseX - this.x;
   this.dy = mouseY - this.y;
   this.angle = Math.atan2(this.dy, this.dx); // new
-
 }
 
 Player.prototype.onKeyEvent = function(event) {
@@ -92,25 +99,18 @@ Player.prototype.onKeyEvent = function(event) {
   switch (event.keyCode) {
     case KEY_UP:
       this.movements.up = state;
-      this.cutY = 1;
       break;
     case KEY_DOWN:
       this.movements.down = state;
-      this.cutY = 0;
       break;
     case KEY_LEFT:
       this.movements.left = state;
-      this.cutY = 2;
       break;
     case KEY_RIGHT:
       this.movements.right = state;
-      this.cutY = 3;
       break;
   }
 }
-
-
-
 
 Player.prototype.fire = function() {
   if(this.fireOn){
@@ -152,9 +152,9 @@ Player.prototype.draw = function() {
   this.ctx.drawImage(
     this.img,
     this.img.frameIndex * Math.floor(this.img.width / this.img.frames),
-    this.img.height * this.cutY / this.img.cols,
+    this.img.height * this.cutY / this.img.rows,
     this.img.width / this.img.frames,
-    this.img.height / this.img.cols,
+    this.img.height / this.img.rows,
     this.x,
     this.y,
     this.width,
