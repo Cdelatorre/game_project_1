@@ -25,6 +25,7 @@ function Game(canvasId) {
   this.castle = new Castle(this.ctx);
   this.player = new Player(this.ctx, 350, 250);
 
+
   document.addEventListener('keydown', this.onKeyEvent.bind(this));
   document.addEventListener('keyup', this.onKeyEvent.bind(this));
   document.addEventListener('mousemove', this.mouseMove.bind(this));
@@ -53,7 +54,8 @@ Game.prototype.initRound = function(quantity, enemyType){
 /* ----- Round 1 -----*/
 
 Game.prototype.initRound1 = function () {
-  this.initRound(1, Bat); }
+  this.initRound(1, Giant)
+};
 
 Game.prototype.round1IsOver = function(){
   if (this.round.length === 0 && this.round1State === 0 && this.round2State === 0){
