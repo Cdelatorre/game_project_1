@@ -1,11 +1,20 @@
+@font-face {
+  font-family: 'arcadeclassicregular';
+  src: url('fonts/arcadeclassic-webfont.woff2') format('woff2'),
+    url('fonts/arcadeclassic-webfont.woff') format('woff'),
+    url('fonts/arcadeclassic-webfont.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
 * {
+  font-family: 'arcadeclassicregular';
   box-sizing: border-box;
   top: 0;
 }
 
-
-
-#player-life{
+#player-life {
   background-color: white;
   position: absolute;
   top: 80%;
@@ -15,6 +24,7 @@
   transform: translate(-50%, -50%);
 
 }
+
 /* health bar */
 #health-bar {
   -webkit-box-sizing: border-box;
@@ -28,23 +38,23 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, 1080%);
-  -webkit-box-shadow: 0px 6px 32px 0px rgba(0,0,0,0.85);
--moz-box-shadow: 0px 6px 32px 0px rgba(0,0,0,0.85);
-box-shadow: 0px 6px 32px 0px rgba(0,0,0,0.85);
-
+  -webkit-box-shadow: 0px 6px 32px 0px rgba(0, 0, 0, 0.85);
+  -moz-box-shadow: 0px 6px 32px 0px rgba(0, 0, 0, 0.85);
+  box-shadow: 0px 6px 32px 0px rgba(0, 0, 0, 0.85);
 }
-#heart-life{
+
+#heart-life {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, 700%);
   margin-left: -125px;
-  -webkit-user-select: none; /* webkit (safari, chrome) browsers */
-  -moz-user-select: none; /* mozilla browsers */
-  -khtml-user-select: none; /* webkit (konqueror) browsers */
-  -ms-user-select: none; /* IE10+ */
-
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -ms-user-select: none;
 }
+
 #bar {
   background: #c54;
   width: 100%;
@@ -54,7 +64,7 @@ box-shadow: 0px 6px 32px 0px rgba(0,0,0,0.85);
 }
 
 #hit {
-  background: rgba(255,255,255,0.6);
+  background: rgba(255, 255, 255, 0.6);
   position: absolute;
   top: 0;
   right: 0;
@@ -81,7 +91,7 @@ canvas {
   transform: translate(-50%, -50%);
 }
 
-.slides{
+.slides {
   width: 700px;
   height: 540px;
   position: absolute;
@@ -94,19 +104,18 @@ canvas {
 }
 
 .canvas-shadow {
-  -webkit-box-shadow: inset -3px -98px 58px -42px rgba(0,0,0,0.54);
-  -moz-box-shadow: inset -3px -98px 58px -42px rgba(0,0,0,0.54);
-  box-shadow: inset -3px -98px 58px -42px rgba(0,0,0,0.54);
+  -webkit-box-shadow: inset -3px -98px 58px -42px rgba(0, 0, 0, 0.54);
+  -moz-box-shadow: inset -3px -98px 58px -42px rgba(0, 0, 0, 0.54);
+  box-shadow: inset -3px -98px 58px -42px rgba(0, 0, 0, 0.54);
 }
 
 .canvas-intro {
-  background-color: rgba(250,0,0,0.5);
+  background-color: rgba(250, 0, 0, 0.5);
 }
 
-#instructions{
-  background-color: rgba(0,0,0,0.5);
+#instructions {
+  background-color: rgba(0, 0, 0, 0.5);
 }
-
 
 canvas:focus {
   outline: none;
@@ -128,7 +137,7 @@ body {
 }
 
 button {
-  font-size: 15px;
+  font-size: 19px;
   background-color: #870007;
   color: #fff;
   padding: 10px 30px;
@@ -140,15 +149,11 @@ button {
   margin-bottom: 5px;
 }
 
-#close-instructions{
+#close-instructions {
   position: absolute;
   right: 10px;
   top: 10px;
-
 }
-
-
-
 
 .heart-hit {
   animation: opacityOn 0.35s infinite forwards step-end;
@@ -156,13 +161,15 @@ button {
 
 @-webkit-keyframes opacityOn {
   0% {
-      opacity: 0;
+    opacity: 0;
   }
-  30%{
+
+  30% {
     opacity: 1;
   }
+
   100% {
-      opacity: 0;
+    opacity: 0;
   }
 }
 

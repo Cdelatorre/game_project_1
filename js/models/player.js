@@ -6,7 +6,7 @@ function Player(ctx, x, y) {
   this.fires = []; // new
   this.fireOn = true; // new
 
-  this.hits = 0
+  this.hits = 0;
   this.currentHits = this.hits;
 
   this.vx = 0;

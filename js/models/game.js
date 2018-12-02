@@ -10,13 +10,10 @@ function Game(canvasId) {
  
   this.initRound1();
 
-
   this.round1State = 0;
   this.round2State = 0;
   this.round3State = 0;
   this.round4State = 0;
-
-  this.currentLevel = 0;
 
   this.noHitTime = false;
 
@@ -26,90 +23,71 @@ function Game(canvasId) {
 
   this.arena = new Arena(this.ctx);
   this.castle = new Castle(this.ctx);
-  this.player = new Player(this.ctx, 350, 250)
+  this.player = new Player(this.ctx, 350, 250);
 
   document.addEventListener('keydown', this.onKeyEvent.bind(this));
   document.addEventListener('keyup', this.onKeyEvent.bind(this));
-  document.addEventListener('mousemove', this.mouseMove.bind(this))       // MOUSE B
+  document.addEventListener('mousemove', this.mouseMove.bind(this));
   document.addEventListener('mousedown', this.mouseDown.bind(this));
+
+  // this.levels = {                          // VER EN CLASE
+  //   one: false,
+  //   two: false,
+  //   three: false,
+  //   four: false
+  // }
 }
 
 Game.prototype.rand = function (a, b) {
   return Math.floor(Math.random() * b + a);
 }
 
+/*-----Init Rounds --- */
+
+Game.prototype.initRound = function(quantity, enemyType){
+   for (var i = 0; i < quantity; i++) {
+    var e = new enemyType(this.ctx, this.rand(0, CANVAS_WIDTH), this.rand(0, CANVAS_HEIGHT), (CANVAS_WIDTH - 50) / 2 );
+    this.round.push(e) }; 
+}
+
 /* ----- Round 1 -----*/
 
 Game.prototype.initRound1 = function () {
- 
-  var n = 20;
-  for (var i = 0; i < n; i++) {
-    var e = new Enemy1(this.ctx, this.rand(0, CANVAS_WIDTH), this.rand(0, CANVAS_HEIGHT));
-    this.round.push(e);
-  } 
-}
+  this.initRound(1, Bat); }
 
 Game.prototype.round1IsOver = function(){
   if (this.round.length === 0 && this.round1State === 0 && this.round2State === 0){
-      this.round1State = 1 ;
-      return true
-  } 
-}
+      this.round1State = 1; return true }}
 
 /* ------ Round 2  ------*/
 
 Game.prototype.initRound2 = function () {
-  var n = 20;
-  for (var i = 0; i < n; i++) {
-    var e = new Enemy2(this.ctx, this.rand(0, CANVAS_WIDTH), this.rand(0, CANVAS_HEIGHT));
-    this.round.push(e);
-  }
-  this.round2State = 1;
-}
+  this.initRound(20, Shooter);
+  this.round2State = 1; }
 
 Game.prototype.round2IsOver = function(){
   if (this.round.length === 0 && this.round1State === 1 && this.round2State === 1){
-    this.round2State = 2;
-    return true;
-    } 
-}
-
+    this.round2State = 2; return true }}
 
 /* ------ Round 3  ------*/
 
 Game.prototype.initRound3 = function () {
-  var n = 3;
-  for (var i = 0; i < n; i++) {
-    var e = new Enemy2(this.ctx, this.rand(0, CANVAS_WIDTH), this.rand(0, CANVAS_HEIGHT));
-    this.round.push(e);
-  }
-  this.round3State = 1
-}
+  this.initRound(1, Shooter);
+  this.round3State = 1 }
 
 Game.prototype.round3IsOver = function(){
   if (this.round.length === 0 && this.round1State === 1 && this.round2State === 2  && this.round3State === 1 ){
-    this.round3State = 2;
-    return true;
-    } 
-}
+    this.round3State = 2; return true }}
 
 // /*----- Round 4 ------*/
 
 Game.prototype.initRound4 = function () {
-   var n = 4;
-   for (var i = 0; i < n; i++) {
-    var e = new Enemy2(this.ctx, this.rand(0, CANVAS_WIDTH), this.rand(0, CANVAS_HEIGHT));
-    this.round.push(e);
-  }
-  this.round4State = 1
-}
+  this.initRound(1, Bat)
+  this.round4State = 1 }
 
 Game.prototype.round4IsOver = function(){
   if (this.round.length === 0 && this.round3State === 2  && this.round4State === 1 ){
-    this.round4State = 2;
-    return true;
-    } 
-}
+    this.round4State = 2; return true }}
 
 /*----- INTERACTIONS WITH ENEMIES ------*/
 
@@ -120,10 +98,24 @@ Game.prototype.deleteEnemies = function(){
   var newBulletArray = this.player.fires.filter(function(bullet){
     return bullet.hit < 1;
   })
-
   this.player.fires = newBulletArray;
   this.round = newEnemyArray;
 }
+
+Game.prototype.hitChanges =  function(strength){
+
+  this.player.hits += strength;
+  $('#hit').css("width", this.player.hits + '%');
+  $('#heart-life').addClass('heart-hit')
+  this.noHitTime = true;
+
+  setTimeout(function(){
+    $('#heart-life').removeClass('heart-hit')
+    this.noHitTime = false;
+  }.bind(this), 4000)
+}
+
+/* ------ COLLISIONS ------- */
 
 Game.prototype.enemyHit = function () { 
   return this.round.some(function (enemy) {
@@ -133,14 +125,13 @@ Game.prototype.enemyHit = function () {
   }.bind(this));
 }
 
-
 Game.prototype.playerHitContact = function () {
   return this.round.some(function(enemy) {
     return this.player.collideWith(enemy);
   }.bind(this));
 }
 
-Game.prototype.playerHit = function () {                     // revisar en clase
+Game.prototype.playerHitShoot = function () {
   return this.round.some(function(enemy) {
     return enemy.fires.some(function(fire) {
       return fire.collideWith(this.player);W
@@ -148,8 +139,7 @@ Game.prototype.playerHit = function () {                     // revisar en clase
   }.bind(this));
 }
 
-
-Game.prototype.getMousePos = function (evt) {                 // MOUSE A
+Game.prototype.getMousePos = function (evt) {   
   var rect = this.canvas.getBoundingClientRect();
   return {
     x: evt.clientX - rect.left,
@@ -157,19 +147,23 @@ Game.prototype.getMousePos = function (evt) {                 // MOUSE A
   }
 };
 
-Game.prototype.mouseDown = function (evt) {
+/* ----- EVENTS FUNCTIONS  ----- */
+
+Game.prototype.mouseDown = function () {
   this.player.fire();
 }
 
-Game.prototype.mouseMove = function (evt) {               // MOUSE C
+Game.prototype.mouseMove = function (evt) {   
   var mousePos = this.getMousePos(evt);
   this.mouseX = mousePos.x;
   this.mouseY = mousePos.y;
-}
+};
 
 Game.prototype.onKeyEvent = function (event) {
   this.player.onKeyEvent(event);
-}
+};
+
+/* ------- DRAW ------- */
 
 Game.prototype.draw = function () {
   this.arena.draw()
@@ -182,32 +176,12 @@ Game.prototype.draw = function () {
     //aqui dentro lo que le pase al enemy;
   }
 
-  if (this.playerHit() && this.noHitTime === false){  
-
-    this.player.hits += 10;                                  // revisar en clase
-    this.player.keyY = 8
-    $('#hit').css("width", this.player.hits + '%');
-    this.noHitTime = true;
-
-    setTimeout(function(){
-   
-      this.noHitTime = false;
-    }.bind(this), 5000)
-
+  if (this.playerHitShoot() && this.noHitTime === false){  
+    this.hitChanges(10)
   }
 
-  if (this.playerHitContact() && this.noHitTime === false) {                            // revisar en clase
-
-    this.player.hits += 5;
-    $('#hit').css("width", this.player.hits + '%');
-    $('#heart-life').addClass('heart-hit')
-    this.noHitTime = true;
-
-    setTimeout(function(){
-      $('#heart-life').removeClass('heart-hit')
-      this.noHitTime = false;
-    }.bind(this), 4000)
-
+  if (this.playerHitContact() && this.noHitTime === false) {  
+    this.hitChanges(5)
   }
 
   for (var i = 0; i < this.round.length; i++) {
@@ -215,43 +189,24 @@ Game.prototype.draw = function () {
     this.round[i].update(this.player.x, this.player.y)
   }
 
-
-
-  // switch (this.currentLevel) {
-  //   case 0:
-  //     setTimeout(function() {
-  //       this.initRound1();
-  //     }.bind(this), 2000);
-  //     break;
-  //   case 1
-  //   default:
-  //     break;
-  // }
-
   if(this.round1IsOver()){
     $('#health-bar').hide();
     setTimeout(function(){
-      $('#health-bar').show();
-      this.initRound2()
-      this.player.fires = [];
-    }.bind(this), 2000)
-  }
+      $('#health-bar').show(); this.initRound2(); this.player.fires = [];
+    }.bind(this), 2000)}
 
-  if(this.round2IsOver()){
-    setTimeout(function(){
-    this.initRound3()
-    this.player.fires = []
-  }.bind(this), 1000)
-  }
+  if(this.round2IsOver()){ setTimeout(function(){ 
+    this.initRound3(); this.player.fires = [];
+  }.bind(this), 1000)}
 
   if(this.round3IsOver()){
-   this.initRound4();
-   this.player.fires = []
+   this.initRound4(); this.player.fires = [];
   }
 
-  // if(this.player.hits === 100){
-  //   alert('you lose fuck you bicth')
-  // }
+  if(this.player.hits === 100){
+    SPEED_MOVE = 0;
+    SPEED_MOVE   = 0;
+  }
 
   // if(this.round4IsOver()){
   //   alert('gameover')
@@ -260,7 +215,6 @@ Game.prototype.draw = function () {
   this.castle.draw()
 
 }
-
 
 Game.prototype.clear = function () {
   this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
