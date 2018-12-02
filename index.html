@@ -8,50 +8,76 @@
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="style.css">
   <title>IRON HACL ARENA</title>
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
 </head>
 
 <body>
 
   <div id="board">
-   
+
     <canvas id="main-canvas" style="border:1px solid red;" tabindex="1">
     </canvas>
     <div></div>
+
     <div class="slides canvas-shadow"></div>
+    
     <div class="slides canvas-intro">
-      <button  id="start-button">Start Game</button>
-      <button id="instructions-button">How to play</button>
+
+      <img src="./images/iron-hack-arena-logo.png" id="ironhack-arena">
+
+      <div id="game-options">
+
+        <div id="start-game-div">
+          <img class="swords-select" src="./images/sword.png">
+          <h3 class="options" id="start-game">Start Game</h3>
+          <img class="swords-select sword-2" src="./images/sword.png">
+        </div>
+
+        <div id="instructions-div">
+          <img class="swords-select" src="./images/sword.png">
+          <h3 class="options" id="game-instructions">HOW TO play</h3>
+          <img class="swords-select sword-2" src="./images/sword.png">
+        </div>
+
+        <p id="infoparagraph">Game inspired in <br>onslought arena from Lost Decade 2010</p>
+        <p id="infoversion">V.1.0</p>
+
+      </div>
+
+      <div class="slides" id="instructions">
+        <button id="close-instructions">hola</button>
+      </div>
+
+      <div class="slides" id="blackdiv"></div>
+      <div class="slides" id="introduction"></div>
+
     </div>
-    <div class="slides" id="instructions">
-      <button id="close-instructions">hola</button>
-    </div>
-  </div>
-  <div id="data-div">
-    <img id="heart-life" src='./images/heart_life.png' width="35px" height="30px">
-    <div id="health-bar" data-total="1000" data-value="1000">
-      <div id="bar">
-        <div id="hit"></div>
+    <div id="data-div">
+      <img id="heart-life" src='./images/heart_life.png' width="35px" height="30px">
+      <div id="health-bar" data-total="1000" data-value="1000">
+        <div id="bar">
+          <div id="hit"></div>
+        </div>
       </div>
     </div>
-  </div>
 
-  <script type="text/javascript" src="./js/constants.js"></script>
-  <script type="text/javascript" src="./js/models/castle.js"></script>
-  <script type="text/javascript" src="./js/models/arena.js"></script>
-  <script type="text/javascript" src="./js/models/fire.js"></script>
-    
-  <script type="text/javascript" src="./js/models/player.js"></script>
-  
-  <script type="text/javascript" src="./js/models/enemy.js"></script>
-  <script type="text/javascript" src="./js/models/enemyfire.js"></script>
-  <script type="text/javascript" src="./js/models/enemyhitter.js"></script>
-  <script type="text/javascript" src="./js/models/enemyshooter.js"></script>
-  <script type="text/javascript" src="./js/models/enemyfollower.js"></script>
+    <script type="text/javascript" src="./js/constants.js"></script>
+    <script type="text/javascript" src="./js/models/castle.js"></script>
+    <script type="text/javascript" src="./js/models/arena.js"></script>
+    <script type="text/javascript" src="./js/models/fire.js"></script>
 
-  <script type="text/javascript" src="./js/models/game.js"></script>
+    <script type="text/javascript" src="./js/models/player.js"></script>
 
-  <script type="text/javascript" src="./js/script.js"></script>
+    <script type="text/javascript" src="./js/models/enemy.js"></script>
+    <script type="text/javascript" src="./js/models/enemyfire.js"></script>
+    <script type="text/javascript" src="./js/models/enemyhitter.js"></script>
+    <script type="text/javascript" src="./js/models/enemyshooter.js"></script>
+    <script type="text/javascript" src="./js/models/enemyfollower.js"></script>
+
+    <script type="text/javascript" src="./js/models/game.js"></script>
+
+    <script type="text/javascript" src="./js/script.js"></script>
 
 </body>
 

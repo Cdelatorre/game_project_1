@@ -54,7 +54,7 @@ Game.prototype.initRound = function(quantity, enemyType){
 /* ----- Round 1 -----*/
 
 Game.prototype.initRound1 = function () {
-  this.initRound(1, Giant)
+  this.initRound(1, Bat)
 };
 
 Game.prototype.round1IsOver = function(){
@@ -64,7 +64,7 @@ Game.prototype.round1IsOver = function(){
 /* ------ Round 2  ------*/
 
 Game.prototype.initRound2 = function () {
-  this.initRound(20, Shooter);
+  this.initRound(1, Shooter);
   this.round2State = 1; }
 
 Game.prototype.round2IsOver = function(){
