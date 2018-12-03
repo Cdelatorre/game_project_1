@@ -8,7 +8,7 @@ function Game(canvasId) {
 
   this.round = [];
  
-  this.initRound1();
+    this.initRound1();
 
   this.round1State = 0;
   this.round2State = 0;
@@ -54,7 +54,8 @@ Game.prototype.initRound = function(quantity, enemyType){
 /* ----- Round 1 -----*/
 
 Game.prototype.initRound1 = function () {
-  this.initRound(1, Bat)
+  this.initRound(20, Bat)
+  this.initRound(1, Giant)
 };
 
 Game.prototype.round1IsOver = function(){
@@ -64,7 +65,7 @@ Game.prototype.round1IsOver = function(){
 /* ------ Round 2  ------*/
 
 Game.prototype.initRound2 = function () {
-  this.initRound(1, Shooter);
+  this.initRound(10, Shooter);
   this.round2State = 1; }
 
 Game.prototype.round2IsOver = function(){
@@ -95,11 +96,12 @@ Game.prototype.round4IsOver = function(){
 
 Game.prototype.deleteEnemies = function(){
   var newEnemyArray = this.round.filter(function(enemy) {
-    return enemy.hit > 0;
+      return enemy.hit > 0;
   });
   var newBulletArray = this.player.fires.filter(function(bullet){
     return bullet.hit < 1;
   })
+  
   this.player.fires = newBulletArray;
   this.round = newEnemyArray;
 }
@@ -171,9 +173,7 @@ Game.prototype.draw = function () {
   this.arena.draw()
   this.player.draw();
   this.player.update(this.mouseX, this.mouseY);
-  
   this.deleteEnemies();
-
   if (this.enemyHit()) {
     //aqui dentro lo que le pase al enemy;
   }
@@ -199,11 +199,11 @@ Game.prototype.draw = function () {
 
   if(this.round2IsOver()){ setTimeout(function(){ 
     this.initRound3(); this.player.fires = [];
-  }.bind(this), 1000)}
+    }.bind(this), 1000)}
 
   if(this.round3IsOver()){
-   this.initRound4(); this.player.fires = [];
-  }
+    this.initRound4(); this.player.fires = [];
+    }
 
   if(this.player.hits === 100){
     SPEED_MOVE = 0;

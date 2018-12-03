@@ -1,4 +1,5 @@
 function Enemy(ctx, x, y, hit, tick, v, w, h) {
+  this.type,
   this.ctx = ctx
   this.x = (CANVAS_WIDTH + 50) / 2 ;
   this.y =  -200;
@@ -26,6 +27,7 @@ function Enemy(ctx, x, y, hit, tick, v, w, h) {
   this.currentIndex = 1;
   this.cutY = 0;
   this.drawCount = 0;
+  this.drawConstant = 10
   
   this.movements = {
     up: false,
@@ -54,12 +56,21 @@ Enemy.prototype.draw = function() {
     this.width,
     this.height
   );
-  
-  if (this.drawCount % 10 === 0) {
+  if(this.hit === 1){
+    this.img.src = this.deadImage
+    this.v = 0;
+  }
+  if (this.drawCount % this.drawConstant === 0) {
     this.drawCount = 0;
     this.sprite();
   }
-  this.ctx.restore();
+  if(this.type === 'Shooter'){
+    this.ctx.restore();
+    this.fires.forEach(function(shoot) {
+      shoot.draw()
+      shoot.update();
+    });
+  }
 }
 
 Enemy.prototype.nextMove = function(){
@@ -82,7 +93,7 @@ Enemy.prototype.update = function(playerX, playerY) {
   this.oldPositionY = this.y
   this.oldPositionX = this.x;
 
-  if(this.x >= CANVAS_WIDTH - this.width || this.y >= CANVAS_HEIGHT - 125 || this.x <= this.width || this.y <= 70){
+  if(this.x >= CANVAS_WIDTH - this.width || this.y >= CANVAS_HEIGHT - 110|| this.x <= this.width || this.y <= 70){
     this.nextMove();
   }
   if(Math.abs(this.nextMoveX - this.x) <= 10 && Math.abs(this.nextMoveY - this.y) <= 100){
@@ -102,9 +113,29 @@ Enemy.prototype.update = function(playerX, playerY) {
 
 Enemy.prototype.sprite = function() {
   if (++this.img.frameIndex  > this.currentIndex) {
-    this.img.frameIndex = this.currentIndex - 1;
+    this.img.frameIndex = this.currentIndex - 1  ;
   }
 }
+
+Enemy.prototype.fire = function() {
+  this.dx = Math.cos(this.angle); 
+  this.dy = Math.sin(this.angle);
+  var f = new EnemyFire(this.ctx, this.angle, this.x, this.y, this.dx, this.dy);
+  this.fires.push(f);
+  this.fireOn = false;
+  this.reload();
+}
+
+Enemy.prototype.reload = function(){
+  setTimeout(function(){
+    this.fireOn = true;
+  }.bind(this), 350);
+
+  if(this.fires.length > 6){
+    this.fires.shift();
+ }
+}
+
 
 
 

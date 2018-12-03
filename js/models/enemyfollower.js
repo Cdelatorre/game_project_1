@@ -3,10 +3,13 @@
 
 function Giant(ctx, x, y, playerX, playerY) {
 
-  Enemy.call(this, ctx, x, y, 1, 0, 2, 30, 30);
+  Enemy.call(this, ctx, x, y, 1, 0, 1, 30, 30);
   this.x = (CANVAS_WIDTH - 50) / 2 ;
+  this.fires = [];
+  this.attackSpeed = 100;
   this.y = -100
   this.img.src = "./images/enemy_one.png";
+  this.deadImage = "./"
   this.img.frames = 3;
   this.img.frameIndex = 1;
   this.img.cols = 1;
@@ -18,35 +21,19 @@ function Giant(ctx, x, y, playerX, playerY) {
 Giant.prototype = Object.create(Enemy.prototype);
 Giant.prototype.constructor = Giant;
 
-Giant.prototype.nextMove = function(playerX, playerY){
-
-  this.nextMoveX = playerX;
-  this.nextMoveY = playerY;
-
-  var dx = this.nextMoveX - this.x;
-  var dy = this.nextMoveY - this.y;
-
-  var angle = Math.atan2(dy, dx);
-  this.vx = Math.cos(angle);
-  this.vy = Math.sin(angle);
-}
-
 Giant.prototype.update = function(playerX, playerY) {
-  
- 
-  this.x += (this.vx * this.v)
-  this.y += (this.vy * this.v)
+ var diffX = playerX - this.x;
+ var diffY = playerY - this.y;
 
-  this.oldPositionY = this.y;
-  this.oldPositionX = this.x;
-
-
-  if(this.x >= CANVAS_WIDTH - this.width || this.y >= CANVAS_HEIGHT - 125 || this.x <= this.width || this.y <= 70){
-    this.nextMove(playerX, playerY);
+//  if(diffX > 0){ this.x += this.v } else { this.x -= this.v }
+ diffX > 0 ? this.x += this.v : this.x -= this.v
+  if(diffY > 0){ 
+    this.y += this.v 
+  } else { 
+    this.y -= this.v 
   }
-  if(Math.abs(this.nextMoveX - this.x) <= 10 && Math.abs(this.nextMoveY - this.y) <= 100){
-    this.nextMove(playerX, playerY);
-  }
+
+ if(this.x == playerX || this.y == playerY){ this.x += 0; this.y += 0; }
 
   var dx = playerX - this.x;
   var dy = playerY - this.y;
@@ -55,6 +42,31 @@ Giant.prototype.update = function(playerX, playerY) {
   this.tick++;
   if(this.tick >= this.attackSpeed){
     this.tick = 0;
-    this.fire()
+    this.fire();
   }
+}
+
+Giant.prototype.draw = function() {
+  this.ctx.save();
+  this.ctx.translate(this.x,this.y);
+
+  this.ctx.fillStyle = this.color;
+  this.ctx.beginPath()
+  this.ctx.fillRect(0, 0, this.width, this.height);
+  this.ctx.globalAlpha = this.alpha;
+  this.ctx.fill();
+  this.ctx.restore();
+
+  this.fires.forEach(function(shoot) {
+    shoot.draw()
+    shoot.update();
+  });
+}
+
+Giant.prototype.fire = function() { 
+  return Shooter.prototype.fire.call(this)
+}
+
+Giant.prototype.reload = function(){
+  return Shooter.prototype.reload.call(this)
 }

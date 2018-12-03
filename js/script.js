@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
+  var game = new Game('main-canvas');//----------------------------------------------BORRAR ESTO PARA FINAL
+  game.start()//----------------------------------------------BORRAR ESTO PARA FINAL
 
   /* INTRO SLIDE */
 
@@ -27,9 +29,9 @@ document.addEventListener('DOMContentLoaded', function() {
       $('#game-instructions').siblings('.swords-select').fadeOut( 100 )
     }
   );
- 
-  var game = new Game('main-canvas');
+
   $('#data-div').hide()
+  $('#data-div').fadeIn() //----------------------------------------------BORRAR ESTO PARA FINAL
   $('#instructions').hide()
   $('#close-instructions').click(function(){
     $('#instructions').fadeOut();
