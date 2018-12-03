@@ -54,8 +54,7 @@ Game.prototype.initRound = function(quantity, enemyType){
 /* ----- Round 1 -----*/
 
 Game.prototype.initRound1 = function () {
-  this.initRound(20, Bat)
-  this.initRound(1, Giant)
+  this.initRound(1, Bat)
 };
 
 Game.prototype.round1IsOver = function(){
@@ -109,6 +108,10 @@ Game.prototype.deleteEnemies = function(){
 Game.prototype.hitChanges =  function(strength){
 
   this.player.hits += strength;
+
+  if(SCORE > 0){
+    SCORE -= 50
+  }
   $('#hit').css("width", this.player.hits + '%');
   $('#heart-life').addClass('heart-hit')
   this.noHitTime = true;
@@ -170,6 +173,7 @@ Game.prototype.onKeyEvent = function (event) {
 /* ------- DRAW ------- */
 
 Game.prototype.draw = function () {
+  $('#score-count').text(SCORE)
   this.arena.draw()
   this.player.draw();
   this.player.update(this.mouseX, this.mouseY);

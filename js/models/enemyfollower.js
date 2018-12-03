@@ -3,7 +3,7 @@
 
 function Giant(ctx, x, y, playerX, playerY) {
 
-  Enemy.call(this, ctx, x, y, 1, 0, 1, 30, 30);
+  Enemy.call(this, ctx, x, y, 10, 0, 1, 30, 30);
   this.x = (CANVAS_WIDTH - 50) / 2 ;
   this.fires = [];
   this.attackSpeed = 100;
@@ -56,6 +56,15 @@ Giant.prototype.draw = function() {
   this.ctx.globalAlpha = this.alpha;
   this.ctx.fill();
   this.ctx.restore();
+
+  // this.ctx.translate(this.x,this.y);
+
+  // this.ctx.fillStyle = this.color;
+  // this.ctx.beginPath()
+  // this.ctx.fillRect(-10, 35, 50, 10);
+  // this.ctx.globalAlpha = this.alpha;
+  // this.ctx.fill();
+  // this.ctx.restore();
 
   this.fires.forEach(function(shoot) {
     shoot.draw()

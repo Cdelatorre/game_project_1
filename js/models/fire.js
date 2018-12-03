@@ -54,9 +54,12 @@ Fire.prototype.collideWith = function(enemy) {
     this.y < enemy.y + enemy.height - 5 &&
     this.height - 5 + this.y > enemy.y){
       enemy.hit --;
-      setTimeout(function(){
-        enemy.hit --;
-      }.bind(this),100)
+      if(enemy.hit === 1){
+        SCORE += enemy.scoreValue;
+        setTimeout(function(){
+          enemy.hit --;
+        }.bind(this),100)  
+      }    
       this.hit++;
       return true;
     }

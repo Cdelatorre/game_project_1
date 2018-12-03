@@ -12,13 +12,14 @@ function Enemy(ctx, x, y, hit, tick, v, w, h) {
   this.height = h;
 
   this.hit = hit;
+  this.deadImage = './images/dead_enemy.png'
 
   this.nextMoveX;
   this.nextMoveY;
   this.vx;
   this.vy;
   this.nextMove()
-
+  
   this.img = new Image();
   this.img.src;
   this.img.frames = 3;
@@ -43,7 +44,7 @@ Enemy.prototype.rand = function(a, b){
 
 Enemy.prototype.draw = function() {
   this.drawCount++;
- 
+  
   this.ctx.save();
   this.ctx.drawImage(
     this.img,
@@ -60,6 +61,7 @@ Enemy.prototype.draw = function() {
     this.img.src = this.deadImage
     this.v = 0;
   }
+
   if (this.drawCount % this.drawConstant === 0) {
     this.drawCount = 0;
     this.sprite();

@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   /* INTRO SLIDE */
 
+
   $('#introduction').hide().delay(1000).fadeIn(2000);
   setTimeout(function(){
     $('#introduction').fadeOut(1000);

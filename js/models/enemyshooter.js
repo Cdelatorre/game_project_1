@@ -4,6 +4,7 @@
 function Shooter(ctx, x, y) {
   Enemy.call(this, ctx, x, y, 2, 0, 2, 30, 30);
   this.type = 'Shooter';
+  this.scoreValue = 250;
 
   this.x = (CANVAS_WIDTH - 50) / 2 ;
   this.fires = [];
@@ -11,7 +12,6 @@ function Shooter(ctx, x, y) {
   this.color = 'black';
 
   this.img.src = "./images/enemy_two.png";
-  this.deadImage = "./images/dead_bat.png"
   this.img.frames = 3;
   this.img.frameIndex = 1;
   this.img.cols = 1;

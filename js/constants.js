@@ -15,3 +15,5 @@ var WALL_INTERVAL = 200;
 var COIN_INTERVAL = 50;
 
 var SHOOTS_PLAYER_SPEED = 5;
+
+var SCORE = 0;
