@@ -3,17 +3,20 @@
 
 function Giant(ctx, x, y, playerX, playerY) {
 
-  Enemy.call(this, ctx, x, y, 10, 0, 1, 30, 30);
+  Enemy.call(this, ctx, x, y, 30, 0, 1, 62, 75, 'Shooter-Giant');
   this.x = (CANVAS_WIDTH - 50) / 2 ;
   this.fires = [];
   this.attackSpeed = 100;
   this.y = -100
-  this.img.src = "./images/enemy_one.png";
-  this.deadImage = "./"
-  this.img.frames = 3;
+  this.scoreValue = 100;
+  
+  this.img.src = "./images/giant.png";
+  this.deadImage = './images/dead_giant.png';
+  this.img.frames = 2;
   this.img.frameIndex = 1;
   this.img.cols = 1;
   this.currentIndex = 1;
+  this.drawConstant = 20
   this.cutY = 0;
 
 }
@@ -42,29 +45,7 @@ Giant.prototype.update = function(playerX, playerY) {
 }
 
 Giant.prototype.draw = function() {
-  this.ctx.save();
-  this.ctx.translate(this.x,this.y);
-
-  this.ctx.fillStyle = this.color;
-  this.ctx.beginPath()
-  this.ctx.fillRect(0, 0, this.width, this.height);
-  this.ctx.globalAlpha = this.alpha;
-  this.ctx.fill();
-  this.ctx.restore();
-
-  // this.ctx.translate(this.x,this.y);
-
-  // this.ctx.fillStyle = this.color;
-  // this.ctx.beginPath()
-  // this.ctx.fillRect(-10, 35, 50, 10);
-  // this.ctx.globalAlpha = this.alpha;
-  // this.ctx.fill();
-  // this.ctx.restore();
-
-  this.fires.forEach(function(shoot) {
-    shoot.draw()
-    shoot.update();
-  });
+  return Enemy.prototype.draw.call(this)
 }
 
 Giant.prototype.fire = function() { 

@@ -57,6 +57,29 @@ Enemy.prototype.draw = function() {
     this.width,
     this.height
   );
+  if(this.type === 'Shooter-Giant'){
+    this.ctx.save();
+  this.ctx.translate(this.x,this.y);
+
+  this.ctx.fillStyle = 'red';
+  this.ctx.fillRect(0, this.height + 10, this.hit * 2, 10);
+  this.ctx.restore();
+
+  this.ctx.save();
+  this.ctx.translate(this.x,this.y);
+  this.ctx.strokeStyle = '#0E3554';
+  this.ctx.lineWidth = 1.2;
+  this.ctx.strokeRect(0, this.height + 10, 60, 10);
+  this.ctx.restore();
+
+  // this.ctx.save();
+  // this.ctx.translate(this.x,this.y);
+  // this.ctx.strokeStyle = 'white';
+  // this.ctx.lineWidth = 10;
+  // this.ctx.fillRect(0, this.height + 10, 160, 10);
+  // this.ctx.restore();
+
+  }
   if(this.hit === 1){
     this.img.src = this.deadImage
     this.v = 0;
@@ -66,7 +89,7 @@ Enemy.prototype.draw = function() {
     this.drawCount = 0;
     this.sprite();
   }
-  if(this.type === 'Shooter'){
+  if(this.type === 'Shooter' || this.type === 'Shooter-Giant'){
     this.ctx.restore();
     this.fires.forEach(function(shoot) {
       shoot.draw()
