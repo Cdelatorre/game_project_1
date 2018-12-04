@@ -2,7 +2,7 @@ function Enemy(ctx, x, y, hit, tick, v, w, h,type) {
   this.type = type,
   this.ctx = ctx,
   this.x = (CANVAS_WIDTH + 50) / 2 ;
-  this.y =  -200;
+  this.y =  -300;
   this.v = v;
   this.angle;
   this.tick = tick;

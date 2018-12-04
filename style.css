@@ -130,7 +130,15 @@ canvas {
   -moz-box-shadow: inset -3px -98px 58px -42px rgba(0, 0, 0, 0.54);
   box-shadow: inset -3px -98px 58px -42px rgba(0, 0, 0, 0.54);
 }
+#waves{
+  display: flex;
+  align-items: center;
+}
 
+#waves * {
+  display: none;
+  margin-top: -185px;
+}
 .canvas-intro {
   background: url('./images/background-intro.jpg');
   background-position: center;

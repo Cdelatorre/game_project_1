@@ -1,7 +1,7 @@
-function Potion(ctx, x, y, src) {
+function Potion(ctx, x, y) {
     this.ctx = ctx;  
     this.img = new Image();
-    this.img.src = src;
+    this.img.src = './images/potion.png';
     this.x = x;
     this.y = y;
     this.w = 30;

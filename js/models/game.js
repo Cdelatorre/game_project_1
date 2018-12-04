@@ -7,7 +7,7 @@ function Game(canvasId) {
   this.mouseY;
 
   this.round = [];
- 
+  
   this.initRound1();
 
   this.round1State = 0;
@@ -27,7 +27,8 @@ function Game(canvasId) {
   this.arena = new Arena(this.ctx);
   this.castle = new Castle(this.ctx);
   this.player = new Player(this.ctx, 350, 250);
-  this.potion = new Potion(this.ctx,this.randomX,this.randomY, './images/potion.png');
+  this.potion = new Potion(this.ctx, 200, 200)
+  this.items = [];
 
 
   document.addEventListener('keydown', this.onKeyEvent.bind(this));
@@ -69,17 +70,24 @@ Game.prototype.round1IsOver = function(){
 
 Game.prototype.initRound2 = function () {
   this.initRound(10, Shooter);
-  this.round2State = 1; }
+  this.round2State = 1;
+  $('#waves img:nth-child(2)').fadeIn(2000).animate({zoom: 1.3}, 100).fadeOut()
+}
 
 Game.prototype.round2IsOver = function(){
   if (this.round.length === 0 && this.round1State === 1 && this.round2State === 1){
-    this.round2State = 2; return true }}
+    this.round2State = 2;
+     return true 
+    }
+  }
 
 /* ------ Round 3  ------*/
 
 Game.prototype.initRound3 = function () {
   this.initRound(1, Shooter);
-  this.round3State = 1 }
+  this.round3State = 1
+  $('#waves img:nth-child(3)').fadeIn(2000).animate({zoom: 1.3}, 100).fadeOut()
+}
 
 Game.prototype.round3IsOver = function(){
   if (this.round.length === 0 && this.round1State === 1 && this.round2State === 2  && this.round3State === 1 ){
@@ -89,7 +97,9 @@ Game.prototype.round3IsOver = function(){
 
 Game.prototype.initRound4 = function () {
   this.initRound(1, Bat)
-  this.round4State = 1 }
+  this.round4State = 1 
+  $('#waves img:nth-child(4)').fadeIn(2000).animate({zoom: 1.3}, 100).fadeOut()
+}
 
 Game.prototype.round4IsOver = function(){
   if (this.round.length === 0 && this.round3State === 2  && this.round4State === 1 ){
@@ -97,11 +107,12 @@ Game.prototype.round4IsOver = function(){
 
 /*----- INTERACTIONS WITH ENEMIES ------*/
 
+
 Game.prototype.deleteEnemies = function(){
   var newEnemyArray = this.round.filter(function(enemy) {
-      if(enemy.hit <= 0) {
-        this.givePotion(enemy)
-      }
+      // if(enemy.hit === 0) {
+      //   this.givePotion(enemy)
+      // }
       return enemy.hit > 0;
   });
   var newBulletArray = this.player.fires.filter(function(bullet){
@@ -115,15 +126,21 @@ Game.prototype.deleteEnemies = function(){
 // ================= 
 
 // Game.prototype.givePotion = function(Enemy) {
-//   // Valor aleatorio
-//   if(aleatorio) {
+//   // // Valor aleatorio
+//   // if(aleatorio) {
 //   // Añadimos al array de items la instancia con la posición del enemigo muerto
-//     this.items = this.items.concat(new Potion(this.ctx, Enemy.x, Enemy.y))
-//   }
+//     this.items = this.items.concat(new Potion(this.ctx, Enemy.x, Enemy.y, './images/potion.png'))
+//     for (var i = 0; i < this.items.length; i++) {
+//       this.items[i].draw();
+//     }
+  
+//   // }
 //   // En la función drawAll, pintaremos todos los items que haya disponibles
 // }
 
 // =================
+
+
 
 Game.prototype.hitChanges =  function(strength){
 
@@ -166,9 +183,9 @@ Game.prototype.playerHitShoot = function () {
   }.bind(this));
 }
 
-Game.prototype.playerGetPotion = function () {
-      return this.potion.collideWith(this.player);
-  };
+// Game.prototype.playerGetPotion = function () {
+//       return this.potion.collideWith(this.player);
+//   };
 
 Game.prototype.getMousePos = function (evt) {   
   var rect = this.canvas.getBoundingClientRect();
@@ -214,9 +231,9 @@ Game.prototype.draw = function () {
     this.hitChanges(10)
   }
 
-  if(this.playerGetPotion()){
-    this.potion.state = false;
-  }
+  // if(this.playerGetPotion()){
+  //   this.potion.state = false;
+  // }
 
   if (this.playerHitContact() && this.noHitTime === false) {  
     this.hitChanges(5)
@@ -226,33 +243,35 @@ Game.prototype.draw = function () {
     this.round[i].draw();
     this.round[i].update(this.player.x, this.player.y)
   }
-
+  
+ 
   if(this.round1IsOver()){
     setTimeout(function(){
       this.initRound2();
       this.player.fires = [];
-    }.bind(this), 2000)}
+    }.bind(this), 1500)}
 
   if(this.round2IsOver()){ 
     setTimeout(function(){ 
       this.initRound3(); 
       this.player.fires = [];
-    }.bind(this), 1000)}
+    }.bind(this), 1500)}
 
   if(this.round3IsOver()){
-    this.initRound4(); 
-    this.player.fires = [];
-    }
+    setTimeout(function(){ 
+      this.initRound4(); 
+      this.player.fires = [];
+    }.bind(this), 1500)}
 
- if(this.potionState === 0){
-  this.potionState ++
-   this.addPotion()
- } else if (this.potionState === 1 && this.player.hits > 10){
-   this.potionState ++
-   this.addPotion()
- }
-    console.log(this.potionState)
-    console.log(this.potion.state)
+//  if(this.potionState === 0){
+//   this.potionState ++
+//    this.addPotion()
+//  } else if (this.potionState === 1 && this.player.hits > 10){
+//    this.potionState ++
+//    this.addPotion()
+//  }
+    // console.log(this.potionState)
+    // console.log(this.potion.state)
  
   if(this.player.hits === 100){
     SPEED_MOVE = 0;
@@ -271,15 +290,15 @@ Game.prototype.clear = function () {
   this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 }
 
-Game.prototype.addPotion = function(){
+// Game.prototype.addPotion = function(){
   
-  this.potion.draw()
-  setTimeout(function(){
-    this.potion.state = false;
+//   this.potion.draw()
+//   setTimeout(function(){
+//     this.potion.state = false;
     
-  }.bind(this),10000)
-    this.potion.state = true;
-}
+//   }.bind(this),10000)
+//     this.potion.state = true;
+// }
 
 Game.prototype.start = function () {
   this.player.fires = [];
