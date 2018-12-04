@@ -3,9 +3,8 @@
 
 function Bat(ctx, x, y) {
   
-  Enemy.call(this, ctx, x, y, 4, 0, 2, 30, 30);
+  Enemy.call(this, ctx, x, y, 2, 0, 2, 30, 30, 'Bat');
   this.scoreValue = 100;
-  this.type = 'Bat';
   this.x = (CANVAS_WIDTH - 50) / 2 ;
   this.img.src = "./images/enemy_one.png";
   this.img.frames = 3;

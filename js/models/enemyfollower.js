@@ -25,13 +25,8 @@ Giant.prototype.update = function(playerX, playerY) {
  var diffX = playerX - this.x;
  var diffY = playerY - this.y;
 
-//  if(diffX > 0){ this.x += this.v } else { this.x -= this.v }
  diffX > 0 ? this.x += this.v : this.x -= this.v
-  if(diffY > 0){ 
-    this.y += this.v 
-  } else { 
-    this.y -= this.v 
-  }
+ diffY > 0 ? this.y += this.v : this.y -= this.v 
 
  if(this.x == playerX || this.y == playerY){ this.x += 0; this.y += 0; }
 

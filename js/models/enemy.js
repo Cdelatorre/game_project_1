@@ -1,6 +1,6 @@
-function Enemy(ctx, x, y, hit, tick, v, w, h) {
-  this.type,
-  this.ctx = ctx
+function Enemy(ctx, x, y, hit, tick, v, w, h,type) {
+  this.type = type,
+  this.ctx = ctx,
   this.x = (CANVAS_WIDTH + 50) / 2 ;
   this.y =  -200;
   this.v = v;
