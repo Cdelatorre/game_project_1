@@ -24,6 +24,7 @@ function Game(canvasId) {
   this.drawIntervalCount = 0;
   this.potionState = 0;
 
+  this.pointer = new Pointer(this.ctx, this.mouseX, this.mouseY);
   this.arena = new Arena(this.ctx);
   this.castle = new Castle(this.ctx);
   this.player = new Player(this.ctx, 350, 250);
@@ -59,7 +60,7 @@ Game.prototype.initRound = function(quantity, enemyType){
 /* ----- Round 1 -----*/
 
 Game.prototype.initRound1 = function () {
-  this.initRound(1,Giant)
+  this.initRound(1 ,Bat )
 };
 
 Game.prototype.round1IsOver = function(){
@@ -149,6 +150,7 @@ Game.prototype.hitChanges =  function(strength){
   if(SCORE > 0){
     SCORE -= 50
   }
+
   $('#hit').css("width", this.player.hits + '%');
   $('#heart-life').addClass('heart-hit')
   this.noHitTime = true;
@@ -218,17 +220,18 @@ Game.prototype.draw = function () {
   $('#score-count').text(SCORE)
   this.arena.draw()
 
+  this.pointer.draw (this.mouseX, this.mouseY);
+
   this.player.draw();
   this.player.update(this.mouseX, this.mouseY);
 
 
   this.deleteEnemies();
-  if (this.enemyHit()) {
-    //aqui dentro lo que le pase al enemy;
-  }
+  this.enemyHit()
+ 
 
   if (this.playerHitShoot() && this.noHitTime === false){  
-    this.hitChanges(10)
+    this.hitChanges(15)
   }
 
   // if(this.playerGetPotion()){
@@ -244,8 +247,6 @@ Game.prototype.draw = function () {
     this.round[i].update(this.player.x, this.player.y)
   }
 
-  
- 
   if(this.round1IsOver()){
     setTimeout(function(){
       this.initRound2();

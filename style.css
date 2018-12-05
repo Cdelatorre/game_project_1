@@ -134,6 +134,9 @@ canvas {
   display: flex;
   align-items: center;
 }
+#main-canvas{
+  cursor: none;
+}
 
 #waves * {
   display: none;

@@ -7,7 +7,6 @@ function Giant(ctx, x, y, playerX, playerY) {
   this.x = (CANVAS_WIDTH - 50) / 2 ;
   this.fires = [];
   this.attackSpeed = 100;
-  this.y = -100
   this.scoreValue = 100;
   
   this.img.src = "./images/giant.png";

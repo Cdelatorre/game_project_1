@@ -6,7 +6,7 @@ function Shooter(ctx, x, y) {
   this.scoreValue = 250;
   this.x = (CANVAS_WIDTH - 50) / 2 ;
   // this.fires = [];
-  this.attackSpeed = Math.floor(Math.random() * (1500 - 500 + 1)) + 800;
+  this.attackSpeed = Math.floor(Math.random() * (1200 - 500)) + 400;
   this.color = 'black';
 
   this.img.src = "./images/enemy_two.png";
