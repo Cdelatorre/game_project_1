@@ -8,7 +8,7 @@ function Fire(ctx, angle, x, y, dx, dy) {
   this.height = 10;
   this.img = new Image();
   this.img.src = "./images/sword.png";
-
+  this.super = false;
   this.hit = 0;
 
   this.dx = dx * SHOOTS_PLAYER_SPEED;
@@ -16,9 +16,9 @@ function Fire(ctx, angle, x, y, dx, dy) {
   this.angle = angle;
 }
 
-Fire.prototype.draw = function() {
+Fire.prototype.draw = function () {
   this.ctx.save();
-  this.ctx.translate(this.x,this.y);
+  this.ctx.translate(this.x, this.y);
   this.ctx.rotate(this.angle);
   this.ctx.fillStyle = 'transparent';
   this.ctx.fillRect(-10, -13, this.width, this.height);
@@ -26,25 +26,40 @@ Fire.prototype.draw = function() {
     this.img,
     -10,
     -15,
-    this.width+ 10 ,
+    this.width + 10,
     this.height + 10
-    )
+  )
+  this.ctx.restore();
+};
+
+Fire.prototype.drawSuper = function () {
+  this.ctx.save();
+  this.ctx.translate(this.x, this.y);
+  this.ctx.rotate(this.angle);
+  this.ctx.fillStyle = 'transparent';
+  this.ctx.fillRect(-10, -13, this.width, this.height);
+  this.ctx.drawImage(
+    this.img,
+    -10,
+    -15,
+    this.width + 10,
+    this.height + 10
+  )
   this.ctx.restore();
 
-//   this.ctx.save();    // ESTO PARA UN FUTURO DOBLE ARMA
-//   this.ctx.translate(this.x,this.y);
-//   this.ctx.rotate(this.angle);
-//   this.ctx.fillStyle = 'transparent';
-//   this.ctx.fillRect(-10, -7, this.width, this.height);
-//   this.ctx.drawImage(
-//     this.img,
-//     -10,
-//     5,
-//     this.width+ 10 ,
-//     this.height + 10
-//     )
-//   this.ctx.restore();
-// // }
+  this.ctx.save();
+  this.ctx.translate(this.x, this.y);
+  this.ctx.rotate(this.angle);
+  this.ctx.fillStyle = 'transparent';
+  this.ctx.fillRect(-10, -7, this.width, this.height);
+  this.ctx.drawImage(
+    this.img,
+    -10,
+    5,
+    this.width + 10,
+    this.height + 10
+  )
+  this.ctx.restore();
   }
 
 Fire.prototype.collideWith = function(enemy) {

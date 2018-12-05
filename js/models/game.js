@@ -29,7 +29,8 @@ function Game(canvasId) {
   this.castle = new Castle(this.ctx);
   this.player = new Player(this.ctx, 350, 250);
   this.potion = new Potion(this.ctx, 200, 200)
-  this.items = [];
+  this.potions = [];
+  this.supers = [];
 
 
   document.addEventListener('keydown', this.onKeyEvent.bind(this));
@@ -37,12 +38,6 @@ function Game(canvasId) {
   document.addEventListener('mousemove', this.mouseMove.bind(this));
   document.addEventListener('mousedown', this.mouseDown.bind(this));
 
-  // this.levels = {                          // VER EN CLASE
-  //   one: false,
-  //   two: false,
-  //   three: false,
-  //   four: false
-  // }
 }
 
 Game.prototype.rand = function (a, b) {
@@ -60,7 +55,7 @@ Game.prototype.initRound = function(quantity, enemyType){
 /* ----- Round 1 -----*/
 
 Game.prototype.initRound1 = function () {
-  this.initRound(1 ,Giant )
+  this.initRound(10 ,Bat )
 };
 
 Game.prototype.round1IsOver = function(){
@@ -121,18 +116,25 @@ Game.prototype.deleteEnemies = function(){
   this.round = newEnemyArray;
 }
 
-Game.prototype.addPotion = function (){
-  var random = this.rand(0, 1)
+Game.prototype.addItem = function () {
+  var random = this.rand(0, 2)
   this.round.forEach(enemy => {
-    if(enemy.hit === 0 && random === 0){
-      var potion = new Potion(this.ctx, enemy.x, enemy.y, './images/potion.png')
-      this.items = this.items.concat(potion);
-      setTimeout(() => {
-        var index = this.items.indexOf(potion);
-        this.items.splice(index, 1);
-      }, 2000);
+    if (enemy.hit === 0 && random === 0) {
+      var potion = new Potion(this.ctx, enemy.x, enemy.y)
+      this.potions = this.potions.concat(potion);
+      setTimeout(function () {
+        var index = this.potions.indexOf(potion);
+        this.potions.splice(index, 1);
+      }.bind(this), 5000);
+    } else if (enemy.hit === 0 && random === 1) {
+      var superPower = new DobleSword(this.ctx, enemy.x, enemy.y)
+      this.supers = this.supers.concat(superPower);
+      setTimeout(function () {
+        var index = this.supers.indexOf(superPower);
+        this.supers.splice(index, 1);
+      }.bind(this), 5000);
     }
-  });
+  })
 }
 
 Game.prototype.hitChanges =  function(strength){
@@ -184,12 +186,23 @@ Game.prototype.playerHitShoot = function () {
 }
 
 Game.prototype.playerGetPotion = function () {
-  var itemCollision = this.items.find(function(item) {
+  var itemCollision = this.potions.find(function(item) {
      return item.collideWith(this.player);
   }.bind(this))
   if (itemCollision) {
-    var index = this.items.indexOf(itemCollision);
-    this.items.splice(index, 1);
+    var index = this.potions.indexOf(itemCollision);
+    this.potions.splice(index, 1);
+  }
+  return itemCollision;
+};
+
+Game.prototype.playerGetSword = function () {
+  var itemCollision = this.supers.find(function(item) {
+     return item.collideWith(this.player);
+  }.bind(this))
+  if (itemCollision) {
+    var index = this.supers.indexOf(itemCollision);
+    this.supers.splice(index, 1);
   }
   return itemCollision;
 };
@@ -223,17 +236,16 @@ Game.prototype.onKeyEvent = function (event) {
 Game.prototype.draw = function () {
   this.drawIntervalCount ++
   $('#score-count').text(SCORE)
-  this.arena.draw()
 
+  this.arena.draw()
   this.pointer.draw (this.mouseX, this.mouseY);
 
   this.player.draw();
   this.player.update(this.mouseX, this.mouseY);
 
-  this.addPotion()
+  this.addItem()
   this.deleteEnemies();
   this.enemyHit()
- 
 
   if (this.playerHitShoot() && !this.noHitTime){  
     this.hitChanges(15)
@@ -243,6 +255,10 @@ Game.prototype.draw = function () {
     this.addLive(5)
   }
 
+  if(this.playerGetSword()){
+    this.player.super = true;
+  }
+ console.log(this.player.super)
   if (this.playerHitContact() && !this.noHitTime) {  
     this.hitChanges(5)
   }
@@ -252,9 +268,14 @@ Game.prototype.draw = function () {
     this.round[i].update(this.player.x, this.player.y)
   }
 
-  for (var i = 0; i < this.items.length; i++) {
-    this.items[i].draw();
+  for (var i = 0; i < this.potions.length; i++) {
+    this.potions[i].draw();
   }
+
+  for (var i = 0; i < this.supers.length; i++) {
+    this.supers[i].draw();
+  }
+
 
   if(this.round1IsOver()){
     setTimeout(function(){
@@ -285,22 +306,11 @@ Game.prototype.draw = function () {
   //  }
 
   this.castle.draw()
-
 }
 
 Game.prototype.clear = function () {
   this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 }
-
-// Game.prototype.addPotion = function(){
-  
-//   this.potion.draw()
-//   setTimeout(function(){
-//     this.potion.state = false;
-    
-//   }.bind(this),10000)
-//     this.potion.state = true;
-// }
 
 Game.prototype.start = function () {
   this.player.fires = [];

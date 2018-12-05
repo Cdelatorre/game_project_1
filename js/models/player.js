@@ -14,7 +14,8 @@ function Player(ctx, x, y) {
 
   this.dy;
   this.dx;
-
+ 
+  this.super = false;
 
   this.img = new Image();
   this.img.src = "./images/sheet_player_shield.png";
@@ -169,9 +170,14 @@ Player.prototype.draw = function() {
   this.ctx.restore()
 
   this.fires.forEach(function(shoot) {
-    shoot.draw()
-    shoot.update();
-  });
+    if(this.super === true){
+      shoot.drawSuper()
+      shoot.update();
+    } else if (this.super === false) {
+      shoot.draw()
+      shoot.update();
+    }
+  }.bind(this));
 
 }
 

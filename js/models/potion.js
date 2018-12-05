@@ -7,7 +7,6 @@ function Potion(ctx, x, y) {
     this.w = 30;
     this.h = 32;
     this.state = true;
-
 }
 
 Potion.prototype.draw = function(){
@@ -31,6 +30,5 @@ Potion.prototype.collideWith = function(player) {
       this.state = false;
       return true;
     }
-    
 }
 
