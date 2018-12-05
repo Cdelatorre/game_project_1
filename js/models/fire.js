@@ -70,7 +70,7 @@ Fire.prototype.collideWith = function(enemy) {
     this.height - 5 + this.y > enemy.y){
       enemy.hit --;
       if(enemy.hit === 1){
-        SCORE += enemy.scoreValue;
+        score += enemy.scoreValue;
         setTimeout(function(){
           enemy.hit --;
         }.bind(this),100)  

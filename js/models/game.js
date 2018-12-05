@@ -55,17 +55,20 @@ Game.prototype.initRound = function(quantity, enemyType){
 /* ----- Round 1 -----*/
 
 Game.prototype.initRound1 = function () {
-  this.initRound(10 ,Bat )
+  this.initRound(1 ,Bat )
+  
+
 };
 
 Game.prototype.round1IsOver = function(){
   if (this.round.length === 0 && this.round1State === 0 && this.round2State === 0){
-      this.round1State = 1; return true }}
+      this.round1State = 1;
+      return true }}
 
 /* ------ Round 2  ------*/
 
 Game.prototype.initRound2 = function () {
-  this.initRound(10, Shooter);
+  this.initRound(1, Shooter);
   this.round2State = 1;
   $('#waves img:nth-child(2)').fadeIn(2000).animate({zoom: 1.3}, 100).fadeOut()
 }
@@ -80,7 +83,7 @@ Game.prototype.round2IsOver = function(){
 /* ------ Round 3  ------*/
 
 Game.prototype.initRound3 = function () {
-  this.initRound(1, Shooter);
+  this.initRound(1, Giant);
   this.round3State = 1
   $('#waves img:nth-child(3)').fadeIn(2000).animate({zoom: 1.3}, 100).fadeOut()
 }
@@ -117,7 +120,7 @@ Game.prototype.deleteEnemies = function(){
 }
 
 Game.prototype.addItem = function () {
-  var random = this.rand(0, 2)
+  var random = this.rand(0, 20)
   this.round.forEach(enemy => {
     if (enemy.hit === 0 && random === 0) {
       var potion = new Potion(this.ctx, enemy.x, enemy.y)
@@ -138,11 +141,9 @@ Game.prototype.addItem = function () {
 }
 
 Game.prototype.hitChanges =  function(strength){
-  console.log(this.player.hits);
   this.player.hits += strength;
-  console.log(this.player.hits);
-  if(SCORE > 0){
-    SCORE -= 50
+  if(score > 0){
+    score -= 50
   }
 
   $('#hit').css("width", this.player.hits + '%');
@@ -235,7 +236,7 @@ Game.prototype.onKeyEvent = function (event) {
 
 Game.prototype.draw = function () {
   this.drawIntervalCount ++
-  $('#score-count').text(SCORE)
+  $('#score-count').text(score)
 
   this.arena.draw()
   this.pointer.draw (this.mouseX, this.mouseY);
@@ -256,9 +257,14 @@ Game.prototype.draw = function () {
   }
 
   if(this.playerGetSword()){
+  
     this.player.super = true;
+    setTimeout(function(){
+      
+    this.player.super = false;
+    }.bind(this), 10000)
   }
- console.log(this.player.super)
+
   if (this.playerHitContact() && !this.noHitTime) {  
     this.hitChanges(5)
   }
