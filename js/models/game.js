@@ -60,7 +60,7 @@ Game.prototype.initRound = function(quantity, enemyType){
 /* ----- Round 1 -----*/
 
 Game.prototype.initRound1 = function () {
-  this.initRound(1 ,Bat )
+  this.initRound(1 ,Giant )
 };
 
 Game.prototype.round1IsOver = function(){
@@ -111,9 +111,6 @@ Game.prototype.round4IsOver = function(){
 
 Game.prototype.deleteEnemies = function(){
   var newEnemyArray = this.round.filter(function(enemy) {
-      // if(enemy.hit === 0) {
-      //   this.givePotion(enemy)
-      // }
       return enemy.hit > 0;
   });
   var newBulletArray = this.player.fires.filter(function(bullet){
@@ -124,29 +121,24 @@ Game.prototype.deleteEnemies = function(){
   this.round = newEnemyArray;
 }
 
-// ================= 
-
-// Game.prototype.givePotion = function(Enemy) {
-//   // // Valor aleatorio
-//   // if(aleatorio) {
-//   // Añadimos al array de items la instancia con la posición del enemigo muerto
-//     this.items = this.items.concat(new Potion(this.ctx, Enemy.x, Enemy.y, './images/potion.png'))
-//     for (var i = 0; i < this.items.length; i++) {
-//       this.items[i].draw();
-//     }
-  
-//   // }
-//   // En la función drawAll, pintaremos todos los items que haya disponibles
-// }
-
-// =================
-
-
+Game.prototype.addPotion = function (){
+  var random = this.rand(0, 1)
+  this.round.forEach(enemy => {
+    if(enemy.hit === 0 && random === 0){
+      var potion = new Potion(this.ctx, enemy.x, enemy.y, './images/potion.png')
+      this.items = this.items.concat(potion);
+      setTimeout(() => {
+        var index = this.items.indexOf(potion);
+        this.items.splice(index, 1);
+      }, 2000);
+    }
+  });
+}
 
 Game.prototype.hitChanges =  function(strength){
-
+  console.log(this.player.hits);
   this.player.hits += strength;
-
+  console.log(this.player.hits);
   if(SCORE > 0){
     SCORE -= 50
   }
@@ -159,6 +151,12 @@ Game.prototype.hitChanges =  function(strength){
     $('#heart-life').removeClass('heart-hit')
     this.noHitTime = false;
   }.bind(this), 4000)
+}
+
+Game.prototype.addLive =  function(live){
+  this.player.hits -= live;
+  this.player.currentHits = this.player.hits;
+  $('#hit').css("width", this.player.hits + '%');
 }
 
 /* ------ COLLISIONS ------- */
@@ -185,9 +183,16 @@ Game.prototype.playerHitShoot = function () {
   }.bind(this));
 }
 
-// Game.prototype.playerGetPotion = function () {
-//       return this.potion.collideWith(this.player);
-//   };
+Game.prototype.playerGetPotion = function () {
+  var itemCollision = this.items.find(function(item) {
+     return item.collideWith(this.player);
+  }.bind(this))
+  if (itemCollision) {
+    var index = this.items.indexOf(itemCollision);
+    this.items.splice(index, 1);
+  }
+  return itemCollision;
+};
 
 Game.prototype.getMousePos = function (evt) {   
   var rect = this.canvas.getBoundingClientRect();
@@ -225,26 +230,30 @@ Game.prototype.draw = function () {
   this.player.draw();
   this.player.update(this.mouseX, this.mouseY);
 
-
+  this.addPotion()
   this.deleteEnemies();
   this.enemyHit()
  
 
-  if (this.playerHitShoot() && this.noHitTime === false){  
+  if (this.playerHitShoot() && !this.noHitTime){  
     this.hitChanges(15)
   }
 
-  // if(this.playerGetPotion()){
-  //   this.potion.state = false;
-  // }
+  if(this.playerGetPotion() && this.player.hits > 0){
+    this.addLive(5)
+  }
 
-  if (this.playerHitContact() && this.noHitTime === false) {  
+  if (this.playerHitContact() && !this.noHitTime) {  
     this.hitChanges(5)
   }
 
   for (var i = 0; i < this.round.length; i++) {
     this.round[i].draw();
     this.round[i].update(this.player.x, this.player.y)
+  }
+
+  for (var i = 0; i < this.items.length; i++) {
+    this.items[i].draw();
   }
 
   if(this.round1IsOver()){
@@ -265,15 +274,6 @@ Game.prototype.draw = function () {
       this.player.fires = [];
     }.bind(this), 1500)}
 
-//  if(this.potionState === 0){
-//   this.potionState ++
-//    this.addPotion()
-//  } else if (this.potionState === 1 && this.player.hits > 10){
-//    this.potionState ++
-//    this.addPotion()
-//  }
-    // console.log(this.potionState)
-    // console.log(this.potion.state)
  
   if(this.player.hits === 100){
     SPEED_MOVE = 0;
