@@ -43,40 +43,56 @@ function Player(ctx, x, y) {
 }
 
 Player.prototype.animate = function() {
-  if (this.movements.up && this.y > 80) {
+  if (this.movements.up && this.y >= 80) {
     this.vy = -SPEED_MOVE;
     this.cutY = 1;
-  } else if (this.movements.down && this.y < CANVAS_HEIGHT - 137) {
+  } else if (this.movements.down && this.y <= CANVAS_HEIGHT - 137) {
     this.vy = SPEED_MOVE;
     this.cutY = 0;
+  } else if ( this.y >= CANVAS_HEIGHT - 137){
+    this.vy = 0;
+    this.movements.down = false
+  } else if ( this.y <= CANVAS_HEIGHT - 137){
+    this.vy = 0;
+    this.movements.up = false
   } else {
-    this.vy *= FRICTION;
+    this.vy = 0;
   }
 
-  if (this.movements.right && this.x < CANVAS_WIDTH - this.width * 2) {
+  if (this.movements.right && this.x <= CANVAS_WIDTH - this.width * 2) {
     this.vx = SPEED_MOVE;
     this.cutY = 3;
-  } else if (this.movements.left && this.x > this.width) {
+  } else if (this.movements.left && this.x >= this.width) {
     this.vx = -SPEED_MOVE;
     this.cutY = 2;
+  } else if (this.x >= CANVAS_WIDTH - this.width * 2){
+    this.movements.right = false
+    this.vx = 0
+  }  else if (this.x >= CANVAS_WIDTH - this.width * 2){
+    this.movements.left = false
+    this.vx = 0
   } else {
-    this.vx *= FRICTION;
+    this.vx = 0;
   }
 
   if (this.movements.up && this.movements.left){
     this.cutY = 6;
-  
  } else if (this.movements.up && this.movements.right){
     this.cutY = 7;
  } else if (this.movements.down && this.movements.right){
     this.cutY = 4;
  } else if (this.movements.down && this.movements.left){
     this.cutY = 5;
- }
+
+ }  
 
  if(this.currentHits < this.hits){
   this.cutY = 8;
+  this.vx = 0
+  this.vy = 0
    setTimeout(function(){
+    this.vx = SPEED_MOVE
+    this.vy = SPEED_MOVE
     this.cutY = 0;
     this.currentHits = this.hits;
    }.bind(this), 400)

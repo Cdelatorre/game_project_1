@@ -55,7 +55,7 @@ Game.prototype.initRound = function(quantity, enemyType){
 /* ----- Round 1 -----*/
 
 Game.prototype.initRound1 = function () {
-  this.initRound(1 ,Bat )
+  this.initRound(20 ,Bat )
   
 
 };
@@ -68,7 +68,7 @@ Game.prototype.round1IsOver = function(){
 /* ------ Round 2  ------*/
 
 Game.prototype.initRound2 = function () {
-  this.initRound(1, Shooter);
+  this.initRound(10, Shooter);
   this.round2State = 1;
   $('#waves img:nth-child(2)').fadeIn(2000).animate({zoom: 1.3}, 100).fadeOut()
 }
