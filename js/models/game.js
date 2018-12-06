@@ -1,4 +1,7 @@
 function Game(canvasId) {
+
+  /*----- Canvas Data & Info -----*/
+
   this.canvas = document.getElementById(canvasId)
   this.canvas.width = CANVAS_WIDTH;
   this.canvas.height = CANVAS_HEIGHT;
@@ -6,9 +9,29 @@ function Game(canvasId) {
   this.mouseX;
   this.mouseY;
 
+  /*----- jQuery Objects -----*/
+
+  this.$introduction = $('#introduction')
+  this.$blackdiv = $('#blackdiv')
+  this.$startDiv = $("#start-game-div")
+  this.$instructionsDiv = $("#instructions-div")
+  this.$instructions = $('#instructions')
+  this.$dataDiv = $('#data-div')
+  this.$heartLife = $('#heart-life')
+  this.$scoreData = $('#score-count')
+  this.$introMenu = $('#canvas-intro')
+  this.$closeInstructions = $('#close-instructions').click(this.closeInstructions.bind(this))
+  this.$instructionsOptions = $('#game-instructions').click(this.openInstructions.bind(this))
+  this.$startOptions = $('#start-game').click(this.startGame.bind(this))
+
+  /*------ Battle Info -----*/
+
+  this.$hit = $('#hit');
+
   this.round = [];
-  
+
   this.initRound1();
+  this.introduction()
 
   this.round1State = 0;
   this.round2State = 0;
@@ -18,11 +41,13 @@ function Game(canvasId) {
   this.noHitTime = false;
 
   this.hits = 0;
-  this.randomX =  this.rand(100, CANVAS_WIDTH - 150);
-  this.randomY =  this.rand(100, CANVAS_HEIGHT - 300)
+  this.randomX = this.rand(100, CANVAS_WIDTH - 150);
+  this.randomY = this.rand(100, CANVAS_HEIGHT - 300)
 
   this.drawIntervalCount = 0;
   this.potionState = 0;
+
+  /*----- Scenary and Characters -----*/
 
   this.pointer = new Pointer(this.ctx, this.mouseX, this.mouseY);
   this.arena = new Arena(this.ctx);
@@ -32,6 +57,7 @@ function Game(canvasId) {
   this.potions = [];
   this.supers = [];
 
+  /*------ Event Listeners -----*/
 
   document.addEventListener('keydown', this.onKeyEvent.bind(this));
   document.addEventListener('keyup', this.onKeyEvent.bind(this));
@@ -40,81 +66,145 @@ function Game(canvasId) {
 
 }
 
+/*------- Function random number --------*/
+
 Game.prototype.rand = function (a, b) {
   return Math.floor(Math.random() * b + a);
 }
 
+/*-------- Introductions / menus & interactions --------*/
+
+Game.prototype.introduction = function () {
+  this.$introduction.hide().delay(1000).fadeIn(2000);
+  setTimeout(function () {
+    this.$introduction.fadeOut(1000);
+    this.$blackdiv.show().delay(1000).fadeOut()
+  }.bind(this), 6000)
+  this.principalMenuOptions()
+  this.$dataDiv.hide()
+  this.$instructions.hide()
+}
+
+Game.prototype.principalMenuOptions = function () {
+
+  this.$startDiv.hover(
+    function () {
+      this.$startOptions.siblings('.swords-select').fadeIn(100);
+    }.bind(this),
+    function () {
+      this.$startOptions.siblings('.swords-select').fadeOut(100)
+    }.bind(this)
+  );
+
+  this.$instructionsDiv.hover(
+    function () {
+      this.$instructionsOptions.siblings('.swords-select').fadeIn(100);
+    }.bind(this),
+    function () {
+      this.$instructionsOptions.siblings('.swords-select').fadeOut(100)
+    }.bind(this)
+  );
+}
+
+Game.prototype.openInstructions = function () {
+  this.$instructions.fadeIn()
+}
+
+Game.prototype.closeInstructions = function () {
+  this.$instructions.fadeOut()
+}
+
+Game.prototype.startGame = function () {
+  this.start()
+  this.$introMenu.fadeOut(1000)
+  this.$dataDiv.fadeIn()
+  this.roundText(1)
+}
+
+Game.prototype.roundText = function (num){
+  $('#waves img:nth-child(' + num + ')').fadeIn(2000).animate({
+    width: "410px",
+    height: '110px'
+  }, 100).fadeOut()
+}
+
 /*-----Init Rounds --- */
 
-Game.prototype.initRound = function(quantity, enemyType){
-   for (var i = 0; i < quantity; i++) {
-    var e = new enemyType(this.ctx, this.rand(0, CANVAS_WIDTH), this.rand(0, CANVAS_HEIGHT), (CANVAS_WIDTH - 50) / 2 );
-    this.round.push(e) }; 
+Game.prototype.initRound = function (quantity, enemyType) {
+  for (var i = 0; i < quantity; i++) {
+    var e = new enemyType(this.ctx, this.rand(0, CANVAS_WIDTH), this.rand(0, CANVAS_HEIGHT), (CANVAS_WIDTH - 50) / 2);
+    this.round.push(e)
+  };
 }
 
 /* ----- Round 1 -----*/
 
 Game.prototype.initRound1 = function () {
-  this.initRound(20 ,Bat )
-  
-
+  this.initRound(20, Bat)
 };
 
-Game.prototype.round1IsOver = function(){
-  if (this.round.length === 0 && this.round1State === 0 && this.round2State === 0){
-      this.round1State = 1;
-      return true }}
+Game.prototype.round1IsOver = function () {
+  if (this.round.length === 0 && this.round1State === 0 && this.round2State === 0) {
+    this.round1State = 1;
+    return true
+  }
+}
 
 /* ------ Round 2  ------*/
 
 Game.prototype.initRound2 = function () {
   this.initRound(10, Shooter);
   this.round2State = 1;
-  $('#waves img:nth-child(2)').fadeIn(2000).animate({zoom: 1.3}, 100).fadeOut()
+  this.roundText(2)
 }
 
-Game.prototype.round2IsOver = function(){
-  if (this.round.length === 0 && this.round1State === 1 && this.round2State === 1){
+Game.prototype.round2IsOver = function () {
+  if (this.round.length === 0 && this.round1State === 1 && this.round2State === 1) {
     this.round2State = 2;
-     return true 
-    }
+    return true
   }
+}
 
 /* ------ Round 3  ------*/
 
 Game.prototype.initRound3 = function () {
   this.initRound(1, Giant);
   this.round3State = 1
-  $('#waves img:nth-child(3)').fadeIn(2000).animate({zoom: 1.3}, 100).fadeOut()
+  this.roundText(3)
 }
 
-Game.prototype.round3IsOver = function(){
-  if (this.round.length === 0 && this.round1State === 1 && this.round2State === 2  && this.round3State === 1 ){
-    this.round3State = 2; return true }}
+Game.prototype.round3IsOver = function () {
+  if (this.round.length === 0 && this.round1State === 1 && this.round2State === 2 && this.round3State === 1) {
+    this.round3State = 2;
+    return true
+  }
+}
 
 // /*----- Round 4 ------*/
 
 Game.prototype.initRound4 = function () {
   this.initRound(1, Bat)
-  this.round4State = 1 
-  $('#waves img:nth-child(4)').fadeIn(2000).animate({zoom: 1.3}, 100).fadeOut()
+  this.round4State = 1
+  this.roundText(4)
 }
 
-Game.prototype.round4IsOver = function(){
-  if (this.round.length === 0 && this.round3State === 2  && this.round4State === 1 ){
-    this.round4State = 2; return true }}
+Game.prototype.round4IsOver = function () {
+  if (this.round.length === 0 && this.round3State === 2 && this.round4State === 1) {
+    this.round4State = 2;
+    return true
+  }
+}
 
 /*----- INTERACTIONS WITH ENEMIES ------*/
 
-
-Game.prototype.deleteEnemies = function(){
-  var newEnemyArray = this.round.filter(function(enemy) {
-      return enemy.hit > 0;
+Game.prototype.deleteEnemies = function () {
+  var newEnemyArray = this.round.filter(function (enemy) {
+    return enemy.hit > 0;
   });
-  var newBulletArray = this.player.fires.filter(function(bullet){
+  var newBulletArray = this.player.fires.filter(function (bullet) {
     return bullet.hit < 1;
   })
-  
+
   this.player.fires = newBulletArray;
   this.round = newEnemyArray;
 }
@@ -140,31 +230,31 @@ Game.prototype.addItem = function () {
   })
 }
 
-Game.prototype.hitChanges =  function(strength){
+Game.prototype.hitChanges = function (strength) {
   this.player.hits += strength;
-  if(score > 0){
+  if (score > 0) {
     score -= 50
   }
 
-  $('#hit').css("width", this.player.hits + '%');
-  $('#heart-life').addClass('heart-hit')
+  this.$hit.css("width", this.player.hits + '%');
+  this.$heartLife.addClass('heart-hit')
   this.noHitTime = true;
 
-  setTimeout(function(){
-    $('#heart-life').removeClass('heart-hit')
+  setTimeout(function () {
+    this.$heartLife.removeClass('heart-hit')
     this.noHitTime = false;
   }.bind(this), 4000)
 }
 
-Game.prototype.addLive =  function(live){
+Game.prototype.addLive = function (live) {
   this.player.hits -= live;
   this.player.currentHits = this.player.hits;
-  $('#hit').css("width", this.player.hits + '%');
+  this.$hit.css("width", this.player.hits + '%');
 }
 
 /* ------ COLLISIONS ------- */
 
-Game.prototype.enemyHit = function () { 
+Game.prototype.enemyHit = function () {
   return this.round.some(function (enemy) {
     return this.player.fires.some(function (fire) {
       return fire.collideWith(enemy);
@@ -173,22 +263,22 @@ Game.prototype.enemyHit = function () {
 }
 
 Game.prototype.playerHitContact = function () {
-  return this.round.some(function(enemy) {
+  return this.round.some(function (enemy) {
     return this.player.collideWith(enemy);
   }.bind(this));
 }
 
 Game.prototype.playerHitShoot = function () {
-  return this.round.some(function(enemy) {
-    return enemy.fires.some(function(fire) {
+  return this.round.some(function (enemy) {
+    return enemy.fires.some(function (fire) {
       return fire.collideWith(this.player);
     }.bind(this));
   }.bind(this));
 }
 
 Game.prototype.playerGetPotion = function () {
-  var itemCollision = this.potions.find(function(item) {
-     return item.collideWith(this.player);
+  var itemCollision = this.potions.find(function (item) {
+    return item.collideWith(this.player);
   }.bind(this))
   if (itemCollision) {
     var index = this.potions.indexOf(itemCollision);
@@ -198,8 +288,8 @@ Game.prototype.playerGetPotion = function () {
 };
 
 Game.prototype.playerGetSword = function () {
-  var itemCollision = this.supers.find(function(item) {
-     return item.collideWith(this.player);
+  var itemCollision = this.supers.find(function (item) {
+    return item.collideWith(this.player);
   }.bind(this))
   if (itemCollision) {
     var index = this.supers.indexOf(itemCollision);
@@ -208,7 +298,7 @@ Game.prototype.playerGetSword = function () {
   return itemCollision;
 };
 
-Game.prototype.getMousePos = function (evt) {   
+Game.prototype.getMousePos = function (evt) {
   var rect = this.canvas.getBoundingClientRect();
   return {
     x: evt.clientX - rect.left,
@@ -222,7 +312,7 @@ Game.prototype.mouseDown = function () {
   this.player.fire();
 }
 
-Game.prototype.mouseMove = function (evt) {   
+Game.prototype.mouseMove = function (evt) {
   var mousePos = this.getMousePos(evt);
   this.mouseX = mousePos.x;
   this.mouseY = mousePos.y;
@@ -235,11 +325,11 @@ Game.prototype.onKeyEvent = function (event) {
 /* ------- DRAW ------- */
 
 Game.prototype.draw = function () {
-  this.drawIntervalCount ++
-  $('#score-count').text(score)
+  this.drawIntervalCount++
+  this.$scoreData.text(score)
 
   this.arena.draw()
-  this.pointer.draw (this.mouseX, this.mouseY);
+  this.pointer.draw(this.mouseX, this.mouseY);
 
   this.player.draw();
   this.player.update(this.mouseX, this.mouseY);
@@ -248,24 +338,24 @@ Game.prototype.draw = function () {
   this.deleteEnemies();
   this.enemyHit()
 
-  if (this.playerHitShoot() && !this.noHitTime){  
+  if (this.playerHitShoot() && !this.noHitTime) {
     this.hitChanges(15)
   }
 
-  if(this.playerGetPotion() && this.player.hits > 0){
+  if (this.playerGetPotion() && this.player.hits > 0) {
     this.addLive(5)
   }
 
-  if(this.playerGetSword()){
-  
+  if (this.playerGetSword()) {
+
     this.player.super = true;
-    setTimeout(function(){
-      
-    this.player.super = false;
+    setTimeout(function () {
+
+      this.player.super = false;
     }.bind(this), 10000)
   }
 
-  if (this.playerHitContact() && !this.noHitTime) {  
+  if (this.playerHitContact() && !this.noHitTime) {
     this.hitChanges(5)
   }
 
@@ -283,28 +373,31 @@ Game.prototype.draw = function () {
   }
 
 
-  if(this.round1IsOver()){
-    setTimeout(function(){
+  if (this.round1IsOver()) {
+    setTimeout(function () {
       this.initRound2();
       this.player.fires = [];
-    }.bind(this), 1500)}
+    }.bind(this), 1500)
+  }
 
-  if(this.round2IsOver()){ 
-    setTimeout(function(){ 
-      this.initRound3(); 
+  if (this.round2IsOver()) {
+    setTimeout(function () {
+      this.initRound3();
       this.player.fires = [];
-    }.bind(this), 1500)}
+    }.bind(this), 1500)
+  }
 
-  if(this.round3IsOver()){
-    setTimeout(function(){ 
-      this.initRound4(); 
+  if (this.round3IsOver()) {
+    setTimeout(function () {
+      this.initRound4();
       this.player.fires = [];
-    }.bind(this), 1500)}
+    }.bind(this), 1500)
+  }
 
- 
-  if(this.player.hits === 100){
+
+  if (this.player.hits === 100) {
     SPEED_MOVE = 0;
-    SPEED_MOVE   = 0;
+    SPEED_MOVE = 0;
   }
 
   // if(this.round4IsOver()){
