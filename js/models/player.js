@@ -83,16 +83,12 @@ Player.prototype.animate = function() {
     this.cutY = 4;
  } else if (this.movements.down && this.movements.left){
     this.cutY = 5;
-
  }  
 
  if(this.currentHits < this.hits){
   this.cutY = 8;
-  this.vx = 0
-  this.vy = 0
+
    setTimeout(function(){
-    this.vx = SPEED_MOVE
-    this.vy = SPEED_MOVE
     this.cutY = 0;
     this.currentHits = this.hits;
    }.bind(this), 400)
@@ -100,6 +96,8 @@ Player.prototype.animate = function() {
 
  if(this.currentHits >= 100){
    this.cutY = 9;
+   this.vx = 0
+   this.vy = 0
  }
   this.x += this.vx;
   this.y += this.vy;

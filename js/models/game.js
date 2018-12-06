@@ -37,6 +37,7 @@ function Game(canvasId) {
   this.round2State = 0;
   this.round3State = 0;
   this.round4State = 0;
+  this.round5State = 0;
 
   this.noHitTime = false;
 
@@ -140,7 +141,7 @@ Game.prototype.initRound = function (quantity, enemyType) {
 /* ----- Round 1 -----*/
 
 Game.prototype.initRound1 = function () {
-  this.initRound(20, Bat)
+  this.initRound(10, Skull)
 };
 
 Game.prototype.round1IsOver = function () {
@@ -153,7 +154,7 @@ Game.prototype.round1IsOver = function () {
 /* ------ Round 2  ------*/
 
 Game.prototype.initRound2 = function () {
-  this.initRound(10, Shooter);
+  this.initRound(1, Shooter);
   this.round2State = 1;
   this.roundText(2)
 }
@@ -168,13 +169,13 @@ Game.prototype.round2IsOver = function () {
 /* ------ Round 3  ------*/
 
 Game.prototype.initRound3 = function () {
-  this.initRound(1, Giant);
+  this.initRound(1, Wizzard);
   this.round3State = 1
   this.roundText(3)
 }
 
 Game.prototype.round3IsOver = function () {
-  if (this.round.length === 0 && this.round1State === 1 && this.round2State === 2 && this.round3State === 1) {
+  if (this.round.length === 0 && this.round2State === 2 && this.round3State === 1) {
     this.round3State = 2;
     return true
   }
@@ -183,13 +184,28 @@ Game.prototype.round3IsOver = function () {
 // /*----- Round 4 ------*/
 
 Game.prototype.initRound4 = function () {
-  this.initRound(1, Bat)
+  this.initRound(1, Skull)
   this.round4State = 1
   this.roundText(4)
 }
 
 Game.prototype.round4IsOver = function () {
   if (this.round.length === 0 && this.round3State === 2 && this.round4State === 1) {
+    this.round4State = 2;
+    return true
+  }
+}
+
+// /*----- Round 5 ------*/
+
+Game.prototype.initRound5 = function () {
+  this.initRound(1, Giant)
+  this.round5State = 1
+  this.roundText(5)
+}
+
+Game.prototype.round5IsOver = function () {
+  if (this.round.length === 0 && this.round4State === 2 && this.round5State === 1) {
     this.round4State = 2;
     return true
   }
@@ -393,6 +409,14 @@ Game.prototype.draw = function () {
       this.player.fires = [];
     }.bind(this), 1500)
   }
+
+  if (this.round4IsOver()) {
+    setTimeout(function () {
+      this.initRound5();
+      this.player.fires = [];
+    }.bind(this), 1500)
+  }
+
 
 
   if (this.player.hits === 100) {

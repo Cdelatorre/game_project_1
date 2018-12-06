@@ -285,11 +285,11 @@ button {
   font-size: 27px;
 }
 
-
 #close-instructions {
   position: absolute;
   right: 20px;
   top: 20px;
+  cursor: pointer;
 }
 
 .heart-hit {

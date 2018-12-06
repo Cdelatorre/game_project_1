@@ -71,14 +71,6 @@ Enemy.prototype.draw = function() {
   this.ctx.lineWidth = 1.2;
   this.ctx.strokeRect(0, this.height + 10, 60, 10);
   this.ctx.restore();
-
-  // this.ctx.save();
-  // this.ctx.translate(this.x,this.y);
-  // this.ctx.strokeStyle = 'white';
-  // this.ctx.lineWidth = 10;
-  // this.ctx.fillRect(0, this.height + 10, 160, 10);
-  // this.ctx.restore();
-
   }
   if(this.hit === 1){
     this.img.src = this.deadImage
@@ -89,12 +81,16 @@ Enemy.prototype.draw = function() {
     this.drawCount = 0;
     this.sprite();
   }
-  if(this.type === 'Shooter' || this.type === 'Shooter-Giant'){
+  if(this.type === 'Shooter' || this.type === 'Shooter-Giant' || this.type === 'Wizzard'){
     this.ctx.restore();
     this.fires.forEach(function(shoot) {
       shoot.draw()
       shoot.update();
     });
+  }
+
+  if(this.type === 'Skull' && this.drawCount % 10 === 0){
+    this.velocityRandom()
   }
 }
 
@@ -118,7 +114,7 @@ Enemy.prototype.update = function(playerX, playerY) {
   this.oldPositionY = this.y
   this.oldPositionX = this.x;
 
-  if(this.x >= CANVAS_WIDTH - this.width || this.y >= CANVAS_HEIGHT - 110|| this.x <= this.width || this.y <= 70){
+  if(this.x >= ( CANVAS_WIDTH - this.width ) - this.width || this.y >= (CANVAS_HEIGHT - 110) - this.height || this.x <= this.width || this.y <= 70){
     this.nextMove();
   }
   if(Math.abs(this.nextMoveX - this.x) <= 10 && Math.abs(this.nextMoveY - this.y) <= 100){
@@ -145,8 +141,16 @@ Enemy.prototype.sprite = function() {
 Enemy.prototype.fire = function() {
   this.dx = Math.cos(this.angle); 
   this.dy = Math.sin(this.angle);
+
   var f = new EnemyFire(this.ctx, this.angle, this.x, this.y, this.dx, this.dy);
-  this.fires.push(f);
+  var wf = new WizzardFire(this.ctx, this.angle, this.x, this.y, this.dx, this.dy);
+
+  if(this.type === 'Shooter' || this.type === 'Shooter-Giant'){
+    this.fires.push(f);
+  } else if (this.type === 'Wizzard'){
+    this.fires.push(wf);
+  }
+
   this.fireOn = false;
   this.reload();
 }

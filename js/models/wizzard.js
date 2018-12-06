@@ -1,13 +1,13 @@
 
 //  Enemy(ctx, x, y, hit, tick, speed, width, height)
 
-function Shooter(ctx, x, y) {
-  Enemy.call(this, ctx, x, y, 2, 0, 2, 30, 30, 'Shooter');
+function Wizzard(ctx, x, y) {
+  Enemy.call(this, ctx, x, y, 2, 0, 1.5, 30, 30, 'Wizzard');
   this.scoreValue = 250;
   this.x = (CANVAS_WIDTH - 50) / 2 ;
   this.attackSpeed = Math.floor(Math.random() * (1200 - 500)) + 400;
 
-  this.img.src = "./images/enemy_two.png";
+  this.img.src = "./images/wizzard.png";
   this.img.frames = 3;
   this.img.frameIndex = 1;
   this.img.cols = 1;
@@ -15,8 +15,6 @@ function Shooter(ctx, x, y) {
   this.cutY = 0;
 }
 
-Shooter.prototype = Object.create(Enemy.prototype);
-Shooter.prototype.constructor = Shooter;
-
-
+Wizzard.prototype = Object.create(Enemy.prototype);
+Wizzard.prototype.constructor = Wizzard;
 

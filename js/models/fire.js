@@ -3,7 +3,6 @@ function Fire(ctx, angle, x, y, dx, dy) {
   this.x = x;
   this.y = y;
 
-
   this.width = 30;
   this.height = 10;
   this.img = new Image();
@@ -83,12 +82,6 @@ Fire.prototype.collideWith = function(enemy) {
 
 
 Fire.prototype.update = function() { ///             MOUSE D
-
   this.x += this.dx;
   this.y += this.dy;
-
-  if (Math.sign(this.x) < 1 || Math.sign(this.y) < 1 || this.x > CANVAS_WIDTH || this.y > CANVAS_HEIGHT) {
-
-    //aqui tendrían que dejar de pintarse para no petar el programa
-  }
 }

@@ -2,12 +2,16 @@ function EnemyFire(ctx, angle, x, y, dx, dy) {
   this.ctx = ctx;
   this.x = x;
   this.y = y;
-  this.hit = 0;
+  this.angle = angle
+  this.dx = dx * SHOOTS_PLAYER_SPEED;
+  this.dy = dy * SHOOTS_PLAYER_SPEED;
+
   this.width = 30;
   this.height = 10;
-  this.dx = dx * SHOOTS_PLAYER_SPEED  ;
-  this.dy = dy * SHOOTS_PLAYER_SPEED;
-  this.angle = angle
+  this.hit = 0;
+
+  this.img = new Image();
+  this.img.src = "./images/lance.png";
 }
 
 EnemyFire.prototype.draw = function() {
@@ -15,21 +19,22 @@ EnemyFire.prototype.draw = function() {
   this.ctx.save();
   this.ctx.translate(this.x,this.y);
   this.ctx.rotate(this.angle);
-  this.ctx.fillStyle = 'blue';
+  this.ctx.fillStyle = 'transparent';
   this.ctx.fillRect(0, -5, this.width, this.height);
+  this.ctx.drawImage(
+    this.img,
+    -10,
+    -15,
+    this.width + 10,
+    this.height + 10
+  )
   this.ctx.restore();
   }
 }
 
 EnemyFire.prototype.update = function() {
-
   this.x += this.dx;
   this.y += this.dy;
-
-  if (Math.sign(this.x) < 1 || Math.sign(this.y) < 1 || this.x > CANVAS_WIDTH || this.y > CANVAS_HEIGHT) {
-    return false
-    //aqui tendrían que dejar de pintarse para no petar el programa
-  }
 }
 
 EnemyFire.prototype.collideWith = function(player) {
@@ -40,6 +45,4 @@ EnemyFire.prototype.collideWith = function(player) {
     this.hit++;
     return true;
   }
-
-
 }
