@@ -141,7 +141,8 @@ Game.prototype.initRound = function (quantity, enemyType) {
 /* ----- Round 1 -----*/
 
 Game.prototype.initRound1 = function () {
-  this.initRound(10, Skull)
+  this.initRound(20, Bat)
+  
 };
 
 Game.prototype.round1IsOver = function () {
@@ -184,9 +185,12 @@ Game.prototype.round3IsOver = function () {
 // /*----- Round 4 ------*/
 
 Game.prototype.initRound4 = function () {
-  this.initRound(1, Skull)
+  this.initRound(1, Giant)
+  this.potions.push(new Potion(this.ctx, CANVAS_WIDTH / 2 + 50, CANVAS_HEIGHT / 2 ))
+  this.supers.push(new DobleSword(this.ctx, CANVAS_WIDTH / 2 - 50, CANVAS_HEIGHT / 2 ))
   this.round4State = 1
   this.roundText(4)
+
 }
 
 Game.prototype.round4IsOver = function () {
@@ -199,7 +203,7 @@ Game.prototype.round4IsOver = function () {
 // /*----- Round 5 ------*/
 
 Game.prototype.initRound5 = function () {
-  this.initRound(1, Giant)
+  this.initRound(20, Skull)
   this.round5State = 1
   this.roundText(5)
 }
@@ -226,7 +230,7 @@ Game.prototype.deleteEnemies = function () {
 }
 
 Game.prototype.addItem = function () {
-  var random = this.rand(0, 20)
+  var random = this.rand(0, 16)
   this.round.forEach(enemy => {
     if (enemy.hit === 0 && random === 0) {
       var potion = new Potion(this.ctx, enemy.x, enemy.y)
@@ -363,10 +367,8 @@ Game.prototype.draw = function () {
   }
 
   if (this.playerGetSword()) {
-
     this.player.super = true;
     setTimeout(function () {
-
       this.player.super = false;
     }.bind(this), 10000)
   }

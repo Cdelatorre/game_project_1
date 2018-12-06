@@ -117,6 +117,7 @@ Enemy.prototype.update = function(playerX, playerY) {
   if(this.x >= ( CANVAS_WIDTH - this.width ) - this.width || this.y >= (CANVAS_HEIGHT - 110) - this.height || this.x <= this.width || this.y <= 70){
     this.nextMove();
   }
+
   if(Math.abs(this.nextMoveX - this.x) <= 10 && Math.abs(this.nextMoveY - this.y) <= 100){
     this.nextMove();
   }

@@ -139,15 +139,11 @@ Player.prototype.fire = function() {
   }
 }
 
-
 Player.prototype.reload = function(){
   setTimeout(function(){
     this.fireOn = true;
   }.bind(this), 350);
-  console.log(this.fires)
 }
-
-
 
 Player.prototype.collideWith = function(enemy) {
   return this.x < enemy.x + enemy.width &&
@@ -155,8 +151,6 @@ Player.prototype.collideWith = function(enemy) {
     this.y < enemy.y + enemy.height &&
     this.height + this.y > enemy.y;
 }
-
-
 
 Player.prototype.draw = function() {
   this.drawCount++;

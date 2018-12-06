@@ -3,7 +3,7 @@
 function Skull(ctx, x, y) {
   
   Enemy.call(this, ctx, x, y, 2, 0, 2, 30, 30, 'Skull');
-  this.scoreValue = 100;
+  this.scoreValue = 200;
   this.x = (CANVAS_WIDTH - 50) / 2 ;
   this.img.src = "./images/skull.png";
   this.deadImage = './images/dead_skull.png'
