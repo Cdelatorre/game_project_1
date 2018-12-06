@@ -218,12 +218,11 @@ body {
 
 button {
   font-size: 19px;
-  background-color: #870007;
+  background-color: blue;
   color: #fff;
   padding: 10px 30px;
   border: 0;
   box-shadow: 0;
-  border-radius: 5px;
   text-align: center;
   margin: 0 auto;
   margin-bottom: 5px;
@@ -255,6 +254,15 @@ button {
   opacity: 1;
 }
 
+#instructions-img{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  width: 600px;
+  height: 390px;
+}
+
 
 #start-game-div{
   display:flex;
@@ -280,8 +288,8 @@ button {
 
 #close-instructions {
   position: absolute;
-  right: 10px;
-  top: 10px;
+  right: 20px;
+  top: 20px;
 }
 
 .heart-hit {
