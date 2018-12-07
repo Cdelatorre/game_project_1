@@ -2,7 +2,7 @@
 //  Enemy(ctx, x, y, hit, tick, speed, width, height)
 
 function Shooter(ctx, x, y) {
-  Enemy.call(this, ctx, x, y, 3, 0, 2, 30, 30, 'Shooter');
+  Enemy.call(this, ctx, x, y, 2, 0, 2, 30, 30, 'Shooter');
   this.scoreValue = 150;
   this.x = (CANVAS_WIDTH - 50) / 2 ;
   this.attackSpeed = Math.floor(Math.random() * (1200 - 500)) + 400;

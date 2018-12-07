@@ -2,7 +2,7 @@
 //  Enemy(ctx, x, y, hit, tick, speed, width, height)
 
 function Wizzard(ctx, x, y) {
-  Enemy.call(this, ctx, x, y, 4, 0, 1.5, 30, 30, 'Wizzard');
+  Enemy.call(this, ctx, x, y, 3, 0, 1.5, 30, 30, 'Wizzard');
   this.scoreValue = 200;
   this.x = (CANVAS_WIDTH - 50) / 2 ;
   this.attackSpeed = Math.floor(Math.random() * (1200 - 500)) + 400;

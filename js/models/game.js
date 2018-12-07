@@ -146,7 +146,7 @@ Game.prototype.initRound = function (quantity, enemyType) {
 
 Game.prototype.initRound1 = function () {
     this.initRound(20, Bat)
-};
+}
 
 Game.prototype.round1IsOver = function () {
   if (this.round.length === 0 && this.round1State === 0 && this.round2State === 0) {
@@ -159,6 +159,7 @@ Game.prototype.round1IsOver = function () {
 
 Game.prototype.initRound2 = function () {
   this.initRound(15, Shooter);
+  // this.initRound(1, Bat)
   this.round2State = 1;
   this.roundText(2)
 }
@@ -173,7 +174,8 @@ Game.prototype.round2IsOver = function () {
 /* ------ Round 3  ------*/
 
 Game.prototype.initRound3 = function () {
-  this.initRound(9, Wizzard);
+  this.initRound(10, Wizzard);
+  // this.initRound(1, Bat)
   this.round3State = 1
   this.roundText(3)
 }
@@ -189,6 +191,7 @@ Game.prototype.round3IsOver = function () {
 
 Game.prototype.initRound4 = function () {
   this.initRound(1, Giant)
+  // this.initRound(1, Bat)
   this.round4State = 1
   this.roundText(4)
 }
@@ -204,6 +207,7 @@ Game.prototype.round4IsOver = function () {
 
 Game.prototype.initRound5 = function () {
   this.initRound(20, Skull)
+  // this.initRound(1, Bat)
   this.round5State = 1
   this.roundText(5)
 }
@@ -222,12 +226,27 @@ Game.prototype.initRound6 = function () {
   this.initRound(15, SlaveJs)
   this.initRound(1, Cannon)
   this.round6State = 1
-
 }
 
 Game.prototype.round6IsOver = function () {
   if (this.round.length === 0 && this.round5State === 2 && this.round6State === 1) {
     this.round6State = 2;
+    this.roundText(7)
+    return true
+  }
+}
+
+/* ----- Round 7 -----*/
+
+Game.prototype.initRound7 = function () {
+  this.initRound(1, CannonCss )
+  this.initRound(10, SkullFire)
+  this.round7State = 1
+}
+
+Game.prototype.round7IsOver = function () {
+  if (this.round.length === 0 && this.round6State === 2 && this.round7State === 1) {
+    this.round7State = 2;
     return true
   }
 }
@@ -235,7 +254,7 @@ Game.prototype.round6IsOver = function () {
 /* ------ ITEMS ------ */
 
 Game.prototype.addItem = function () {
-  var random = this.rand(0, 12)
+  var random = this.rand(0, 10)
   this.round.forEach(enemy => {
     if (enemy.hit === 0 && random === 0) {
       var potion = new Potion(this.ctx, enemy.x, enemy.y)
@@ -251,7 +270,7 @@ Game.prototype.addItem = function () {
         var index = this.supers.indexOf(superPower);
         this.supers.splice(index, 1);
       }.bind(this), 5000);
-    } else if (enemy.hit === 0 && random === 2) {
+    } else if (enemy.hit === 0 && random >= 7 ) {
       var coin = new Coin(this.ctx, enemy.x, enemy.y)
       this.coins = this.coins.concat(coin);
       setTimeout(function () {
@@ -391,9 +410,6 @@ Game.prototype.draw = function () {
   this.arena.draw()
   this.pointer.draw(this.mouseX, this.mouseY);
 
-  this.player.draw();
-  this.player.update(this.mouseX, this.mouseY);
-
   this.addItem()
   this.deleteEnemies();
   this.enemyHit()
@@ -452,6 +468,13 @@ Game.prototype.draw = function () {
     this.helpItems(Potion, DobleSword)
     this.drawRoundsInit(this.initRound6())
   }
+
+  if (this.round6IsOver()) {
+    this.drawRoundsInit(this.initRound7())
+  }
+
+  this.player.draw();
+  this.player.update(this.mouseX, this.mouseY);
 
   if (this.player.hits >= 100) {
     SPEED_MOVE = 0;

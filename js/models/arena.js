@@ -3,8 +3,7 @@ function Arena(ctx) {
   this.img = new Image();
   this.img.src = "./images/sheet_arena.png";
   this.img.frames = 5;
-
-  this.ctx = ctx
+  
   this.x = 0;
   this.y = 0;
   this.w = this.ctx.canvas.width;

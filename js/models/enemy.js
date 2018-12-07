@@ -1,4 +1,4 @@
-function Enemy(ctx, x, y, hit, tick, v, w, h,type) {
+function Enemy(ctx, x, y, hit, tick, v, w, h, type) {
   this.type = type,
   this.ctx = ctx,
   this.x = (CANVAS_WIDTH + 50) / 2 ;
@@ -59,7 +59,7 @@ Enemy.prototype.draw = function() {
     this.height
   );
 
-  if(this.type === 'Shooter-Giant' || this.type === 'Shooter-Cannon'){
+  if(this.type === 'Shooter-Giant' || this.type === 'Shooter-Cannon' || this.type === 'Shooter-CssCannon'){
     this.ctx.save();
     this.ctx.translate(this.x,this.y);
 
@@ -85,7 +85,7 @@ Enemy.prototype.draw = function() {
     this.sprite();
   }
 
-  if(this.type === 'Shooter' || this.type === 'Shooter-Giant' || this.type === 'Wizzard' || this.type === 'Shooter-Cannon'){
+  if(this.type === 'Shooter' || this.type === 'Shooter-Giant' || this.type === 'Wizzard' || this.type === 'Shooter-Cannon' || this.type === 'Shooter-CssCannon'){
     this.ctx.restore();
     this.fires.forEach(function(shoot) {
       shoot.draw()
@@ -149,14 +149,17 @@ Enemy.prototype.fire = function() {
 
   var f = new EnemyFire(this.ctx, this.angle, this.x, this.y, this.dx, this.dy);
   var wf = new WizzardFire(this.ctx, this.angle, this.x, this.y, this.dx, this.dy);
-  var cf = new CannonFire(this.ctx, this.angle, this.x, this.y, this.dx, this.dy);
+  var cf = new CannonFire(this.ctx, this.angle, this.x, this.y, this.dx, this.dy, "./images/virgulilla.png");
+  var cssf = new CannonFire(this.ctx, this.angle, this.x, this.y, this.dx, this.dy, "./images/idfire.png");
 
-  if(this.type === 'Shooter' || this.type === 'Shooter-Giant' || this.type === 'Shooter-cannon'){
+  if(this.type === 'Shooter' || this.type === 'Shooter-Giant'){
     this.fires.push(f);
   } else if (this.type === 'Wizzard'){
     this.fires.push(wf);
   } else if (this.type === 'Shooter-Cannon'){
     this.fires.push(cf);
+  } else if (this.type === 'Shooter-CssCannon'){
+    this.fires.push(cssf);
   }
 
   this.fireOn = false;

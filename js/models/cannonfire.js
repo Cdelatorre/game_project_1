@@ -1,4 +1,4 @@
-function CannonFire(ctx, angle, x, y, dx, dy){
+function CannonFire(ctx, angle, x, y, dx, dy, src){
   EnemyFire.call(ctx, angle, x, y, dx, dy);
 
   this.ctx = ctx;
@@ -13,7 +13,7 @@ function CannonFire(ctx, angle, x, y, dx, dy){
   this.width = 30;
   this.height = 10;
   this.img = new Image();
-  this.img.src = "./images/virgulilla.png";
+  this.img.src = src;
 }
 
 CannonFire.prototype = Object.create(EnemyFire.prototype);
