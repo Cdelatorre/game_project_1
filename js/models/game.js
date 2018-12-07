@@ -145,7 +145,8 @@ Game.prototype.initRound = function (quantity, enemyType) {
 /* ----- Round 1 -----*/
 
 Game.prototype.initRound1 = function () {
-    this.initRound(20, Bat )
+    // this.initRound(20, Bat )
+    
 }
 
 Game.prototype.round1IsOver = function () {
@@ -158,8 +159,8 @@ Game.prototype.round1IsOver = function () {
 /* ------ Round 2  ------*/
 
 Game.prototype.initRound2 = function () {
-  this.initRound(15, Shooter);
-  // this.initRound(1, Bat)
+  // this.initRound(15, Shooter);
+
   this.round2State = 1;
   this.roundText(2)
 }
@@ -174,8 +175,8 @@ Game.prototype.round2IsOver = function () {
 /* ------ Round 3  ------*/
 
 Game.prototype.initRound3 = function () {
-  this.initRound(10, Wizzard);
-  // this.initRound(1, Bat)
+  // this.initRound(10, Wizzard);
+
   this.round3State = 1
   this.roundText(3)
 }
@@ -190,8 +191,8 @@ Game.prototype.round3IsOver = function () {
 // /*----- Round 4 ------*/
 
 Game.prototype.initRound4 = function () {
-  this.initRound(1, Giant)
-  // this.initRound(1, Bat)
+  // this.initRound(1, Giant)
+
   this.round4State = 1
   this.roundText(4)
 }
@@ -206,8 +207,8 @@ Game.prototype.round4IsOver = function () {
 // /*----- Round 5 ------*/
 
 Game.prototype.initRound5 = function () {
-  this.initRound(20, Skull)
-  // this.initRound(1, Bat)
+  // this.initRound(20, Skull)
+
   this.round5State = 1
   this.roundText(5)
 }
@@ -223,8 +224,9 @@ Game.prototype.round5IsOver = function () {
 /* ----- Round 6 -----*/
 
 Game.prototype.initRound6 = function () {
-  this.initRound(15, SlaveJs)
-  this.initRound(1, Cannon)
+  // this.initRound(1, Cannon)
+  // this.initRound(15, SlaveJs)
+
   this.round6State = 1
 }
 
@@ -239,14 +241,16 @@ Game.prototype.round6IsOver = function () {
 /* ----- Round 7 -----*/
 
 Game.prototype.initRound7 = function () {
-  this.initRound(10, SkullFire)
-  this.initRound(1, CannonCss )
+  // this.initRound(1, CannonCss )
+  // this.initRound(10, SkullFire)
+
   this.round7State = 1
 }
 
 Game.prototype.round7IsOver = function () {
   if (this.round.length === 0 && this.round6State === 2 && this.round7State === 1) {
     this.round7State = 2;
+    this.roundText(8)
     return true
   }
 }
@@ -254,32 +258,37 @@ Game.prototype.round7IsOver = function () {
 /* ----- Round 8 -----*/
 
 Game.prototype.initRound8 = function () {
-  this.initRound(10, SlaveHtml)
-  this.initRound(1, CannonHtml)
-  this.round7State = 1
+  // this.initRound(1, CannonHtml)
+  // this.initRound(10, SlaveHtml)
+  this.initRound(1, Bat)
+  this.round8State = 1
 }
 
 Game.prototype.round8IsOver = function () {
   if (this.round.length === 0 && this.round7State === 2 && this.round8State === 1) {
     this.round8State = 2;
+    this.roundText(9)
     return true
   }
 }
 
 /* ----- Round 9 -----*/
 
-// Game.prototype.initRound9 = function () {
-//   this.initRound(10, SkullFire)
-//   this.initRound(1, CannonHtml)
-//   this.round7State = 1
-// }
+Game.prototype.initRound9 = function () {
+  this.initRound(10, Skull)
+  this.initRound(5, Wizzard)
+  this.initRound(5, Shooter)
+  this.initRound(20, Bat)
+  this.initRound(1, Giant)
+  this.round9State = 1
+}
 
-// Game.prototype.round9IsOver = function () {
-//   if (this.round.length === 0 && this.round7State === 2 && this.round8State === 1) {
-//     this.round8State = 2;
-//     return true
-//   }
-// }
+Game.prototype.round9IsOver = function () {
+  if (this.round.length === 0 && this.round7State === 2 && this.round9State === 1) {
+    this.round9State = 2;
+    return true
+  }
+}
 
 /* ------ ITEMS ------ */
 
@@ -446,35 +455,31 @@ Game.prototype.draw = function () {
 
   if (this.playerHitShoot() && !this.noHitTime) {
     this.hitChanges(15)
+  } else if (this.playerHitContact() && !this.noHitTime) {
+    this.hitChanges(5)
   }
+
 
   if (this.playerGetItem(this.potions) && this.player.hits > 0) {
     this.addLive(5)
-  }
-
-  if (this.playerGetItem(this.coins)) {
+  } else if (this.playerGetItem(this.coins)) {
     score += 200
-  }
-
-  if (this.playerGetItem(this.supers)) {
+  } else if (this.playerGetItem(this.supers)) {
     this.player.super = true;
     setTimeout(function () {
       this.player.super = false;
     }.bind(this), 10000)
   }
 
-  if (this.playerHitContact() && !this.noHitTime) {
-    this.hitChanges(5)
-  }
+
+  this.drawItems(this.potions);
+  this.drawItems(this.supers);
+  this.drawItems(this.coins);
 
   for (var i = 0; i < this.round.length; i++) {
     this.round[i].draw();
     this.round[i].update(this.player.x, this.player.y)
   }
-
-  this.drawItems(this.potions);
-  this.drawItems(this.supers);
-  this.drawItems(this.coins);
 
 
   if (this.round1IsOver()) {
@@ -493,6 +498,11 @@ Game.prototype.draw = function () {
     this.drawRoundsInit(this.initRound7())
   } else if (this.round7IsOver()) {
     this.drawRoundsInit(this.initRound8())
+  } else if (this.round8IsOver()) {
+    this.player.fireInterval = 175;
+    this.drawRoundsInit(this.initRound9())
+  } else if (this.round9IsOver()) {
+    console.log('eres la ostia')
   }
 
 

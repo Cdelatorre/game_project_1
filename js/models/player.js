@@ -5,6 +5,7 @@ function Player(ctx, x, y) {
 
   this.fires = [];
   this.fireOn = true;
+  this.fireInterval = 350
 
   this.hits = 0;
   this.currentHits = this.hits;
@@ -140,7 +141,7 @@ Player.prototype.fire = function() {
 Player.prototype.reload = function(){
   setTimeout(function(){
     this.fireOn = true;
-  }.bind(this), 350);
+  }.bind(this), this.fireInterval);
 }
 
 Player.prototype.collideWith = function(enemy) {

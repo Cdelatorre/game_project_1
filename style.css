@@ -263,6 +263,11 @@ button {
   height: 390px;
 }
 
+/*------Lose or win -----*/
+
+#game-over{
+  background-color: rgba(250,0,0,0.8);
+}
 
 #start-game-div{
   display:flex;
