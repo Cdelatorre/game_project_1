@@ -3,8 +3,8 @@ function Player(ctx, x, y) {
   this.angle;
   this.color = "blue"
 
-  this.fires = []; // new
-  this.fireOn = true; // new
+  this.fires = [];
+  this.fireOn = true;
 
   this.hits = 0;
   this.currentHits = this.hits;
@@ -14,7 +14,7 @@ function Player(ctx, x, y) {
 
   this.dy;
   this.dx;
- 
+
   this.super = false;
 
   this.img = new Image();
@@ -26,8 +26,6 @@ function Player(ctx, x, y) {
   this.cutY = 0;
 
   this.drawCount = 0;
-
-  this.ctx = ctx
 
   this.width = 35;
   this.height = 35;
@@ -83,7 +81,7 @@ Player.prototype.animate = function() {
     this.cutY = 4;
  } else if (this.movements.down && this.movements.left){
     this.cutY = 5;
- }  
+ }
 
  if(this.currentHits < this.hits){
   this.cutY = 8;

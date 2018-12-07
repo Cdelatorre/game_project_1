@@ -7,7 +7,7 @@ function Enemy(ctx, x, y, hit, tick, v, w, h,type) {
   this.angle;
   this.tick = tick;
   this.fires = []
-  
+
   this.width = w;
   this.height = h;
 
@@ -19,7 +19,8 @@ function Enemy(ctx, x, y, hit, tick, v, w, h,type) {
   this.vx;
   this.vy;
   this.nextMove()
-  
+  this.colorLife = 'red'
+
   this.img = new Image();
   this.img.src;
   this.img.frames = 3;
@@ -29,7 +30,7 @@ function Enemy(ctx, x, y, hit, tick, v, w, h,type) {
   this.cutY = 0;
   this.drawCount = 0;
   this.drawConstant = 10
-  
+
   this.movements = {
     up: false,
     down: false,
@@ -44,7 +45,7 @@ Enemy.prototype.rand = function(a, b){
 
 Enemy.prototype.draw = function() {
   this.drawCount++;
-  
+
   this.ctx.save();
   this.ctx.drawImage(
     this.img,
@@ -57,21 +58,23 @@ Enemy.prototype.draw = function() {
     this.width,
     this.height
   );
-  if(this.type === 'Shooter-Giant'){
+
+  if(this.type === 'Shooter-Giant' || this.type === 'Shooter-Cannon'){
     this.ctx.save();
-  this.ctx.translate(this.x,this.y);
+    this.ctx.translate(this.x,this.y);
 
-  this.ctx.fillStyle = 'red';
-  this.ctx.fillRect(0, this.height + 10, this.hit * 2, 10);
-  this.ctx.restore();
+    this.ctx.fillStyle = this.colorLife;
+    this.ctx.fillRect(0, this.height + 10, this.hit * 2, 10);
+    this.ctx.restore();
 
-  this.ctx.save();
-  this.ctx.translate(this.x,this.y);
-  this.ctx.strokeStyle = '#0E3554';
-  this.ctx.lineWidth = 1.2;
-  this.ctx.strokeRect(0, this.height + 10, 60, 10);
-  this.ctx.restore();
+    this.ctx.save();
+    this.ctx.translate(this.x,this.y);
+    this.ctx.strokeStyle = '#0E3554';
+    this.ctx.lineWidth = 1.2;
+    this.ctx.strokeRect(0, this.height + 10, 60, 10);
+    this.ctx.restore();
   }
+
   if(this.hit === 1){
     this.img.src = this.deadImage
     this.v = 0;
@@ -81,7 +84,8 @@ Enemy.prototype.draw = function() {
     this.drawCount = 0;
     this.sprite();
   }
-  if(this.type === 'Shooter' || this.type === 'Shooter-Giant' || this.type === 'Wizzard'){
+
+  if(this.type === 'Shooter' || this.type === 'Shooter-Giant' || this.type === 'Wizzard' || this.type === 'Shooter-Cannon'){
     this.ctx.restore();
     this.fires.forEach(function(shoot) {
       shoot.draw()
@@ -107,7 +111,7 @@ Enemy.prototype.nextMove = function(){
 }
 
 Enemy.prototype.update = function(playerX, playerY) {
- 
+
   this.x += (this.vx * this.v)
   this.y += (this.vy * this.v)
 
@@ -140,16 +144,19 @@ Enemy.prototype.sprite = function() {
 }
 
 Enemy.prototype.fire = function() {
-  this.dx = Math.cos(this.angle); 
+  this.dx = Math.cos(this.angle);
   this.dy = Math.sin(this.angle);
 
   var f = new EnemyFire(this.ctx, this.angle, this.x, this.y, this.dx, this.dy);
   var wf = new WizzardFire(this.ctx, this.angle, this.x, this.y, this.dx, this.dy);
+  var cf = new CannonFire(this.ctx, this.angle, this.x, this.y, this.dx, this.dy);
 
-  if(this.type === 'Shooter' || this.type === 'Shooter-Giant'){
+  if(this.type === 'Shooter' || this.type === 'Shooter-Giant' || this.type === 'Shooter-cannon'){
     this.fires.push(f);
   } else if (this.type === 'Wizzard'){
     this.fires.push(wf);
+  } else if (this.type === 'Shooter-Cannon'){
+    this.fires.push(cf);
   }
 
   this.fireOn = false;
@@ -165,9 +172,3 @@ Enemy.prototype.reload = function(){
     this.fires.shift();
  }
 }
-
-
-
-
-
-
