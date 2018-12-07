@@ -59,7 +59,7 @@ Enemy.prototype.draw = function() {
     this.height
   );
 
-  if(this.type === 'Shooter-Giant' || this.type === 'Shooter-Cannon' || this.type === 'Shooter-CssCannon'){
+  if(this.type === 'Shooter-Giant' || this.type === 'Shooter-Cannon' || this.type === 'Shooter-CssCannon' || this.type === 'Shooter-HtmlCannon'){
     this.ctx.save();
     this.ctx.translate(this.x,this.y);
 
@@ -85,7 +85,7 @@ Enemy.prototype.draw = function() {
     this.sprite();
   }
 
-  if(this.type === 'Shooter' || this.type === 'Shooter-Giant' || this.type === 'Wizzard' || this.type === 'Shooter-Cannon' || this.type === 'Shooter-CssCannon'){
+  if(this.type === 'Shooter' || this.type === 'Shooter-Giant' || this.type === 'Wizzard' || this.type === 'Shooter-Cannon' || this.type === 'Shooter-CssCannon' || this.type === 'Shooter-HtmlCannon'){
     this.ctx.restore();
     this.fires.forEach(function(shoot) {
       shoot.draw()
@@ -151,6 +151,7 @@ Enemy.prototype.fire = function() {
   var wf = new WizzardFire(this.ctx, this.angle, this.x, this.y, this.dx, this.dy);
   var cf = new CannonFire(this.ctx, this.angle, this.x, this.y, this.dx, this.dy, "./images/virgulilla.png");
   var cssf = new CannonFire(this.ctx, this.angle, this.x, this.y, this.dx, this.dy, "./images/idfire.png");
+  var htmlf = new CannonFire(this.ctx, this.angle, this.x, this.y, this.dx, this.dy, "./images/tagfire.png");
 
   if(this.type === 'Shooter' || this.type === 'Shooter-Giant'){
     this.fires.push(f);
@@ -160,6 +161,8 @@ Enemy.prototype.fire = function() {
     this.fires.push(cf);
   } else if (this.type === 'Shooter-CssCannon'){
     this.fires.push(cssf);
+  }  else if (this.type === 'Shooter-HtmlCannon'){
+    this.fires.push(htmlf);
   }
 
   this.fireOn = false;

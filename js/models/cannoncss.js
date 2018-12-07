@@ -5,7 +5,6 @@ function CannonCss(ctx, x, y, playerX, playerY) {
 
   Enemy.call(this, ctx, x, y, 30, 0, 0, 62, 75, 'Shooter-CssCannon');
   this.x = (CANVAS_WIDTH - 50) / 2 ;
-  this.fires = []
   this.attackSpeed = 50;
   this.scoreValue = 1150;
   this.y = 200

@@ -145,7 +145,7 @@ Game.prototype.initRound = function (quantity, enemyType) {
 /* ----- Round 1 -----*/
 
 Game.prototype.initRound1 = function () {
-    this.initRound(20, Bat)
+    this.initRound(20, Bat )
 }
 
 Game.prototype.round1IsOver = function () {
@@ -239,8 +239,8 @@ Game.prototype.round6IsOver = function () {
 /* ----- Round 7 -----*/
 
 Game.prototype.initRound7 = function () {
-  this.initRound(1, CannonCss )
   this.initRound(10, SkullFire)
+  this.initRound(1, CannonCss )
   this.round7State = 1
 }
 
@@ -250,6 +250,36 @@ Game.prototype.round7IsOver = function () {
     return true
   }
 }
+
+/* ----- Round 8 -----*/
+
+Game.prototype.initRound8 = function () {
+  this.initRound(10, SlaveHtml)
+  this.initRound(1, CannonHtml)
+  this.round7State = 1
+}
+
+Game.prototype.round8IsOver = function () {
+  if (this.round.length === 0 && this.round7State === 2 && this.round8State === 1) {
+    this.round8State = 2;
+    return true
+  }
+}
+
+/* ----- Round 9 -----*/
+
+// Game.prototype.initRound9 = function () {
+//   this.initRound(10, SkullFire)
+//   this.initRound(1, CannonHtml)
+//   this.round7State = 1
+// }
+
+// Game.prototype.round9IsOver = function () {
+//   if (this.round.length === 0 && this.round7State === 2 && this.round8State === 1) {
+//     this.round8State = 2;
+//     return true
+//   }
+// }
 
 /* ------ ITEMS ------ */
 
@@ -449,29 +479,22 @@ Game.prototype.draw = function () {
 
   if (this.round1IsOver()) {
     this.drawRoundsInit(this.initRound2())
-  }
-
-  if (this.round2IsOver()) {
+  } else if (this.round2IsOver()) {
     this.drawRoundsInit(this.initRound3())
-  }
-
-  if (this.round3IsOver()) {
+  } else if (this.round3IsOver()) {
     this.helpItems(Potion, DobleSword)
     this.drawRoundsInit(this.initRound4())
-  }
-
-  if (this.round4IsOver()) {
+  } else if (this.round4IsOver()) {
     this.drawRoundsInit(this.initRound5())
-  }
-
-  if (this.round5IsOver()) {
+  } else if (this.round5IsOver()) {
     this.helpItems(Potion, DobleSword)
     this.drawRoundsInit(this.initRound6())
+  } else if (this.round6IsOver()) {
+    this.drawRoundsInit(this.initRound7())
+  } else if (this.round7IsOver()) {
+    this.drawRoundsInit(this.initRound8())
   }
 
-  if (this.round6IsOver()) {
-    this.drawRoundsInit(this.initRound7())
-  }
 
   this.player.draw();
   this.player.update(this.mouseX, this.mouseY);
