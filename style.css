@@ -265,8 +265,54 @@ button {
 
 /*------Lose or win -----*/
 
+#name-input {
+  width: 207px;
+  margin: 0 auto;
+  margin-top: 0px;
+  border-radius: 0px;
+  border: none;
+  padding: 8px 30px;
+  font-size: 19px;
+  color: darkgray;
+  height: 50px;
+  margin-top: 10px;
+  text-align: center;
+}
+
 #red-game-over{
   background-color: rgba(250,0,0,0.8);
+}
+
+#you-win{
+  background-color: rgba(74,147,172,0.5);
+}
+
+#box-you-win{
+  width: 500px;
+  background-image: url('./images/winbackground.jpg');
+  background-position: center;
+  background-size: cover;
+  height: 395px;
+  color:white;
+  text-align: center;
+  border: 9px solid whitesmoke;
+}
+
+#box-you-win h1{
+  font-size: 85px;
+  margin-bottom: 0px;
+  margin-top: -50px;
+  color: white;
+}
+
+#box-you-win h2{
+  font-size: 85px;
+  margin-bottom: 40px;
+  margin-top: -50px;
+  color: white;
+   color: white;
+  font-size: 40px;
+  margin-top: 0px;
 }
 
 #box-game-over{
@@ -292,10 +338,11 @@ button {
   margin-top: 0px;
 }
 
-#try-again{
+.try-again{
   font-size: 32px;
   background-color: rgba(0,0,0,0.5);
   margin-bottom: 0px;
+  cursor: pointer;
 }
 
 #start-game-div{
@@ -346,3 +393,5 @@ button {
 
 
 /* --------- CSS ANIMATIONS --------- */
+
+

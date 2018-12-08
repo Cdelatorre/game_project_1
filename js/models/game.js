@@ -20,19 +20,22 @@ function Game(canvasId) {
   this.$heartLife = $('#heart-life')
   this.$scoreData = $('#score-count')
   this.$introMenu = $('#canvas-intro')
+  this.$blood = $('#red-game-over');
+  this.$gameOver = $('#game-over');
+  this.$scorePoints = $('.score-points')
+  this.$youWinDiv = $('#you-win')
+  this.$youWin = $('#box-you-win')
   this.$closeInstructions = $('#close-instructions').click(this.closeInstructions.bind(this))
   this.$instructionsOptions = $('#game-instructions').click(this.openInstructions.bind(this))
   this.$startOptions = $('#start-game').click(this.startGame.bind(this))
-  this.$blood = $('#red-game-over');
-  this.$gameOver = $('#game-over');
-  this.$scorePoints = $('#score-points')
+  this.$tryAgain = $('.try-again').click(this.restart.bind(this))
 
   /*------ Battle Info -----*/
 
   this.$hit = $('#hit');
 
   this.round = [];
-
+ 
   this.initRound1();
   this.introduction()
 
@@ -83,6 +86,8 @@ Game.prototype.rand = function (a, b) {
 /*-------- Introductions / menus & interactions --------*/
 
 Game.prototype.introduction = function () {
+  this.$youWinDiv.hide()
+  this.$youWin.hide()
   this.$blood.hide()
   this.$gameOver.hide()
   this.$introduction.hide().delay(1000).fadeIn(2000);
@@ -124,12 +129,7 @@ Game.prototype.closeInstructions = function () {
   this.$instructions.fadeOut()
 }
 
-Game.prototype.startGame = function () {
-  this.start()
-  this.$introMenu.fadeOut(1000)
-  this.$dataDiv.fadeIn()
-  this.roundText(1)
-}
+
 
 Game.prototype.roundText = function (num){
   $('#waves img:nth-child(' + num + ')').fadeIn(2000).animate({
@@ -140,14 +140,35 @@ Game.prototype.roundText = function (num){
 
 /*-----Init Rounds & Finalize rounds --- */
 
+Game.prototype.startGame = function () {
+  this.start()
+  this.$introMenu.fadeOut(1000)
+  this.$dataDiv.fadeIn()
+  this.roundText(1)
+}
+
+Game.prototype.restart = function (){
+  location.reload(); 
+}
+
 Game.prototype.gameOver = function(){
   this.$blood.fadeIn(3000);
-  this.$gameOver.delay(2500 ).fadeIn(1000)
+  this.$gameOver.delay(2500).fadeIn(1000)
   this.$scorePoints.text(score)
   setTimeout(function(){
     this.stop()
   }.bind(this),1000)
+}
 
+Game.prototype.youWin = function(){
+  this.player.img.src = './images/winner.png'
+  this.player.img.rows = 1;
+  this.$youWinDiv.fadeIn(3000);
+  this.$youWin.delay(2500).fadeIn(1000)
+  this.$scorePoints.text(score)
+  setTimeout(function(){
+    this.stop()
+  }.bind(this),1000)
 }
 
 Game.prototype.stop = function() {
@@ -295,11 +316,7 @@ Game.prototype.round8IsOver = function () {
 /* ----- Round 9 -----*/
 
 Game.prototype.initRound9 = function () {
-  this.initRound(10, Skull)
-  this.initRound(5, Wizzard)
-  this.initRound(5, Shooter)
-  this.initRound(20, Bat)
-  this.initRound(1, Giant)
+  this.initRound(1, Bat)
   this.round9State = 1
 }
 
@@ -526,7 +543,7 @@ Game.prototype.draw = function () {
     this.player.fireInterval = 175;
     this.drawRoundsInit(this.initRound9())
   } else if (this.round9IsOver()) {
-    console.log('eres la ostia')
+    this.youWin()
   }
 
 

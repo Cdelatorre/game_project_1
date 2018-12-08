@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="style.css">
   <title>IRON HACL ARENA</title>
   <script type="text/javascript" src="./js/jquery.js"></script>
+
 </head>
 
 <body>
@@ -18,54 +19,51 @@
     <canvas id="main-canvas" style="border:1px solid red;" tabindex="1">
     </canvas>
 
-
     <div class="slides canvas-shadow"></div>
     <div class="slides" id="waves">
-        <img src="./images/wave1.png" width="300" height="80">
-        <img src="./images/wave2.png" width="300" height="80">
-        <img src="./images/wave3.png" width="300" height="80">
-        <img src="./images/wave4.png" width="300" height="80">
-        <img src="./images/wave5.png" width="300" height="80">
-        <img src="./images/wave6.png" width="300" height="80">
-        <img src="./images/wave7.png" width="300" height="80">
-        <img src="./images/wave8.png" width="300" height="80">
-        <img src="./images/wave9.png" width="300" height="80">
+      <img src="./images/wave1.png" width="300" height="80">
+      <img src="./images/wave2.png" width="300" height="80">
+      <img src="./images/wave3.png" width="300" height="80">
+      <img src="./images/wave4.png" width="300" height="80">
+      <img src="./images/wave5.png" width="300" height="80">
+      <img src="./images/wave6.png" width="300" height="80">
+      <img src="./images/wave7.png" width="300" height="80">
+      <img src="./images/wave8.png" width="300" height="80">
+      <img src="./images/wave9.png" width="300" height="80">
     </div>
-  
 
-    <!--DESCOMENTAR A PARTIR DE AQUI PARA EL FINAL-->
-      <div class="slides" id="canvas-intro">
+    <div class="slides" id="canvas-intro">
 
-        <img src="./images/iron-hack-arena-logo.png" id="ironhack-arena">
+      <img src="./images/iron-hack-arena-logo.png" id="ironhack-arena">
 
-        <div id="game-options">
+      <div id="game-options">
 
-          <div id="start-game-div">
-            <img class="swords-select" src="./images/sword.png">
-            <h3 class="options" id="start-game">Start Game</h3>
-            <img class="swords-select sword-2" src="./images/sword.png">
-          </div>
-
-          <div id="instructions-div">
-            <img class="swords-select" src="./images/sword.png">
-            <h3 class="options" id="game-instructions">HOW TO play</h3>
-            <img class="swords-select sword-2" src="./images/sword.png">
-          </div>
-
-          <p id="infoparagraph">Game inspired in <br>onslought arena from Lost Decade 2010</p>
-          <p id="infoversion">V.1.0</p>
-
+        <div id="start-game-div">
+          <img class="swords-select" src="./images/sword.png">
+          <h3 class="options" id="start-game">Start Game</h3>
+          <img class="swords-select sword-2" src="./images/sword.png">
         </div>
 
-        <div class="slides" id="instructions">
-          <button id="close-instructions">close</button>
-          <img id="instructions-img" src="./images/white-board-instructions.png">
+        <div id="instructions-div">
+          <img class="swords-select" src="./images/sword.png">
+          <h3 class="options" id="game-instructions">HOW TO play</h3>
+          <img class="swords-select sword-2" src="./images/sword.png">
         </div>
 
-        <div class="slides" id="blackdiv"></div>
-        <div class="slides" id="introduction"></div>
+        <p id="infoparagraph">Game inspired in <br>onslought arena from Lost Decade 2010</p>
+        <p id="infoversion">V.1.0</p>
 
       </div>
+
+      <div class="slides" id="instructions">
+        <button id="close-instructions">close</button>
+        <img id="instructions-img" src="./images/white-board-instructions.png">
+      </div>
+
+      <div class="slides" id="blackdiv"></div>
+      <div class="slides" id="introduction"></div>
+
+    </div>
 
 
 
@@ -84,16 +82,23 @@
       </div>
     </div>
 
-    <div class="slides" id="red-game-over">
-     </div>
+    <div class="slides" id="red-game-over"></div>
     <div class="slides" id="game-over">
       <div class="slides" id="box-game-over">
-          <h1 id="text-game-over">Game Over</h1>
-          <h2 id="score-text">score - <span id="score-points"></span></h2>
-          <button id="try-again">try again</button>
+        <h1 id="text-game-over">Game Over</h1>
+        <h2>score - <span class="score-points"></span></h2>
+        <button class="try-again">try again</button>
       </div>
-     
     </div>
+
+    <div class="slides" id="you-win"></div>
+      <div class="slides" id="box-you-win">
+        <h1 id="text-you-win">You Win</h1>
+        <h2>score - <span class="score-points"></span></h2>
+        <button class="try-again">try again</button>
+        <input id="name-input" type='text' value='Enter your name'>
+      </div>
+    
 
 
     <script type="text/javascript" src="./js/constants.js"></script>
