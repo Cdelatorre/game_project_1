@@ -265,8 +265,37 @@ button {
 
 /*------Lose or win -----*/
 
-#game-over{
+#red-game-over{
   background-color: rgba(250,0,0,0.8);
+}
+
+#box-game-over{
+  width: 500px;
+  background-image: url('./images/wallbackground.png');
+  background-position: center;
+  background-size: cover;
+  background-color: rgba(0,0,0,1);
+  height: 395px;
+  border: #350505 5px solid;
+  text-align: center;
+}
+
+#box-game-over h1 {
+  font-size: 85px;
+  margin-bottom: 0px;
+  margin-top: -50px;
+  color: white;
+}
+#box-game-over h2 {
+  color: white;
+  font-size: 40px;
+  margin-top: 0px;
+}
+
+#try-again{
+  font-size: 32px;
+  background-color: rgba(0,0,0,0.5);
+  margin-bottom: 0px;
 }
 
 #start-game-div{

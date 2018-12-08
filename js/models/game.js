@@ -23,6 +23,9 @@ function Game(canvasId) {
   this.$closeInstructions = $('#close-instructions').click(this.closeInstructions.bind(this))
   this.$instructionsOptions = $('#game-instructions').click(this.openInstructions.bind(this))
   this.$startOptions = $('#start-game').click(this.startGame.bind(this))
+  this.$blood = $('#red-game-over');
+  this.$gameOver = $('#game-over');
+  this.$scorePoints = $('#score-points')
 
   /*------ Battle Info -----*/
 
@@ -80,6 +83,8 @@ Game.prototype.rand = function (a, b) {
 /*-------- Introductions / menus & interactions --------*/
 
 Game.prototype.introduction = function () {
+  this.$blood.hide()
+  this.$gameOver.hide()
   this.$introduction.hide().delay(1000).fadeIn(2000);
   setTimeout(function () {
     this.$introduction.fadeOut(1000);
@@ -133,7 +138,22 @@ Game.prototype.roundText = function (num){
   }, 100).fadeOut()
 }
 
-/*-----Init Rounds --- */
+/*-----Init Rounds & Finalize rounds --- */
+
+Game.prototype.gameOver = function(){
+  this.$blood.fadeIn(3000);
+  this.$gameOver.delay(2500 ).fadeIn(1000)
+  this.$scorePoints.text(score)
+  setTimeout(function(){
+    this.stop()
+  }.bind(this),1000)
+
+}
+
+Game.prototype.stop = function() {
+  clearInterval(this.intervalId);
+  this.drawIntervalId = undefined;
+}
 
 Game.prototype.initRound = function (quantity, enemyType) {
   for (var i = 0; i < quantity; i++) {
@@ -476,6 +496,10 @@ Game.prototype.draw = function () {
   this.drawItems(this.supers);
   this.drawItems(this.coins);
 
+
+  this.player.draw();
+  this.player.update(this.mouseX, this.mouseY);
+
   for (var i = 0; i < this.round.length; i++) {
     this.round[i].draw();
     this.round[i].update(this.player.x, this.player.y)
@@ -506,12 +530,11 @@ Game.prototype.draw = function () {
   }
 
 
-  this.player.draw();
-  this.player.update(this.mouseX, this.mouseY);
 
   if (this.player.hits >= 100) {
     SPEED_MOVE = 0;
     SPEED_MOVE = 0;
+    this.gameOver()
   }
 
   this.castle.draw()
@@ -523,8 +546,8 @@ Game.prototype.clear = function () {
 
 Game.prototype.start = function () {
   this.player.fires = [];
-  setInterval(function () {
+  this.intervalId = setInterval(function() {
     this.clear();
     this.draw();
-  }.bind(this), 1000 / 60)
-};
+  }.bind(this), DRAW_INTERVAL_MS)
+}
