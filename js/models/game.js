@@ -163,12 +163,13 @@ Game.prototype.gameOver = function(){
 Game.prototype.youWin = function(){
   this.player.img.src = './images/winner.png'
   this.player.img.rows = 1;
+  this.player.cutY = 0
   this.$youWinDiv.fadeIn(3000);
   this.$youWin.delay(2500).fadeIn(1000)
   this.$scorePoints.text(score)
   setTimeout(function(){
     this.stop()
-  }.bind(this),1000)
+  }.bind(this),100)
 }
 
 Game.prototype.stop = function() {
@@ -186,7 +187,7 @@ Game.prototype.initRound = function (quantity, enemyType) {
 /* ----- Round 1 -----*/
 
 Game.prototype.initRound1 = function () {
-    // this.initRound(20, Bat )
+    this.initRound(20, Bat )
     
 }
 
@@ -200,8 +201,7 @@ Game.prototype.round1IsOver = function () {
 /* ------ Round 2  ------*/
 
 Game.prototype.initRound2 = function () {
-  // this.initRound(15, Shooter);
-
+  this.initRound(15, Shooter);
   this.round2State = 1;
   this.roundText(2)
 }
@@ -216,8 +216,7 @@ Game.prototype.round2IsOver = function () {
 /* ------ Round 3  ------*/
 
 Game.prototype.initRound3 = function () {
-  // this.initRound(10, Wizzard);
-
+  this.initRound(10, Wizzard);
   this.round3State = 1
   this.roundText(3)
 }
@@ -232,8 +231,7 @@ Game.prototype.round3IsOver = function () {
 // /*----- Round 4 ------*/
 
 Game.prototype.initRound4 = function () {
-  // this.initRound(1, Giant)
-
+  this.initRound(1, Giant)
   this.round4State = 1
   this.roundText(4)
 }
@@ -248,8 +246,7 @@ Game.prototype.round4IsOver = function () {
 // /*----- Round 5 ------*/
 
 Game.prototype.initRound5 = function () {
-  // this.initRound(20, Skull)
-
+  this.initRound(20, Skull)
   this.round5State = 1
   this.roundText(5)
 }
@@ -265,9 +262,8 @@ Game.prototype.round5IsOver = function () {
 /* ----- Round 6 -----*/
 
 Game.prototype.initRound6 = function () {
-  // this.initRound(1, Cannon)
-  // this.initRound(15, SlaveJs)
-
+  this.initRound(1, Cannon)
+  this.initRound(15, SlaveJs)
   this.round6State = 1
 }
 
@@ -282,9 +278,8 @@ Game.prototype.round6IsOver = function () {
 /* ----- Round 7 -----*/
 
 Game.prototype.initRound7 = function () {
-  // this.initRound(1, CannonCss )
-  // this.initRound(10, SkullFire)
-
+  this.initRound(1, CannonCss)
+  this.initRound(10, SkullFire)
   this.round7State = 1
 }
 
@@ -299,9 +294,8 @@ Game.prototype.round7IsOver = function () {
 /* ----- Round 8 -----*/
 
 Game.prototype.initRound8 = function () {
-  // this.initRound(1, CannonHtml)
-  // this.initRound(10, SlaveHtml)
-  this.initRound(1, Bat)
+  this.initRound(1, CannonHtml)
+  this.initRound(10, SlaveHtml)
   this.round8State = 1
 }
 
@@ -540,6 +534,7 @@ Game.prototype.draw = function () {
   } else if (this.round7IsOver()) {
     this.drawRoundsInit(this.initRound8())
   } else if (this.round8IsOver()) {
+    this.helpItems(Potion, DobleSword)
     this.player.fireInterval = 175;
     this.drawRoundsInit(this.initRound9())
   } else if (this.round9IsOver()) {
