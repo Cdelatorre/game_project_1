@@ -11,6 +11,7 @@ function Game(canvasId) {
 
   /*----- jQuery Objects -----*/
 
+  this.$hit = $('#hit');
   this.$introduction = $('#introduction')
   this.$blackdiv = $('#blackdiv')
   this.$startDiv = $("#start-game-div")
@@ -32,12 +33,11 @@ function Game(canvasId) {
 
   /*------ Battle Info -----*/
 
-  this.$hit = $('#hit');
-
   this.round = [];
  
   this.initRound1();
   this.introduction()
+  this.egg()
 
   this.round1State = 0;
   this.round2State = 0;
@@ -77,10 +77,27 @@ function Game(canvasId) {
 }
 
 /*------- Functions general game --------*/
-
 Game.prototype.rand = function (a, b) {
   return Math.floor(Math.random() * b + a);
 }
+
+Game.prototype.egg = function(){
+
+  var egg = new Egg();
+  egg
+    .addCode("l,o,s,e,r", function() {
+      jQuery('#egggif').fadeIn(500, function() {
+        window.setTimeout(function() { jQuery('#egggif').hide(); }, 5000);
+      });
+    })
+    .addHook(function(){
+      this.player.hits = 0;
+      $('#hit').css("width", 0 + '%')
+    }.bind(this)).listen();
+      
+}
+
+/*----- set & save socores -----*/
 
 
 /*-------- Introductions / menus & interactions --------*/
@@ -129,8 +146,6 @@ Game.prototype.closeInstructions = function () {
   this.$instructions.fadeOut()
 }
 
-
-
 Game.prototype.roundText = function (num){
   $('#waves img:nth-child(' + num + ')').fadeIn(2000).animate({
     width: "410px",
@@ -164,6 +179,7 @@ Game.prototype.youWin = function(){
   this.player.img.src = './images/winner.png'
   this.player.img.rows = 1;
   this.player.cutY = 0
+  this.player.v = 0
   this.$youWinDiv.fadeIn(3000);
   this.$youWin.delay(2500).fadeIn(1000)
   this.$scorePoints.text(score)
@@ -371,8 +387,6 @@ Game.prototype.deleteEnemies = function () {
   this.player.fires = newBulletArray;
   this.round = newEnemyArray;
 }
-
-
 
 Game.prototype.hitChanges = function (strength) {
   this.player.hits += strength;
