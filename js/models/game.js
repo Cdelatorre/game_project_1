@@ -22,13 +22,15 @@ function Game(canvasId) {
   this.audioPowerUp = document.getElementById("power-up-audio")
 
   /*----- jQuery Objects -----*/
-  
+
   this.$hit = $('#hit');
   this.$introduction = $('#introduction')
   this.$blackdiv = $('#blackdiv')
   this.$startDiv = $("#start-game-div")
   this.$instructionsDiv = $("#instructions-div")
   this.$instructions = $('#instructions')
+  this.$scoreDiv = $('#scores-div')
+  this.$scoresRankText = $('#game-scores')
   this.$dataDiv = $('#data-div')
   this.$heartLife = $('#heart-life')
   this.$scoreData = $('#score-count')
@@ -38,7 +40,14 @@ function Game(canvasId) {
   this.$scorePoints = $('.score-points')
   this.$youWinDiv = $('#you-win')
   this.$youWin = $('#box-you-win')
+  this.$nameInput = $('#name-input')
+  this.$scoresRank = $('#scores-rank')
+  this.$rankingDiv = $('#ranking-div')
+  this.$ranking = $('#ranking')
 
+  this.$closeRanking = $('#close-ranking').click(this.closeRank.bind(this))
+  this.$scoresRankText = $('#game-scores').click(this.openRank.bind(this))
+  this.$submit = $('#submit').click(this.saveScore.bind(this))
   this.$closeInstructions = $('#close-instructions').click(this.closeInstructions.bind(this))
   this.$instructionsOptions = $('#game-instructions').click(this.openInstructions.bind(this))
   this.$startOptions = $('#start-game').click(this.startGame.bind(this))
@@ -47,10 +56,11 @@ function Game(canvasId) {
   /*------ Battle Info -----*/
 
   this.round = [];
- 
+
   this.initRound1();
   this.introduction()
   this.egg()
+
 
   this.round1State = 0;
   this.round2State = 0;
@@ -86,8 +96,67 @@ function Game(canvasId) {
   document.addEventListener('mousemove', this.mouseMove.bind(this));
   document.addEventListener('mousedown', this.mouseDown.bind(this));
 
+  /*-----  Scores ------*/
+
+  this.score = this.getScore();
+  this.lastBest = Object.keys(this.score)[Object.keys(this.score).length - 1]
+  this.lastScore = Object.values(this.score)[Object.keys(this.score).length - 1]
+  this.$bestName = $('#best-name')
+  this.$bestScore = $('#best-score')
+  this.$arrObjectScore = []
+  this.bestScore()
+  this.orderArray(this.$arrObjectScore)
+  this.printBest(this.$arrObjectScore)
+
 
 }
+
+/*------- Set Scores -------*/
+
+Game.prototype.getScore = function() {
+  var scores = localStorage.getItem('scores') || '{}';
+  return JSON.parse(scores);
+}
+
+Game.prototype.addScore = function(name, value) {
+  var scores = this.getScore();
+  scores[name] = value;
+  localStorage.setItem('scores', JSON.stringify(scores));
+}
+
+Game.prototype.saveScore = function(){
+  if(this.$nameInput.val().length !=0){
+    this.addScore(this.$nameInput.val(), score)
+  }
+}
+
+/*------ Actions with socres ------*/
+
+Game.prototype.bestScore = function() {
+  for (var key in this.score) {
+    var name = key;
+    var puntation = this.score[key]
+    this.$arrObjectScore.push({
+      'name': name,
+      'score': puntation
+    })
+  }
+}
+
+Game.prototype.orderArray = function(array) {
+  array.sort(function(a, b) {
+    return b.score - a.score;
+  });
+}
+
+Game.prototype.printBest = function(array){
+  for ( var i = 0; i < 5; i ++){
+    var t = document.createTextNode(array[i].name + ' ' + array[i].score);
+    this.$ranking.append(t)
+  }
+}
+
+
 
 /*------- Functions general game --------*/
 
@@ -95,31 +164,35 @@ Game.prototype.rand = function (a, b) {
   return Math.floor(Math.random() * b + a);
 }
 
-Game.prototype.egg = function(){
+Game.prototype.egg = function() {
   var egg = new Egg();
   egg
     .addCode("l,o,s,e,r", function() {
       jQuery('#egggif').fadeIn(500, function() {
-        window.setTimeout(function() { jQuery('#egggif').hide(); }, 5000);
+        window.setTimeout(function() {
+          jQuery('#egggif').hide();
+        }, 5000);
       });
     })
-    .addHook(function(){
+    .addHook(function() {
       this.player.hits = 0;
       $('#hit').css("width", 0 + '%')
     }.bind(this)).listen();
-    var eggCanallita = new Egg();
-    eggCanallita
-      .addCode("c,a,n,a,l,l,i,t,a", function() {
-        jQuery('#egggif').fadeIn(500, function() {
-          window.setTimeout(function() { jQuery('#egggif').hide(); }, 5000);
-        });
-      })
-      .addHook(function(){
-        this.player.hits = 0;
-        $('#canallita').show()
-      }.bind(this)).listen();
-}
 
+  var eggCanallita = new Egg();
+  eggCanallita
+    .addCode("c,a,n,a,l,l,i,t,a", function() {
+      jQuery('#egggif').fadeIn(500, function() {
+        window.setTimeout(function() {
+          jQuery('#egggif').hide();
+        }, 5000);
+      });
+    })
+    .addHook(function() {
+      this.player.hits = 0;
+      $('#canallita').show()
+    }.bind(this)).listen();
+}
 
 
 /*-------- Introductions / menus & interactions --------*/
@@ -137,6 +210,7 @@ Game.prototype.introduction = function () {
   this.principalMenuOptions()
   this.$dataDiv.hide()
   this.$instructions.hide()
+  this.$rankingDiv.hide()
 }
 
 Game.prototype.principalMenuOptions = function () {
@@ -162,6 +236,17 @@ Game.prototype.principalMenuOptions = function () {
       this.audioMenu.play()
     }.bind(this)
   );
+
+  this.$scoreDiv.hover(
+    function () {
+      this.$scoresRankText.siblings('.swords-select').fadeIn(100);
+      this.audioMenu.play()
+    }.bind(this),
+    function () {
+      this.$scoresRankText.siblings('.swords-select').fadeOut(100)
+      this.audioMenu.play()
+    }.bind(this)
+  );
 }
 
 Game.prototype.openInstructions = function () {
@@ -170,6 +255,14 @@ Game.prototype.openInstructions = function () {
 
 Game.prototype.closeInstructions = function () {
   this.$instructions.fadeOut()
+}
+
+Game.prototype.closeRank = function(){
+  this.$rankingDiv.fadeOut()
+}
+
+Game.prototype.openRank = function(){
+  this.$rankingDiv.fadeIn()
 }
 
 Game.prototype.roundText = function (num){
@@ -189,11 +282,11 @@ Game.prototype.startGame = function () {
 }
 
 Game.prototype.restart = function (){
-  location.reload(); 
+  location.reload();
 }
 
 Game.prototype.gameOver = function(){
-  this.audioBackground.pause(); 
+  this.audioBackground.pause();
   this.audioGameOver.play()
   this.$blood.fadeIn(3000);
   this.$gameOver.delay(2500).fadeIn(1000)
@@ -237,8 +330,8 @@ Game.prototype.initRound = function (quantity, enemyType) {
 /* ----- Round 1 -----*/
 
 Game.prototype.initRound1 = function () {
-    this.initRound(20, Bat )
-    
+    this.initRound(10, Bat )//-----------------------------------------------------------
+
 }
 
 Game.prototype.round1IsOver = function () {
@@ -567,6 +660,7 @@ Game.prototype.draw = function () {
   }
 
   if (this.round1IsOver()) {
+      this.youWin()//------------------------------------------------------------------
     this.drawRoundsInit(this.initRound2())
   } else if (this.round2IsOver()) {
     this.drawRoundsInit(this.initRound3())
@@ -605,8 +699,8 @@ Game.prototype.clear = function () {
 
 Game.prototype.start = function () {
   this.player.fires = [];
-  this.audioBackground.play(); 
-  this.audioBackground.volume = 0.3; 
+  this.audioBackground.play();
+  this.audioBackground.volume = 0.3;
   this.intervalId = setInterval(function() {
     this.clear();
     this.draw();

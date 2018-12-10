@@ -14,7 +14,7 @@
 </head>
 
 <body>
- 
+
   <div id="board">
 
     <canvas id="main-canvas" style="border:1px solid red;" tabindex="1">
@@ -51,6 +51,12 @@
           <img class="swords-select sword-2" src="./images/sword.png">
         </div>
 
+        <div id="scores-div">
+          <img class="swords-select" src="./images/sword.png">
+          <h3 class="options" id="game-scores">SCORES</h3>
+          <img class="swords-select sword-2" src="./images/sword.png">
+        </div>
+
         <p id="infoparagraph">Game inspired in <br>onslought arena from Lost Decade 2010</p>
         <p id="infoversion">V.1.0</p>
 
@@ -59,6 +65,17 @@
       <div class="slides" id="instructions">
         <button id="close-instructions">close</button>
         <img id="instructions-img" src="./images/white-board-instructions.png">
+      </div>
+
+      <d0iv class="slides" id="ranking-div">
+        <button id="close-ranking">close</button>
+        <div id="ranking">
+          <div class="rank-div">
+            <span class="rank-name">name</span>
+            <span class="separated-dots">_______________</span>
+            <span class="rank-score"> 1000</span>
+          </div>
+        </div>
       </div>
 
       <div class="slides" id="blackdiv"></div>
@@ -97,8 +114,8 @@
     <div class="slides" id="box-you-win">
       <h1 id="text-you-win">You Win</h1>
       <h2>score - <span class="score-points"></span></h2>
-      <button class="try-again">try again</button>
-      <input id="name-input" type='text' value='Enter your name'>
+      <button class="try-again" id="submit">save and reload</button>
+      <input id="name-input" onfocus="this.value=''" type='text' value='Enter your name'>
     </div>
 
     <!-- AUDIOS -->
