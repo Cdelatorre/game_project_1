@@ -7,14 +7,14 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="style.css">
-  <title>IRON HACL ARENA</title>
+  <title>IRON HACK ARENA</title>
   <script type="text/javascript" src="./js/jquery.js"></script>
   <script type="text/javascript" src="./js/resources/egg.js"></script>
 
 </head>
 
 <body>
-
+ 
   <div id="board">
 
     <canvas id="main-canvas" style="border:1px solid red;" tabindex="1">
@@ -66,8 +66,6 @@
 
     </div>
 
-
-
     <div class="slides" id="data-div">
       <img id="heart-life" src='./images/heart_life.png' width="35px" height="30px">
       <div id="health-bar" data-total="1000" data-value="1000">
@@ -81,6 +79,9 @@
           <span id="score-count"></span>
         </p>
       </div>
+      <div id="canallita">
+          <img src="./images/canallita.png" width='100px' height='135px'>
+        </div>
     </div>
 
     <div class="slides" id="red-game-over"></div>
@@ -93,12 +94,26 @@
     </div>
 
     <div class="slides" id="you-win"></div>
-      <div class="slides" id="box-you-win">
-        <h1 id="text-you-win">You Win</h1>
-        <h2>score - <span class="score-points"></span></h2>
-        <button class="try-again">try again</button>
-        <input id="name-input" type='text' value='Enter your name'>
-      </div>
+    <div class="slides" id="box-you-win">
+      <h1 id="text-you-win">You Win</h1>
+      <h2>score - <span class="score-points"></span></h2>
+      <button class="try-again">try again</button>
+      <input id="name-input" type='text' value='Enter your name'>
+    </div>
+
+    <!-- AUDIOS -->
+    <audio id="background-audio"><source src="./sounds/music-background.mp3" type="audio/mpeg"></audio>
+    <audio id="throw-audio"><source src="./sounds/throw.mp3" type="audio/mpeg"></audio>
+    <audio id="enemy-throw-audio"><source src="./sounds/enemy_throw.mp3" type="audio/mpeg"></audio>
+    <audio id="menu-audio"><source src="./sounds/menu_option.mp3" type="audio/mpeg"></audio>
+    <audio id="potion-audio"><source src="./sounds/potion.mp3" type="audio/mpeg"></audio>
+    <audio id="coin-audio"><source src="./sounds/coin.mp3" type="audio/mpeg"></audio>
+    <audio id="hit-audio"><source src="./sounds/hit.mp3" type="audio/mpeg"></audio>
+    <audio id="game-over-audio"><source src="./sounds/game_over.mp3" type="audio/mpeg"></audio>
+    <audio id="ouch-audio"><source src="./sounds/ouch.mp3" type="audio/mpeg"></audio>
+    <audio id="win-audio"><source src="./sounds/win.mp3" type="audio/mpeg"></audio>
+    <audio id="power-up-audio"><source src="./sounds/power_up.mp3" type="audio/mpeg"></audio>
+
 
     <script type="text/javascript" src="./js/constants.js"></script>
     <script type="text/javascript" src="./js/models/pointer.js"></script>

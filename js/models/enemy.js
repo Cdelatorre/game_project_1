@@ -7,6 +7,8 @@ function Enemy(ctx, x, y, hit, tick, v, w, h, type) {
   this.angle;
   this.tick = tick;
   this.fires = []
+  this.audioThrow = document.getElementById("enemy-throw-audio")
+  
 
   this.width = w;
   this.height = h;
@@ -155,8 +157,10 @@ Enemy.prototype.fire = function() {
 
   if(this.type === 'Shooter' || this.type === 'Shooter-Giant'){
     this.fires.push(f);
+    
   } else if (this.type === 'Wizzard'){
     this.fires.push(wf);
+    
   } else if (this.type === 'Shooter-Cannon'){
     this.fires.push(cf);
   } else if (this.type === 'Shooter-CssCannon'){
@@ -170,6 +174,8 @@ Enemy.prototype.fire = function() {
 }
 
 Enemy.prototype.reload = function(){
+  this.audioThrow.volume = 0.3
+  this.audioThrow.play()
   setTimeout(function(){
     this.fireOn = true;
   }.bind(this), 350);

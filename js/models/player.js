@@ -6,6 +6,7 @@ function Player(ctx, x, y) {
   this.fires = [];
   this.fireOn = true;
   this.fireInterval = 350
+  this.audioThrow = document.getElementById("throw-audio")
 
   this.hits = 0;
   this.currentHits = this.hits;
@@ -42,6 +43,7 @@ function Player(ctx, x, y) {
 }
 
 Player.prototype.animate = function() {
+  if(this.v != 0){
   if (this.movements.up && this.y >= 80) {
     this.vy = -SPEED_MOVE;
     this.cutY = 1;
@@ -83,6 +85,7 @@ Player.prototype.animate = function() {
  } else if (this.movements.down && this.movements.left){
     this.cutY = 5;
  }
+}
 
  if(this.currentHits < this.hits){
   this.cutY = 8;
@@ -105,7 +108,7 @@ Player.prototype.animate = function() {
 Player.prototype.update = function(mouseX, mouseY) {
   this.dx = mouseX - this.x;
   this.dy = mouseY - this.y;
-  this.angle = Math.atan2(this.dy, this.dx); // new
+  this.angle = Math.atan2(this.dy, this.dx); 
 }
 
 Player.prototype.onKeyEvent = function(event) {
@@ -128,9 +131,10 @@ Player.prototype.onKeyEvent = function(event) {
 
 Player.prototype.fire = function() {
   if(this.fireOn){
-    var dx = Math.cos(this.angle); //devuelve un numero que será util para resolver lo de la posicion del personaje cuando dispara
-    var dy = Math.sin(this.angle); //devuelve un numero que será util para resolver lo de la posicion del personaje cuando dispara
+    var dx = Math.cos(this.angle);
+    var dy = Math.sin(this.angle);
     var f = new Fire(this.ctx, this.angle, this.x, this.y, dx, dy);
+    this.audioThrow.play()
     this.fires.push(f);
     this.fireOn = false;
     this.reload();

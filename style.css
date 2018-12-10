@@ -12,7 +12,12 @@
   font-family: 'arcadeclassicregular';
   box-sizing: border-box;
   top: 0;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -ms-user-select: none;
 }
+
 
 #player-life {
   background-color: white;
@@ -26,8 +31,6 @@
 }
 
 /* --------  GAME DATA ----------*/
-
-/* health bar */
 
 #health-bar {
   -webkit-box-sizing: border-box;
@@ -79,21 +82,21 @@
 /* ------ SCORE ---------*/
 #score{
   position: absolute;
-    width: 200px;
-    height: 61px;
-    bottom: 0;
-    left: 10px;
-    top: 86%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-left: 10px;
-    color:white;
-    font-size: 25px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -khtml-user-select: none;
-    -ms-user-select: none;
+  width: 200px;
+  height: 61px;
+  bottom: 0;
+  left: 10px;
+  top: 86%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 10px;
+  color:white;
+  font-size: 25px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -ms-user-select: none;
 }
 
 /*-------------*/
@@ -234,10 +237,10 @@ button {
   padding: 0px;
   display: none;
 }
+
 .sword-2{
   transform: rotate(180deg);
 }
-
 
 #game-instructions, #start-game {
   color:white;
@@ -332,6 +335,7 @@ button {
   margin-top: -50px;
   color: white;
 }
+
 #box-game-over h2 {
   color: white;
   font-size: 40px;
@@ -392,6 +396,11 @@ button {
 }
 
 
-/* --------- CSS ANIMATIONS --------- */
+#canallita{
+  position: absolute;
+  right: 28px;
+  top: 72%;
+  display: none;
+}
 
 

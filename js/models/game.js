@@ -8,9 +8,21 @@ function Game(canvasId) {
   this.ctx = this.canvas.getContext('2d');
   this.mouseX;
   this.mouseY;
+  this.gameOn = false;
+
+  /*------- Audios ------*/
+
+  this.audioBackground = document.getElementById("background-audio")
+  this.audioMenu = document.getElementById("menu-audio")
+  this.audioPotion = document.getElementById("potion-audio")
+  this.audioCoin = document.getElementById("coin-audio")
+  this.audioGameOver = document.getElementById("game-over-audio")
+  this.audioOuch = document.getElementById("ouch-audio")
+  this.audioWin = document.getElementById("win-audio")
+  this.audioPowerUp = document.getElementById("power-up-audio")
 
   /*----- jQuery Objects -----*/
-
+  
   this.$hit = $('#hit');
   this.$introduction = $('#introduction')
   this.$blackdiv = $('#blackdiv')
@@ -26,6 +38,7 @@ function Game(canvasId) {
   this.$scorePoints = $('.score-points')
   this.$youWinDiv = $('#you-win')
   this.$youWin = $('#box-you-win')
+
   this.$closeInstructions = $('#close-instructions').click(this.closeInstructions.bind(this))
   this.$instructionsOptions = $('#game-instructions').click(this.openInstructions.bind(this))
   this.$startOptions = $('#start-game').click(this.startGame.bind(this))
@@ -77,12 +90,12 @@ function Game(canvasId) {
 }
 
 /*------- Functions general game --------*/
+
 Game.prototype.rand = function (a, b) {
   return Math.floor(Math.random() * b + a);
 }
 
 Game.prototype.egg = function(){
-
   var egg = new Egg();
   egg
     .addCode("l,o,s,e,r", function() {
@@ -94,10 +107,19 @@ Game.prototype.egg = function(){
       this.player.hits = 0;
       $('#hit').css("width", 0 + '%')
     }.bind(this)).listen();
-      
+    var eggCanallita = new Egg();
+    eggCanallita
+      .addCode("c,a,n,a,l,l,i,t,a", function() {
+        jQuery('#egggif').fadeIn(500, function() {
+          window.setTimeout(function() { jQuery('#egggif').hide(); }, 5000);
+        });
+      })
+      .addHook(function(){
+        this.player.hits = 0;
+        $('#canallita').show()
+      }.bind(this)).listen();
 }
 
-/*----- set & save socores -----*/
 
 
 /*-------- Introductions / menus & interactions --------*/
@@ -122,18 +144,22 @@ Game.prototype.principalMenuOptions = function () {
   this.$startDiv.hover(
     function () {
       this.$startOptions.siblings('.swords-select').fadeIn(100);
+      this.audioMenu.play()
     }.bind(this),
     function () {
       this.$startOptions.siblings('.swords-select').fadeOut(100)
+      this.audioMenu.play()
     }.bind(this)
   );
 
   this.$instructionsDiv.hover(
     function () {
       this.$instructionsOptions.siblings('.swords-select').fadeIn(100);
+      this.audioMenu.play()
     }.bind(this),
     function () {
       this.$instructionsOptions.siblings('.swords-select').fadeOut(100)
+      this.audioMenu.play()
     }.bind(this)
   );
 }
@@ -167,6 +193,8 @@ Game.prototype.restart = function (){
 }
 
 Game.prototype.gameOver = function(){
+  this.audioBackground.pause(); 
+  this.audioGameOver.play()
   this.$blood.fadeIn(3000);
   this.$gameOver.delay(2500).fadeIn(1000)
   this.$scorePoints.text(score)
@@ -176,10 +204,16 @@ Game.prototype.gameOver = function(){
 }
 
 Game.prototype.youWin = function(){
-  this.player.img.src = './images/winner.png'
-  this.player.img.rows = 1;
-  this.player.cutY = 0
+  this.audioBackground.pause()
+  this.audioWin.play()
   this.player.v = 0
+  this.player.img.rows = 1;
+  this.player.img.frameIndex = 1;
+  this.player.currentIndex = 1;
+  this.player.cutY = 0
+
+  this.player.img.src = './images/winner.png'
+
   this.$youWinDiv.fadeIn(3000);
   this.$youWin.delay(2500).fadeIn(1000)
   this.$scorePoints.text(score)
@@ -244,7 +278,7 @@ Game.prototype.round3IsOver = function () {
   }
 }
 
-// /*----- Round 4 ------*/
+/*----- Round 4 ------*/
 
 Game.prototype.initRound4 = function () {
   this.initRound(1, Giant)
@@ -259,7 +293,7 @@ Game.prototype.round4IsOver = function () {
   }
 }
 
-// /*----- Round 5 ------*/
+/*----- Round 5 ------*/
 
 Game.prototype.initRound5 = function () {
   this.initRound(20, Skull)
@@ -450,6 +484,7 @@ Game.prototype.playerGetItem = function(array){
 /* ----- EVENTS FUNCTIONS  ----- */
 
 Game.prototype.mouseDown = function () {
+  if(this.gameOn === true)
   this.player.fire();
 }
 
@@ -470,7 +505,6 @@ Game.prototype.getMousePos = function (evt) {
     y: evt.clientY - rect.top,
   }
 };
-
 
 /* ------- DRAW ------- */
 
@@ -499,28 +533,30 @@ Game.prototype.draw = function () {
   this.enemyHit()
 
   if (this.playerHitShoot() && !this.noHitTime) {
+    this.audioOuch.play()
     this.hitChanges(15)
   } else if (this.playerHitContact() && !this.noHitTime) {
+    this.audioOuch.play()
     this.hitChanges(5)
   }
 
-
   if (this.playerGetItem(this.potions) && this.player.hits > 0) {
     this.addLive(5)
+    this.audioPotion.play()
   } else if (this.playerGetItem(this.coins)) {
     score += 200
+    this.audioCoin.play()
   } else if (this.playerGetItem(this.supers)) {
     this.player.super = true;
+    this.audioPowerUp.play()
     setTimeout(function () {
       this.player.super = false;
     }.bind(this), 10000)
   }
 
-
   this.drawItems(this.potions);
   this.drawItems(this.supers);
   this.drawItems(this.coins);
-
 
   this.player.draw();
   this.player.update(this.mouseX, this.mouseY);
@@ -529,7 +565,6 @@ Game.prototype.draw = function () {
     this.round[i].draw();
     this.round[i].update(this.player.x, this.player.y)
   }
-
 
   if (this.round1IsOver()) {
     this.drawRoundsInit(this.initRound2())
@@ -555,8 +590,6 @@ Game.prototype.draw = function () {
     this.youWin()
   }
 
-
-
   if (this.player.hits >= 100) {
     SPEED_MOVE = 0;
     SPEED_MOVE = 0;
@@ -572,8 +605,11 @@ Game.prototype.clear = function () {
 
 Game.prototype.start = function () {
   this.player.fires = [];
+  this.audioBackground.play(); 
+  this.audioBackground.volume = 0.3; 
   this.intervalId = setInterval(function() {
     this.clear();
     this.draw();
   }.bind(this), DRAW_INTERVAL_MS)
+  this.gameOn = true;
 }

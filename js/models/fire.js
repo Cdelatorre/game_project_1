@@ -9,6 +9,7 @@ function Fire(ctx, angle, x, y, dx, dy) {
   this.img.src = "./images/sword.png";
   this.super = false;
   this.hit = 0;
+  this.audioHit = document.getElementById("hit-audio")
 
   this.dx = dx * SHOOTS_PLAYER_SPEED;
   this.dy = dy * SHOOTS_PLAYER_SPEED;
@@ -68,6 +69,7 @@ Fire.prototype.collideWith = function(enemy) {
     this.y < enemy.y + enemy.height - 5 &&
     this.height - 5 + this.y > enemy.y){
       enemy.hit --;
+      this.audioHit.play()
       if(enemy.hit === 1){
         score += enemy.scoreValue;
         setTimeout(function(){
