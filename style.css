@@ -192,6 +192,12 @@ canvas {
   width: 400px;
   background-color: yellow;
   height: 301px;
+  background: url('./images/score_background.jpg');
+  background-size: cover;
+  background-position:center;
+  border: red 4px solid;
+  color: white;
+  font-size: 20px;
 }
 
 #introduction {
@@ -387,7 +393,9 @@ button {
   align-items: center;
   justify-content: center;
   align-content: center;
+  margin-top: 6px;
 }
+
 .rank-name{
 
 }

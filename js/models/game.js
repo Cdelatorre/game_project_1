@@ -44,6 +44,7 @@ function Game(canvasId) {
   this.$scoresRank = $('#scores-rank')
   this.$rankingDiv = $('#ranking-div')
   this.$ranking = $('#ranking')
+  this.$rankDiv = $('.rank-div')
 
   this.$closeRanking = $('#close-ranking').click(this.closeRank.bind(this))
   this.$scoresRankText = $('#game-scores').click(this.openRank.bind(this))
@@ -151,8 +152,15 @@ Game.prototype.orderArray = function(array) {
 
 Game.prototype.printBest = function(array){
   for ( var i = 0; i < 5; i ++){
-    var t = document.createTextNode(array[i].name + ' ' + array[i].score);
-    this.$ranking.append(t)
+    var divRank = $('<div/>').attr({'class':'rank-div'})
+    var textName = document.createTextNode(array[i].name);
+    var textSeparated = document.createTextNode('______________');
+    var textScore = document.createTextNode(array[i].score);
+    var spanName = $('<span />').attr({'class':'rank-name'}).append(textName);
+    var spanLine = $('<span />').attr({'class':'separated-dots'}).append(textSeparated);
+    var spanScore = $('<span />').attr({'class':'rank-score'}).append(textScore);
+    divRank.append(spanName,spanLine,spanScore)
+    this.$ranking.append(divRank)
   }
 }
 
@@ -330,7 +338,7 @@ Game.prototype.initRound = function (quantity, enemyType) {
 /* ----- Round 1 -----*/
 
 Game.prototype.initRound1 = function () {
-    this.initRound(10, Bat )//-----------------------------------------------------------
+    this.initRound(20, Bat )
 
 }
 
@@ -453,7 +461,10 @@ Game.prototype.round8IsOver = function () {
 /* ----- Round 9 -----*/
 
 Game.prototype.initRound9 = function () {
-  this.initRound(1, Bat)
+  this.initRound(1, Giant);
+  this.initRound(3, Wizzard);
+  this.initRound(1, Shooter);
+  this.initRound(30, Bat);
   this.round9State = 1
 }
 
@@ -660,7 +671,6 @@ Game.prototype.draw = function () {
   }
 
   if (this.round1IsOver()) {
-      this.youWin()//------------------------------------------------------------------
     this.drawRoundsInit(this.initRound2())
   } else if (this.round2IsOver()) {
     this.drawRoundsInit(this.initRound3())

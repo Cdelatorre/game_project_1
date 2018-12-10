@@ -1,6 +1,6 @@
 function CannonFire(ctx, angle, x, y, dx, dy, src){
   EnemyFire.call(ctx, angle, x, y, dx, dy);
-
+  this.scoreValue = 1000;
   this.ctx = ctx;
   this.angle = angle
   this.x = x + 30;
