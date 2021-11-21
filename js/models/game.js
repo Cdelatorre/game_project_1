@@ -338,8 +338,7 @@ Game.prototype.initRound = function (quantity, enemyType) {
 /* ----- Round 1 -----*/
 
 Game.prototype.initRound1 = function () {
-    this.initRound(20, Bat )
-
+    this.initRound(5, Bat )
 }
 
 Game.prototype.round1IsOver = function () {
@@ -352,7 +351,7 @@ Game.prototype.round1IsOver = function () {
 /* ------ Round 2  ------*/
 
 Game.prototype.initRound2 = function () {
-  this.initRound(15, Shooter);
+  this.initRound(12, Shooter);
   this.round2State = 1;
   this.roundText(2)
 }
@@ -367,7 +366,7 @@ Game.prototype.round2IsOver = function () {
 /* ------ Round 3  ------*/
 
 Game.prototype.initRound3 = function () {
-  this.initRound(10, Wizzard);
+  this.initRound(8, Wizzard);
   this.round3State = 1
   this.roundText(3)
 }
@@ -397,7 +396,7 @@ Game.prototype.round4IsOver = function () {
 /*----- Round 5 ------*/
 
 Game.prototype.initRound5 = function () {
-  this.initRound(20, Skull)
+  this.initRound(5, Skull)
   this.round5State = 1
   this.roundText(5)
 }
@@ -414,7 +413,7 @@ Game.prototype.round5IsOver = function () {
 
 Game.prototype.initRound6 = function () {
   this.initRound(1, Cannon)
-  this.initRound(15, SlaveJs)
+  this.initRound(5, SlaveJs)
   this.round6State = 1
 }
 
@@ -430,7 +429,7 @@ Game.prototype.round6IsOver = function () {
 
 Game.prototype.initRound7 = function () {
   this.initRound(1, CannonCss)
-  this.initRound(10, SkullFire)
+  this.initRound(5, SkullFire)
   this.round7State = 1
 }
 
@@ -446,7 +445,7 @@ Game.prototype.round7IsOver = function () {
 
 Game.prototype.initRound8 = function () {
   this.initRound(1, CannonHtml)
-  this.initRound(10, SlaveHtml)
+  this.initRound(5, SlaveHtml)
   this.round8State = 1
 }
 
@@ -665,10 +664,11 @@ Game.prototype.draw = function () {
   this.player.draw();
   this.player.update(this.mouseX, this.mouseY);
 
-  for (var i = 0; i < this.round.length; i++) {
-    this.round[i].draw();
-    this.round[i].update(this.player.x, this.player.y)
-  }
+
+  this.round.forEach(el => {
+    el.draw()
+    el.update(this.player.x, this.player.y)
+  })
 
   if (this.round1IsOver()) {
     this.drawRoundsInit(this.initRound2())
